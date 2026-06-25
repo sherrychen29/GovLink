@@ -9,6 +9,7 @@ import { useCurrentUser, logout } from "@/lib/store";
 import { cx } from "@/lib/utils";
 
 const NAV = [
+  { href: "/", label: "Home" },
   { href: "/report", label: "Report an issue" },
   { href: "/track", label: "Track a report" },
   { href: "/resolved", label: "Resolved issues" },
@@ -21,7 +22,9 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
 
   const isActive = (href: string) =>
-    pathname === href || pathname.startsWith(href + "/");
+    href === "/"
+      ? pathname === "/"
+      : pathname === href || pathname.startsWith(href + "/");
 
   return (
     <header className="sticky top-0 z-50 border-b border-navy-100 bg-white/85 backdrop-blur-md">

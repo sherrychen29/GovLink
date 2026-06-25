@@ -33,9 +33,9 @@ npm run dev                  # http://localhost:3000
 | `citizen2`   | Citizen    | "                       |
 | `citizen3`   | Citizen    | "                       |
 
-The app ships with realistic seeded reports — including a **corroborated/merged
-set** (a Cedar St pothole reported by 3 residents) and a **rejected-as-resolved**
-example — so both sides look alive on first load.
+Fresh installs start with **empty reports**. Use **Restore demo data** in the
+footer to load sample tickets (including a corroborated merge and a rejected
+resolution).
 
 ---
 
@@ -52,18 +52,23 @@ example — so both sides look alive on first load.
 
 ## Meet Beacon
 
-Beacon is the in-app assistant. It does two jobs, both server-side:
+Beacon is the in-app assistant. It does three jobs, all server-side:
 
 **1. Citizen intake chat** (`POST /api/beacon/chat`)
-A calm clarifying-question flow that assembles a standardized report. It returns
+A step-by-step chat flow with inline map, photo, and review widgets. It returns
 structured JSON and handles special cases instead of filing junk:
 
 - **Emergency** (fire, injury, crime in progress) → does not file; surfaces a
   prominent "Call 911".
+- **Out of scope** (neighbor disputes, private property, police matters) →
+  redirects with guidance on who to contact instead.
 - **Too vague** → asks one targeted follow-up.
 - **Spam / nonsense** → politely voids with an explanation.
 
-**2. Report logic** (`POST /api/beacon/file`)
+**2. Report formalization** (`POST /api/beacon/formalize`)
+Polishes resident wording into municipal work-order language before filing.
+
+**3. Report logic** (`POST /api/beacon/file`)
 
 - **Severity (1–10)** = Beacon's judgement of seriousness, weighted upward by the
   number of corroborating reports.
@@ -81,21 +86,33 @@ src/
   app/
     page.tsx                 Landing
     login/                   Login + optional citizen registration
-    report/                  Citizen reporting flow (Beacon + live report panel)
+    report/                  Citizen reporting (BeaconIntake + manual form)
     track/  track/[id]/      Status tracking (by ID, email, or phone)
     resolved/                Public transparency feed of resolved issues
     account/                 Signed-in citizen's reports
     gov/                     Government operations dashboard (map + list + filters)
+    error.tsx, global-error.tsx, not-found.tsx
     api/beacon/chat/         Beacon intake (server-side OpenAI)
+    api/beacon/formalize/    Municipal language polish
     api/beacon/file/         Beacon dedup/merge decision (server-side OpenAI)
-  components/                UI: Logo, StatusPill, Severity, maps, BeaconChat, gov/*
+  components/
+    BeaconIntake.tsx         Chat-first intake with inline widgets
+    gov/                     Dashboard (FilterPanel, FormalReportModal, IssueTable)
+    CollapsibleFilterBar.tsx Shared expandable filter header
+    MultiSelectDropdown.tsx  Checkbox multi-select dropdown
+    ResolvedFilterPanel.tsx  Resolved issues page filters
+    map/                     LocationPicker, LocationPickerDynamic, ReportMap
+    …                        Shared UI (Logo, StatusPill, Severity, etc.)
   lib/
     types.ts                 Domain model
     store.ts                 Data layer (localStorage + useSyncExternalStore)
-    seed.ts                  Seeded reports + demo accounts
+    seed.ts                  Seeded reports + demo accounts + BEACON_GREETING
     beacon-logic.ts          Severity weighting + heuristic fallback brain
+    formalize-report.ts      Client helper for formalization API
+    file-report.ts           Shared filing pipeline (dedup + persist)
     openai.ts                Server-only OpenAI client
-    filters.ts               Dashboard filtering + sorting
+    filters.ts               Gov dashboard filtering + sorting
+    resolved-filters.ts      Resolved feed filtering
     meta.ts / utils.ts       Presentation metadata + helpers
 ```
 
@@ -104,8 +121,8 @@ src/
 The prototype persists to **localStorage** so the demo survives a refresh. The
 store exposes a DB-shaped action surface (`createReport`, `mergeSubmission`,
 `updateStatus`, `addInternalNote`, …) — swapping localStorage for real API calls
-would not change any component. Use **Reset demo data** in the footer to restore
-the seeded state.
+would not change any component. Use **Clear all data** or **Restore demo data**
+in the footer to reset state.
 
 ---
 

@@ -6,10 +6,10 @@ import { useRouter } from "next/navigation";
 import { RotateCcw } from "lucide-react";
 import { Logo } from "./Logo";
 import { SiteHeader } from "./SiteHeader";
-import { resetDemoData } from "@/lib/store";
+import { clearAllData, resetDemoData } from "@/lib/store";
 import { CITY } from "@/lib/seed";
 
-export function SiteFooter() {
+function SiteFooter() {
   const router = useRouter();
   return (
     <footer className="mt-auto border-t border-navy-100 bg-white">
@@ -22,6 +22,9 @@ export function SiteFooter() {
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs">
+          <Link href="/" className="text-ink-soft hover:text-navy-900">
+            Home
+          </Link>
           <Link href="/report" className="text-ink-soft hover:text-navy-900">
             Report an issue
           </Link>
@@ -36,7 +39,25 @@ export function SiteFooter() {
             onClick={() => {
               if (
                 window.confirm(
-                  "Reset the demo back to its seeded reports and accounts? This clears anything you've added."
+                  "Clear all reports and sign out? Demo accounts are kept, but every report will be removed."
+                )
+              ) {
+                clearAllData();
+                router.push("/");
+              }
+            }}
+            className="inline-flex items-center gap-1.5 text-ink-muted hover:text-navy-900"
+            title="Remove all reports and sign out"
+          >
+            <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
+            Clear all data
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              if (
+                window.confirm(
+                  "Restore the original seeded demo reports? This replaces any reports currently on the site."
                 )
               ) {
                 resetDemoData();
@@ -46,8 +67,7 @@ export function SiteFooter() {
             className="inline-flex items-center gap-1.5 text-ink-muted hover:text-navy-900"
             title="Restore the original seeded demo data"
           >
-            <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
-            Reset demo data
+            Restore demo data
           </button>
         </div>
       </div>

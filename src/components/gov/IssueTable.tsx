@@ -16,7 +16,7 @@ const COLUMNS: Array<{
 }> = [
   { key: null, label: "Ticket" },
   { key: "category", label: "Category" },
-  { key: null, label: "Location", className: "hidden lg:table-cell" },
+  { key: "reports", label: "Reports" },
   { key: "severity", label: "Severity" },
   { key: "status", label: "Status" },
   { key: "date", label: "Submitted", className: "hidden md:table-cell" },
@@ -29,19 +29,24 @@ export function IssueTable({
   onSelect,
   sort,
   onSortChange,
+  showStatus = true,
 }: {
   reports: Report[];
   selectedId: string | null;
   onSelect: (id: string) => void;
   sort: SortKey;
   onSortChange: (k: SortKey) => void;
+  showStatus?: boolean;
 }) {
+  const columns = showStatus
+    ? COLUMNS
+    : COLUMNS.filter((col) => col.key !== "status");
   return (
     <div className="overflow-x-auto rounded-2xl border border-navy-100 bg-white shadow-card">
       <table className="w-full min-w-[640px] border-collapse text-left text-sm">
         <thead>
           <tr className="border-b border-navy-100 bg-slate-50/80">
-            {COLUMNS.map((col) => (
+            {columns.map((col) => (
               <th
                 key={col.label}
                 scope="col"
@@ -93,42 +98,43 @@ export function IssueTable({
                       e.stopPropagation();
                       onSelect(r.id);
                     }}
-                    className="font-mono text-xs font-semibold text-navy-900 hover:text-accent-600"
+                    className="text-left font-mono text-xs font-semibold text-navy-900 hover:text-accent-600"
                   >
                     {r.id}
                   </button>
-                  <div className="mt-1 flex items-center gap-1.5">
-                    {count >= 2 && (
-                      <span className="inline-flex items-center gap-0.5 text-[11px] font-semibold text-accent-700">
-                        <Users className="h-3 w-3" aria-hidden="true" />
-                        {count}
-                      </span>
-                    )}
-                    {r.media.length > 0 && (
-                      <ImageIcon className="h-3 w-3 text-ink-muted" aria-label="Has media" />
-                    )}
-                  </div>
+                  {r.formalTitle && (
+                    <p className="mt-1 line-clamp-1 text-xs font-medium text-ink-soft">
+                      {r.formalTitle}
+                    </p>
+                  )}
+                  {r.media.length > 0 && (
+                    <ImageIcon
+                      className="mt-1 h-3 w-3 text-ink-muted"
+                      aria-label="Has media"
+                    />
+                  )}
                 </td>
                 <td className="px-4 py-3">
                   <CategoryChip category={r.category} size="sm" />
                 </td>
-                <td className="hidden max-w-[200px] px-4 py-3 text-ink-soft lg:table-cell">
-                  <span className="block truncate">
-                    {r.location.address ||
-                      r.location.crossStreet ||
-                      `${r.location.lat.toFixed(4)}, ${r.location.lng.toFixed(4)}`}
+                <td className="px-4 py-3">
+                  <span className="inline-flex items-center gap-1 font-semibold text-navy-800">
+                    <Users className="h-3.5 w-3.5 text-ink-muted" aria-hidden="true" />
+                    {count}
                   </span>
                 </td>
                 <td className="px-4 py-3">
                   <SeverityDot severity={r.severity} />
                 </td>
-                <td className="px-4 py-3">
-                  <StatusPill
-                    status={r.status}
-                    rejected={!!r.resolution?.rejected}
-                    size="sm"
-                  />
-                </td>
+                {showStatus && (
+                  <td className="px-4 py-3">
+                    <StatusPill
+                      status={r.status}
+                      rejected={!!r.resolution?.rejected}
+                      size="sm"
+                    />
+                  </td>
+                )}
                 <td className="hidden px-4 py-3 text-ink-muted md:table-cell">
                   {formatDate(r.createdAt)}
                 </td>

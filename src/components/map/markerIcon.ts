@@ -2,13 +2,18 @@ import L from "leaflet";
 import { severityMeta } from "@/lib/meta";
 
 /** A custom severity-colored divIcon (no external image assets needed). */
-export function severityIcon(severity: number, pulse: boolean): L.DivIcon {
+export function severityIcon(
+  severity: number,
+  pulse: boolean,
+  selected = false
+): L.DivIcon {
   const meta = severityMeta(severity);
   const pulseClass = pulse ? "gl-marker--pulse" : "";
+  const selectedClass = selected ? "gl-marker--selected" : "";
   return L.divIcon({
     className: "gl-marker-wrap",
     html: `
-      <div class="gl-marker ${pulseClass}">
+      <div class="gl-marker ${pulseClass} ${selectedClass}">
         <span class="gl-marker-ring" style="background:${meta.hex}"></span>
         <span class="gl-marker-dot" style="background:${meta.hex}">${severity}</span>
       </div>`,

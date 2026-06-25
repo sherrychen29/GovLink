@@ -7,18 +7,21 @@
 import type {
   Account,
   Category,
+  ChatLogEntry,
   Report,
   ReportStatus,
   Submission,
 } from "./types";
-import { weightedSeverity } from "./beacon-logic";
+import { clamp } from "./beacon-logic";
 
 export const CITY = {
-  name: "Northgate",
+  name: "San Jose",
   // Real coordinates (downtown grid) so OpenStreetMap tiles render nicely.
   center: { lat: 37.3382, lng: -121.8863 },
   zoom: 14,
 };
+
+export const BEACON_GREETING = `Hi, I'm Beacon. Tell me what's going on in the city and roughly where, and I'll turn it into a report for ${CITY.name}. What's the issue?`;
 
 export const SEED_ACCOUNTS: Account[] = [
   {
@@ -26,7 +29,7 @@ export const SEED_ACCOUNTS: Account[] = [
     username: "government",
     password: "demo",
     role: "government",
-    displayName: "Northgate City Operations",
+    displayName: "San Jose City Operations",
   },
   {
     id: "acc_c1",
@@ -105,6 +108,7 @@ interface SeedInput {
   }>;
   internalNotes?: Array<{ text: string; daysAgo: number }>;
   resolution?: { note: string; rejected: boolean; resolvedAt: string };
+  chatLog?: ChatLogEntry[];
 }
 
 function buildReport(s: SeedInput): Report {
@@ -129,7 +133,7 @@ function buildReport(s: SeedInput): Report {
     })),
   ];
 
-  const severity = weightedSeverity(s.baseSeverity, submissions.length);
+  const severity = clamp(s.baseSeverity, 1, 10);
 
   // Build a plausible status history up to the current status.
   const order: ReportStatus[] = ["sent", "opened", "in_progress", "resolved"];
@@ -179,11 +183,12 @@ function buildReport(s: SeedInput): Report {
     internalNotes: (s.internalNotes || []).map((n, i) => ({
       id: `note_${s.id}_${i}`,
       text: n.text,
-      author: "Northgate City Operations",
+      author: "San Jose City Operations",
       createdAt: daysAgo(n.daysAgo),
     })),
     statusHistory,
     resolution: s.resolution,
+    chatLog: s.chatLog,
   };
 }
 
@@ -227,6 +232,28 @@ const SEED_INPUTS: SeedInput[] = [
     internalNotes: [
       { text: "Verified with street cam. Scheduling patch crew for this week.", daysAgo: 4 },
       { text: "Materials ordered. Crew assigned: Patch Team B.", daysAgo: 1 },
+    ],
+    chatLog: [
+      {
+        role: "beacon",
+        text: BEACON_GREETING,
+        at: daysAgo(6),
+      },
+      {
+        role: "user",
+        text: "There's a huge pothole on Cedar Street near 12th Ave. Cars are swerving into oncoming traffic.",
+        at: daysAgo(6),
+      },
+      {
+        role: "beacon",
+        text: "Got it — a deep pothole on Cedar Street near 12th Ave affecting traffic. I've categorized this under Roads & Sidewalks. Can you drop a pin on the map?",
+        at: daysAgo(6),
+      },
+      {
+        role: "user",
+        text: "Pinned it on the map and added a photo.",
+        at: daysAgo(6),
+      },
     ],
   },
   // --- Rejected-as-resolved example -----------------------------------------
@@ -290,6 +317,28 @@ const SEED_INPUTS: SeedInput[] = [
     contactPhone: "(555) 274-9930",
     media: [{ label: "Downed line", from: "#b91c1c", to: "#7f1d1d" }],
     internalNotes: [{ text: "Escalated to utility company. Cordon requested.", daysAgo: 0 }],
+    chatLog: [
+      {
+        role: "beacon",
+        text: BEACON_GREETING,
+        at: hoursAgo(21),
+      },
+      {
+        role: "user",
+        text: "Power line down across the sidewalk on Sycamore after the storm. Not sparking but people are walking around it.",
+        at: hoursAgo(20),
+      },
+      {
+        role: "beacon",
+        text: "This sounds urgent — a downed power line is a safety hazard. I've flagged it as critical under Electricity/Power Lines. Please pin the exact location.",
+        at: hoursAgo(20),
+      },
+      {
+        role: "user",
+        text: "Location pinned. Added a photo.",
+        at: hoursAgo(20),
+      },
+    ],
   },
   // --- Water main leak ------------------------------------------------------
   {
@@ -412,7 +461,7 @@ const SEED_INPUTS: SeedInput[] = [
       "Graffiti spray-painted across the underpass wall. Not offensive but it's spreading and looks neglected.",
     lat: c.lat + 0.0048,
     lng: c.lng + 0.0049,
-    address: "Northgate Underpass, Harbor Road",
+    address: "San Jose Underpass, Harbor Road",
     baseSeverity: 2,
     status: "opened",
     createdAt: daysAgo(4),

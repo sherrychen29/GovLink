@@ -1,6 +1,5 @@
 "use client";
 
-import "leaflet/dist/leaflet.css";
 import { useEffect } from "react";
 import {
   MapContainer,
@@ -78,7 +77,7 @@ export default function ReportMap({
           <Marker
             key={r.id}
             position={[r.location.lat, r.location.lng]}
-            icon={severityIcon(r.severity, pulse)}
+            icon={severityIcon(r.severity, pulse, selectedId === r.id)}
             zIndexOffset={selectedId === r.id ? 1000 : r.severity * 10}
             eventHandlers={{ click: () => onSelect(r.id) }}
             keyboard

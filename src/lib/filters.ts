@@ -6,23 +6,25 @@ export interface GovFilters {
   categories: Category[];
   severityMin: number;
   severityMax: number;
-  dateFrom: string; // yyyy-mm-dd
-  dateTo: string;
-  hasMedia: boolean;
   search: string;
 }
 
-export type SortKey = "severity" | "date" | "category" | "status";
+export type SortKey = "reports" | "severity" | "date" | "category" | "status";
 
 export const DEFAULT_FILTERS: GovFilters = {
   statuses: [],
   categories: [],
   severityMin: 1,
   severityMax: 10,
-  dateFrom: "",
-  dateTo: "",
-  hasMedia: false,
   search: "",
+};
+
+export const SORT_LABELS: Record<SortKey, string> = {
+  reports: "# of reports",
+  severity: "severity",
+  date: "date submitted",
+  category: "category",
+  status: "status",
 };
 
 const STATUS_ORDER: Record<ReportStatus, number> = {
@@ -34,21 +36,16 @@ const STATUS_ORDER: Record<ReportStatus, number> = {
 
 export function filterReports(reports: Report[], f: GovFilters): Report[] {
   const q = f.search.trim().toLowerCase();
-  const from = f.dateFrom ? new Date(f.dateFrom + "T00:00:00").getTime() : null;
-  const to = f.dateTo ? new Date(f.dateTo + "T23:59:59").getTime() : null;
 
   return reports.filter((r) => {
     if (f.statuses.length && !f.statuses.includes(r.status)) return false;
     if (f.categories.length && !f.categories.includes(r.category)) return false;
     if (r.severity < f.severityMin || r.severity > f.severityMax) return false;
-    if (f.hasMedia && r.media.length === 0) return false;
-    const created = new Date(r.createdAt).getTime();
-    if (from && created < from) return false;
-    if (to && created > to) return false;
     if (q) {
       const hay = [
         r.id,
         r.description,
+        r.formalTitle,
         r.category,
         r.location.address,
         r.location.crossStreet,
@@ -65,11 +62,17 @@ export function filterReports(reports: Report[], f: GovFilters): Report[] {
 export function sortReports(reports: Report[], key: SortKey): Report[] {
   const arr = [...reports];
   switch (key) {
+    case "reports":
+      return arr.sort(
+        (a, b) =>
+          corroborations(b) - corroborations(a) ||
+          b.severity - a.severity ||
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
     case "severity":
       return arr.sort(
         (a, b) =>
           b.severity - a.severity ||
-          corroborations(b) - corroborations(a) ||
           new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       );
     case "date":
@@ -95,8 +98,17 @@ export function countActiveFilters(f: GovFilters): number {
   if (f.statuses.length) n++;
   if (f.categories.length) n++;
   if (f.severityMin !== 1 || f.severityMax !== 10) n++;
-  if (f.dateFrom || f.dateTo) n++;
-  if (f.hasMedia) n++;
   if (f.search.trim()) n++;
   return n;
+}
+
+export function summarizeGovFilters(f: GovFilters): string {
+  const parts: string[] = [];
+  if (f.search.trim()) parts.push(`"${f.search.trim()}"`);
+  if (f.statuses.length) parts.push(`${f.statuses.length} status`);
+  if (f.categories.length) parts.push(`${f.categories.length} category`);
+  if (f.severityMin !== 1 || f.severityMax !== 10) {
+    parts.push(`sev ${f.severityMin}–${f.severityMax}`);
+  }
+  return parts.join(" · ");
 }

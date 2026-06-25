@@ -17,13 +17,14 @@ import type {
   Report,
   ReportLocation,
   ReportStatus,
+  ServicePriority,
   Submission,
 } from "./types";
-import { weightedSeverity } from "./beacon-logic";
+import { clamp } from "./beacon-logic";
 import { buildSeedReports, SEED_ACCOUNTS } from "./seed";
 import { generateTicketId, uid } from "./utils";
 
-const STORAGE_KEY = "govlink.state.v2";
+const STORAGE_KEY = "govlink.state.v3";
 
 interface GovLinkState {
   reports: Report[];
@@ -88,7 +89,7 @@ function ensureLoaded() {
     };
   } else {
     state = {
-      reports: buildSeedReports(),
+      reports: [],
       accounts: SEED_ACCOUNTS,
       currentUserId: null,
       hydrated: true,
@@ -114,7 +115,7 @@ function getServerSnapshot(): GovLinkState {
 
 // --- Hooks -----------------------------------------------------------------
 
-export function useGovLink(): GovLinkState {
+function useGovLink(): GovLinkState {
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }
 
@@ -193,11 +194,6 @@ export function registerCitizen(input: {
 
 // --- Report queries --------------------------------------------------------
 
-export function getReport(id: string): Report | undefined {
-  ensureLoaded();
-  return state.reports.find((r) => r.id === id);
-}
-
 /** Open reports a new submission could corroborate (not resolved). */
 export function openReports(): Report[] {
   ensureLoaded();
@@ -219,11 +215,6 @@ export function findReports(query: string): Report[] {
   });
 }
 
-export function reportsForUser(userId: string): Report[] {
-  ensureLoaded();
-  return state.reports.filter((r) => r.reporterId === userId);
-}
-
 // --- Report mutations ------------------------------------------------------
 
 export interface NewReportInput {
@@ -235,24 +226,33 @@ export interface NewReportInput {
   baseSeverity: number;
   noticedAt: string;
   reporterId?: string;
+  formalTitle?: string;
+  residentDescription?: string;
+  servicePriority?: ServicePriority;
+  chatLog?: Report["chatLog"];
 }
 
 export function createReport(input: NewReportInput): Report {
   ensureLoaded();
   const now = new Date().toISOString();
+  const residentText = input.residentDescription ?? input.description;
   const submission: Submission = {
     id: uid("sub"),
-    description: input.description,
+    description: residentText,
     createdAt: now,
     contact: input.contact,
+    chatLog: input.chatLog,
   };
   const report: Report = {
     id: generateTicketId(),
-    category: input.category,
+    formalTitle: input.formalTitle,
     description: input.description,
+    residentDescription: residentText,
+    servicePriority: input.servicePriority,
+    category: input.category,
     location: input.location,
     media: input.media,
-    severity: weightedSeverity(input.baseSeverity, 1),
+    severity: clamp(input.baseSeverity, 1, 10),
     baseSeverity: input.baseSeverity,
     noticedAt: input.noticedAt,
     createdAt: now,
@@ -263,6 +263,7 @@ export function createReport(input: NewReportInput): Report {
     submissions: [submission],
     internalNotes: [],
     statusHistory: [{ status: "sent", at: now }],
+    chatLog: input.chatLog,
   };
   setState({ reports: [report, ...state.reports] });
   return report;
@@ -277,22 +278,27 @@ export function mergeSubmission(
   const target = state.reports.find((r) => r.id === targetId);
   if (!target) return null;
   const now = new Date().toISOString();
+  const residentText = input.residentDescription ?? input.description;
   const submission: Submission = {
     id: uid("sub"),
-    description: input.description,
+    description: residentText,
     createdAt: now,
     contact: input.contact,
     distanceM: input.distanceM,
+    chatLog: input.chatLog,
   };
   const newBase = Math.max(target.baseSeverity, input.baseSeverity);
   const submissions = [...target.submissions, submission];
   const updated: Report = {
     ...target,
     baseSeverity: newBase,
-    severity: weightedSeverity(newBase, submissions.length),
+    severity: clamp(newBase, 1, 10),
     submissions,
     media: [...target.media, ...input.media].slice(0, 6),
     updatedAt: now,
+    ...(input.formalTitle && !target.formalTitle
+      ? { formalTitle: input.formalTitle }
+      : {}),
   };
   setState({
     reports: state.reports.map((r) => (r.id === targetId ? updated : r)),
@@ -361,6 +367,21 @@ export function addInternalNote(
     reports: state.reports.map((r) => (r.id === id ? updated : r)),
   });
   return updated;
+}
+
+/** Wipe all reports and sign out; keeps only the built-in demo accounts. */
+export function clearAllData() {
+  if (typeof window !== "undefined") {
+    window.localStorage.removeItem(STORAGE_KEY);
+  }
+  state = {
+    reports: [],
+    accounts: SEED_ACCOUNTS,
+    currentUserId: null,
+    hydrated: true,
+  };
+  persist();
+  emit();
 }
 
 /** Dev helper: wipe localStorage and reseed (exposed in the UI footer). */

@@ -1,6 +1,5 @@
 "use client";
 
-import { use } from "react";
 import Link from "next/link";
 import { ArrowLeft, FileSearch } from "lucide-react";
 import { SiteShell } from "@/components/SiteShell";
@@ -12,10 +11,9 @@ import { useReport } from "@/lib/store";
 export default function TrackDetailPage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }) {
-  const { id } = use(params);
-  const decodedId = decodeURIComponent(id);
+  const decodedId = decodeURIComponent(params.id);
   const { report, hydrated } = useReport(decodedId);
 
   return (

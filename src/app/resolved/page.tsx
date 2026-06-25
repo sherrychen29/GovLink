@@ -9,30 +9,28 @@ import {
   Inbox,
 } from "lucide-react";
 import { SiteShell } from "@/components/SiteShell";
+import { ResolvedFilterPanel } from "@/components/ResolvedFilterPanel";
 import { CategoryChip } from "@/components/Chips";
 import { EmptyState } from "@/components/EmptyState";
 import { ListSkeleton } from "@/components/Skeleton";
 import { useReports } from "@/lib/store";
-import { CATEGORIES, type Category, type Report, corroborations } from "@/lib/types";
+import {
+  DEFAULT_RESOLVED_FILTERS,
+  filterResolvedReports,
+  type ResolvedFilters,
+} from "@/lib/resolved-filters";
+import { type Report, corroborations } from "@/lib/types";
 import { formatDate, cx } from "@/lib/utils";
 import { CITY } from "@/lib/seed";
 
 export default function ResolvedPage() {
   const { reports, hydrated } = useReports();
-  const [category, setCategory] = useState<Category | "all">("all");
-  const [showDeclined, setShowDeclined] = useState(true);
+  const [filters, setFilters] = useState<ResolvedFilters>({ ...DEFAULT_RESOLVED_FILTERS });
 
-  const resolved = useMemo(() => {
-    return reports
-      .filter((r) => r.status === "resolved" && r.resolution)
-      .filter((r) => showDeclined || !r.resolution?.rejected)
-      .filter((r) => category === "all" || r.category === category)
-      .sort(
-        (a, b) =>
-          new Date(b.resolution!.resolvedAt).getTime() -
-          new Date(a.resolution!.resolvedAt).getTime()
-      );
-  }, [reports, category, showDeclined]);
+  const resolved = useMemo(
+    () => filterResolvedReports(reports, filters),
+    [reports, filters]
+  );
 
   const fixedCount = reports.filter(
     (r) => r.status === "resolved" && !r.resolution?.rejected
@@ -59,38 +57,8 @@ export default function ResolvedPage() {
       </section>
 
       <div className="gl-container py-8 lg:py-10">
-        {/* Filters */}
-        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div
-            className="flex flex-wrap gap-2"
-            role="group"
-            aria-label="Filter by category"
-          >
-            <FilterChip
-              active={category === "all"}
-              onClick={() => setCategory("all")}
-            >
-              All
-            </FilterChip>
-            {CATEGORIES.map((c) => (
-              <FilterChip
-                key={c}
-                active={category === c}
-                onClick={() => setCategory(c)}
-              >
-                {c}
-              </FilterChip>
-            ))}
-          </div>
-          <label className="flex shrink-0 items-center gap-2 text-sm text-ink-soft">
-            <input
-              type="checkbox"
-              className="h-4 w-4 rounded border-navy-300 text-accent-600 focus:ring-accent-400"
-              checked={showDeclined}
-              onChange={(e) => setShowDeclined(e.target.checked)}
-            />
-            Show declined requests
-          </label>
+        <div className="mb-6">
+          <ResolvedFilterPanel filters={filters} onChange={setFilters} />
         </div>
 
         {!hydrated ? (
@@ -99,7 +67,7 @@ export default function ResolvedPage() {
           <EmptyState
             icon={<Inbox className="h-6 w-6" />}
             title="Nothing here yet"
-            description="No resolved issues match this filter. Try a different category."
+            description="No resolved issues match this filter. Try a different category or outcome."
           />
         ) : (
           <div className="grid gap-4 md:grid-cols-2">
@@ -110,32 +78,6 @@ export default function ResolvedPage() {
         )}
       </div>
     </SiteShell>
-  );
-}
-
-function FilterChip({
-  active,
-  onClick,
-  children,
-}: {
-  active: boolean;
-  onClick: () => void;
-  children: React.ReactNode;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-pressed={active}
-      className={cx(
-        "rounded-full px-3 py-1.5 text-xs font-semibold transition-colors",
-        active
-          ? "bg-navy-900 text-white"
-          : "border border-navy-200 bg-white text-ink-soft hover:border-navy-300 hover:text-navy-900"
-      )}
-    >
-      {children}
-    </button>
   );
 }
 

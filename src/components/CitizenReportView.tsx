@@ -96,6 +96,13 @@ export function CitizenReportView({ report }: { report: Report }) {
       <div className="card p-6">
         <h2 className="text-sm font-semibold text-navy-900">What was reported</h2>
         <p className="mt-2 leading-relaxed text-ink">{report.description}</p>
+        {report.residentDescription &&
+          report.residentDescription !== report.description && (
+            <p className="mt-3 text-sm text-ink-muted">
+              <span className="font-medium text-navy-800">As you reported: </span>
+              &ldquo;{report.residentDescription}&rdquo;
+            </p>
+          )}
 
         {report.media.length > 0 && (
           <div className="mt-5 flex flex-wrap gap-3">

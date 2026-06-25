@@ -26,6 +26,11 @@ export const STATUS_PIPELINE: ReportStatus[] = [
   "resolved",
 ];
 
+/** Active (non-resolved) statuses for the gov operations queue. */
+export const OPEN_STATUS_PIPELINE: ReportStatus[] = STATUS_PIPELINE.filter(
+  (s) => s !== "resolved"
+);
+
 export type LocationMethod = "gps" | "pin" | "cross-street" | "address";
 
 export interface ReportLocation {
@@ -51,6 +56,13 @@ export interface ContactInfo {
   anonymous: boolean;
 }
 
+/** Beacon intake conversation archived for government review. */
+export interface ChatLogEntry {
+  role: "user" | "beacon" | "system";
+  text: string;
+  at: string; // ISO
+}
+
 /** One citizen submission folded into a report (originals + corroborations). */
 export interface Submission {
   id: string;
@@ -59,6 +71,8 @@ export interface Submission {
   contact?: ContactInfo;
   /** Approx. distance in metres from the canonical report location, if merged. */
   distanceM?: number;
+  /** Beacon intake conversation for this submission, when filed via chat. */
+  chatLog?: ChatLogEntry[];
 }
 
 export interface InternalNote {
@@ -76,15 +90,33 @@ export interface StatusEvent {
   rejected?: boolean;
 }
 
+export type ServicePriority = "Routine" | "Standard" | "Elevated" | "Critical";
+
+/** Beacon-polished report fields returned by `/api/beacon/formalize`. */
+export interface FormalizedReport {
+  category: Category;
+  formalTitle: string;
+  formalDescription: string;
+  baseSeverity: number;
+  servicePriority: ServicePriority;
+}
+
 export interface Report {
   id: string; // tracking ID, e.g. "GL-7K2-4810"
-  category: Category;
+  /** Municipal-style short title shown to city staff. */
+  formalTitle?: string;
+  /** Gov-facing formal description (Beacon-polished). */
   description: string;
+  /** Resident's original wording before formalization. */
+  residentDescription?: string;
+  /** Triage priority label derived from severity assessment. */
+  servicePriority?: ServicePriority;
+  category: Category;
   location: ReportLocation;
   media: MediaItem[];
-  /** Final severity 1–10 (AI judgement, weighted upward by corroborations). */
+  /** Final severity 1–10 (Beacon judgement on the issue itself). */
   severity: number;
-  /** Beacon's base severity from the description alone, before corroboration weighting. */
+  /** Beacon's base severity from the description alone. */
   baseSeverity: number;
   noticedAt: string; // ISO — auto-filled, editable
   createdAt: string; // ISO
@@ -97,6 +129,8 @@ export interface Report {
   submissions: Submission[];
   internalNotes: InternalNote[];
   statusHistory: StatusEvent[];
+  /** Archived Beacon intake conversation, when filed via chat. */
+  chatLog?: ChatLogEntry[];
   /** Citizen-visible resolution note (includes rejection reason when rejected). */
   resolution?: {
     note: string;
@@ -118,4 +152,23 @@ export interface Account {
 /** The number of distinct residents who reported an issue. */
 export function corroborations(report: Report): number {
   return Math.max(1, report.submissions.length);
+}
+
+export interface ReportChatSection {
+  label: string;
+  entries: ChatLogEntry[];
+}
+
+/** Chat logs grouped by submission (original + corroborations). */
+export function reportChatSections(report: Report): ReportChatSection[] {
+  return report.submissions
+    .map((s, i) => ({
+      label: i === 0 ? "Original submission" : `Corroboration ${i}`,
+      entries: s.chatLog ?? (i === 0 ? report.chatLog : undefined) ?? [],
+    }))
+    .filter((s) => s.entries.length > 0);
+}
+
+export function allReportChatEntries(report: Report): ChatLogEntry[] {
+  return reportChatSections(report).flatMap((s) => s.entries);
 }
