@@ -1,0 +1,227 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg: 248 250 252; /* slate-50-ish page background */
+    --surface: 255 255 255;
+  }
+
+  * {
+    @apply border-navy-100;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-slate-50 text-ink antialiased;
+    font-feature-settings: "cv05", "ss01";
+  }
+
+  /* Accessible, visible focus ring everywhere — keyboard users first. */
+  :focus-visible {
+    @apply outline-none ring-2 ring-accent-400 ring-offset-2 ring-offset-white;
+  }
+
+  /* Don't show the ring on mouse clicks where focus-visible already handles it. */
+  ::selection {
+    @apply bg-accent-200/60 text-navy-900;
+  }
+
+  /* Headings inherit color from context (dark by default via body, white inside
+     navy sections). Avoid forcing a color here so dark panels render correctly. */
+  h1, h2, h3, h4 {
+    @apply tracking-tight;
+    text-wrap: balance;
+  }
+
+  /* Respect users who prefer reduced motion. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .gl-container {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Buttons -------------------------------------------------------------- */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold
+      transition-all duration-150 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply btn bg-navy-900 text-white shadow-sm hover:bg-navy-800 active:bg-navy-950;
+  }
+  .btn-accent {
+    @apply btn bg-accent-500 text-white shadow-sm hover:bg-accent-600 active:bg-accent-700;
+  }
+  .btn-ghost {
+    @apply btn bg-transparent text-navy-800 hover:bg-navy-50;
+  }
+  .btn-outline {
+    @apply btn border border-navy-200 bg-white text-navy-800 hover:border-navy-300 hover:bg-navy-50;
+  }
+  .btn-danger {
+    @apply btn border border-red-200 bg-white text-red-700 hover:bg-red-50;
+  }
+
+  /* Surfaces ------------------------------------------------------------- */
+  .card {
+    @apply rounded-2xl border border-navy-100 bg-white shadow-card;
+  }
+
+  .field-label {
+    @apply mb-1.5 block text-sm font-medium text-navy-800;
+  }
+
+  .field-input {
+    @apply w-full rounded-lg border border-navy-200 bg-white px-3.5 py-2.5 text-sm text-ink
+      placeholder:text-ink-muted/70 transition-colors
+      focus:border-accent-400 focus:outline-none focus:ring-2 focus:ring-accent-400/40
+      disabled:bg-slate-50 disabled:text-ink-muted;
+  }
+
+  .field-hint {
+    @apply mt-1.5 text-xs text-ink-muted;
+  }
+
+  .field-error {
+    @apply mt-1.5 flex items-center gap-1.5 text-xs font-medium text-red-600;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium;
+  }
+
+  /* Loading skeleton shimmer -------------------------------------------- */
+  .skeleton {
+    @apply relative overflow-hidden rounded-md bg-navy-100/70;
+  }
+  .skeleton::after {
+    @apply absolute inset-0 -translate-x-full;
+    content: "";
+    background-image: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.65),
+      transparent
+    );
+    animation: shimmer 1.6s infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .skeleton::after {
+      animation: none;
+    }
+  }
+}
+
+/* Typing indicator dots (Beacon) --------------------------------------- */
+.typing-dot {
+  @apply inline-block h-1.5 w-1.5 rounded-full bg-navy-400;
+  animation: dot-bounce 1.2s infinite ease-in-out both;
+}
+.typing-dot:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.typing-dot:nth-child(3) {
+  animation-delay: 0.3s;
+}
+@keyframes dot-bounce {
+  0%, 80%, 100% {
+    transform: scale(0.6);
+    opacity: 0.4;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Leaflet overrides — make the map feel native to GovLink                 */
+/* ---------------------------------------------------------------------- */
+.leaflet-container {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  background: #e8eef6;
+}
+.leaflet-control-zoom a {
+  color: #102a56 !important;
+  border-color: rgba(16, 42, 86, 0.12) !important;
+}
+.leaflet-popup-content-wrapper {
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 30px -12px rgba(11, 36, 71, 0.4);
+}
+.leaflet-popup-content {
+  margin: 0.75rem 0.9rem;
+  font-size: 0.8rem;
+}
+.leaflet-bar a {
+  border-radius: 0 !important;
+}
+
+/* Custom severity markers */
+.gl-marker {
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+.gl-marker-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 9999px;
+  border: 2.5px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(11, 36, 71, 0.45);
+  font-size: 10px;
+  font-weight: 700;
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  position: relative;
+  z-index: 2;
+}
+.gl-marker-ring {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 20px;
+  height: 20px;
+  border-radius: 9999px;
+  z-index: 1;
+}
+.gl-marker--pulse .gl-marker-ring {
+  animation: pulse-ring 1.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.6;
+  }
+  80%, 100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gl-marker--pulse .gl-marker-ring {
+    animation: none;
+  }
+}
