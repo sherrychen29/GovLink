@@ -8,10 +8,11 @@ import {
   Map as MapIcon,
   List,
   LogOut,
-  ExternalLink,
   CircleCheck,
   Loader2,
   Inbox,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { FilterPanel } from "@/components/gov/FilterPanel";
@@ -29,6 +30,8 @@ import {
 import { logout, useCurrentUser, useReports } from "@/lib/store";
 import { SEVERITY_LEGEND } from "@/lib/meta";
 import { cx } from "@/lib/utils";
+
+const PAGE_SIZE = 15;
 
 const ReportMap = dynamic(() => import("@/components/map/ReportMap"), {
   ssr: false,
@@ -50,6 +53,7 @@ export default function GovDashboardPage() {
   const [sort, setSort] = useState<SortKey>("reports");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [modalId, setModalId] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
 
   // Auth gate.
   useEffect(() => {
@@ -71,6 +75,19 @@ export default function GovDashboardPage() {
   const visible = useMemo(
     () => sortReports(filterReports(pool, filters), sort),
     [pool, filters, sort]
+  );
+
+  const totalPages = Math.max(1, Math.ceil(visible.length / PAGE_SIZE));
+
+  // Reset to the first page whenever the result set changes.
+  useEffect(() => {
+    setPage(1);
+  }, [view, filters, sort]);
+
+  const safePage = Math.min(page, totalPages);
+  const pageReports = useMemo(
+    () => visible.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE),
+    [visible, safePage]
   );
 
   const mapReports = useMemo(() => {
@@ -288,15 +305,28 @@ export default function GovDashboardPage() {
             <p className="mb-3 text-sm text-ink-muted">
               {visible.length} report{visible.length === 1 ? "" : "s"} · ranked by{" "}
               {SORT_LABELS[sort]}
+              {totalPages > 1 && (
+                <>
+                  {" · "}showing {(safePage - 1) * PAGE_SIZE + 1}–
+                  {Math.min(safePage * PAGE_SIZE, visible.length)}
+                </>
+              )}
             </p>
             <IssueTable
-              reports={visible}
+              reports={pageReports}
               selectedId={selectedId}
               onSelect={selectReport}
               sort={sort}
               onSortChange={setSort}
               showStatus={view === "list"}
             />
+            {totalPages > 1 && (
+              <Pagination
+                page={safePage}
+                totalPages={totalPages}
+                onChange={setPage}
+              />
+            )}
           </div>
           </div>
         ) : null}
@@ -338,6 +368,82 @@ function ViewToggle({
     >
       {icon}
       {label}
+    </button>
+  );
+}
+
+function Pagination({
+  page,
+  totalPages,
+  onChange,
+}: {
+  page: number;
+  totalPages: number;
+  onChange: (p: number) => void;
+}) {
+  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+  return (
+    <nav
+      aria-label="Pagination"
+      className="mt-5 flex flex-wrap items-center justify-center gap-1.5"
+    >
+      <PageButton
+        onClick={() => onChange(page - 1)}
+        disabled={page === 1}
+        ariaLabel="Previous page"
+      >
+        <ChevronLeft className="h-4 w-4" aria-hidden="true" />
+      </PageButton>
+      {pages.map((p) => (
+        <PageButton
+          key={p}
+          onClick={() => onChange(p)}
+          active={p === page}
+          ariaLabel={`Page ${p}`}
+        >
+          {p}
+        </PageButton>
+      ))}
+      <PageButton
+        onClick={() => onChange(page + 1)}
+        disabled={page === totalPages}
+        ariaLabel="Next page"
+      >
+        <ChevronRight className="h-4 w-4" aria-hidden="true" />
+      </PageButton>
+    </nav>
+  );
+}
+
+function PageButton({
+  children,
+  onClick,
+  active = false,
+  disabled = false,
+  ariaLabel,
+}: {
+  children: React.ReactNode;
+  onClick: () => void;
+  active?: boolean;
+  disabled?: boolean;
+  ariaLabel: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      aria-label={ariaLabel}
+      aria-current={active ? "page" : undefined}
+      className={cx(
+        "inline-flex h-9 min-w-9 items-center justify-center rounded-lg border px-3 text-sm font-semibold transition-colors",
+        active
+          ? "border-accent-500 bg-accent-500 text-white"
+          : "border-navy-200 bg-white text-navy-800 hover:bg-navy-50",
+        disabled && "cursor-not-allowed opacity-40 hover:bg-white"
+      )}
+    >
+      {children}
     </button>
   );
 }

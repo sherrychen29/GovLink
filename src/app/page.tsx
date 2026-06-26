@@ -3,27 +3,19 @@
 import Link from "next/link";
 import Image from "next/image";
 import {
-  ArrowRight,
   MessageSquareText,
   MapPin,
   Activity,
-  ShieldCheck,
   Building2,
   UserRound,
 } from "lucide-react";
 import { SiteShell } from "@/components/SiteShell";
 import { BeaconHeroPreview } from "@/components/BeaconHeroPreview";
-import { CategoryChip } from "@/components/Chips";
-import { useReports } from "@/lib/store";
+import { CategoryIcon } from "@/components/CategoryIcon";
 import { CATEGORIES } from "@/lib/types";
 import { CITY } from "@/lib/seed";
 
 export default function LandingPage() {
-  const { reports, hydrated } = useReports();
-  const resolved = reports.filter((r) => r.status === "resolved").length;
-  const active = reports.filter((r) => r.status !== "resolved").length;
-  const residents = reports.reduce((n, r) => n + r.submissions.length, 0);
-
   return (
     <SiteShell>
       {/* Hero ------------------------------------------------------------- */}
@@ -80,27 +72,6 @@ export default function LandingPage() {
           </div>
 
           <BeaconHeroPreview />
-        </div>
-      </section>
-
-      {/* Stats ------------------------------------------------------------ */}
-      <section className="border-b border-navy-100 bg-white">
-        <div className="gl-container grid grid-cols-2 gap-px overflow-hidden rounded-none sm:grid-cols-4">
-          {[
-            { label: "Reports filed", value: hydrated ? reports.length : "—" },
-            { label: "Active issues", value: hydrated ? active : "—" },
-            { label: "Resolved", value: hydrated ? resolved : "—" },
-            { label: "Resident voices", value: hydrated ? residents : "—" },
-          ].map((s) => (
-            <div key={s.label} className="px-2 py-7 text-center">
-              <div className="text-3xl font-bold tracking-tight text-navy-900">
-                {s.value}
-              </div>
-              <div className="mt-1 text-xs font-medium uppercase tracking-wide text-ink-muted">
-                {s.label}
-              </div>
-            </div>
-          ))}
         </div>
       </section>
 
@@ -163,57 +134,61 @@ export default function LandingPage() {
             From a flickering streetlight to a downed branch — if it&apos;s a
             non-emergency city issue, it belongs here.
           </p>
-          <div className="mt-7 flex flex-wrap gap-2.5">
+          <div className="mt-9 flex flex-wrap justify-center gap-x-6 gap-y-8 sm:justify-start">
             {CATEGORIES.map((c) => (
-              <CategoryChip key={c} category={c} />
+              <div key={c} className="flex w-24 flex-col items-center text-center sm:w-28">
+                <div className="grid aspect-square w-20 place-items-center rounded-full border-[3px] border-accent-400 sm:w-24">
+                  <CategoryIcon
+                    category={c}
+                    className="h-9 w-9 text-navy-900 sm:h-10 sm:w-10"
+                  />
+                </div>
+                <span className="mt-3 text-sm font-bold leading-tight text-navy-900">
+                  {c.replace(/\//g, " & ")}
+                </span>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Transparency + gov ---------------------------------------------- */}
-      <section className="gl-container grid gap-5 py-16 md:grid-cols-2">
-        <div className="card flex flex-col justify-between gap-6 p-7">
-          <div>
-            <div className="grid h-11 w-11 place-items-center rounded-xl bg-emerald-50 text-emerald-600">
-              <ShieldCheck className="h-6 w-6" aria-hidden="true" />
-            </div>
-            <h3 className="mt-4 text-xl font-semibold text-navy-900">
-              See the city deliver
-            </h3>
-            <p className="mt-2 text-sm leading-relaxed text-ink-soft">
-              Every resolved issue is published to a public transparency feed.
-              Watch problems across {CITY.name} get closed out, week by week.
-            </p>
-          </div>
-          <Link href="/resolved" className="btn-outline self-start">
-            View resolved issues
-            <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </Link>
-        </div>
-
-        <div className="card flex flex-col justify-between gap-6 bg-navy-900 p-7 text-white">
-          <div>
-            <div className="grid h-11 w-11 place-items-center rounded-xl bg-white/10 text-accent-300">
-              <Building2 className="h-6 w-6" aria-hidden="true" />
-            </div>
-            <h3 className="mt-4 text-xl font-semibold text-white">
-              City staff
-            </h3>
-            <p className="mt-2 text-sm leading-relaxed text-navy-200">
-              Triage incoming reports on a live map, ranked by severity and
-              corroboration. Update status, add internal notes, and keep
-              residents informed.
-            </p>
-          </div>
+      <section className="gl-container grid gap-8 py-16 md:grid-cols-2">
+        {[
+          {
+            href: "/resolved",
+            title: "See the City Deliver",
+            image: "/images/see-city-deliver.jpg",
+            alt: "City crew working with a resident on the street",
+          },
+          {
+            href: "/login",
+            title: "City Staff",
+            image: "/images/city-staff.jpeg",
+            alt: "City of San Jose staff gathered for a community cleanup",
+          },
+        ].map((card) => (
           <Link
-            href="/login"
-            className="btn self-start bg-accent-500 text-white hover:bg-accent-600"
+            key={card.href}
+            href={card.href}
+            className="group block overflow-hidden rounded-xl shadow-card transition-shadow hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
           >
-            Open the dashboard
-            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            <div className="relative aspect-[2/1] w-full overflow-hidden">
+              <Image
+                src={card.image}
+                alt={card.alt}
+                fill
+                sizes="(min-width: 768px) 50vw, 100vw"
+                className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+              />
+            </div>
+            <div className="border-t-4 border-accent-500 bg-navy-900 px-5 py-4 text-center">
+              <span className="text-xl font-bold tracking-tight text-white sm:text-2xl">
+                {card.title}
+              </span>
+            </div>
           </Link>
-        </div>
+        ))}
       </section>
     </SiteShell>
   );

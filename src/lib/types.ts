@@ -4,14 +4,14 @@
 // ---------------------------------------------------------------------------
 
 export const CATEGORIES = [
-  "Water/Plumbing",
-  "Roads & Sidewalks",
-  "Electricity/Power Lines",
-  "Waste & Sanitation",
-  "Parks & Trees",
-  "Noise Complaints",
-  "Animal/Wildlife",
   "Public Safety/Hazards",
+  "Roads & Sidewalks",
+  "Waste & Sanitation",
+  "Electricity/Power Lines",
+  "Water/Plumbing",
+  "Parks & Trees",
+  "Animal/Wildlife",
+  "Noise Complaints",
   "Other",
 ] as const;
 
