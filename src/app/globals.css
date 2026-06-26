@@ -35,7 +35,7 @@
   /* Headings inherit color from context (dark by default via body, white inside
      navy sections). Avoid forcing a color here so dark panels render correctly. */
   h1, h2, h3, h4 {
-    @apply tracking-tight;
+    @apply font-display tracking-tight;
     text-wrap: balance;
   }
 
@@ -159,7 +159,7 @@
 /* Leaflet overrides — make the map feel native to GovLink                 */
 /* ---------------------------------------------------------------------- */
 .leaflet-container {
-  font-family: var(--font-inter), system-ui, sans-serif;
+  font-family: var(--font-noto-sans), system-ui, sans-serif;
   background: #e8eef6;
 }
 .leaflet-control-zoom a {

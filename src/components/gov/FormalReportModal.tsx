@@ -156,6 +156,7 @@ export function FormalReportModal({
   return (
     <div
       className="fixed inset-0 z-[600] flex items-start justify-center overflow-y-auto bg-navy-950/50 p-4 sm:items-center sm:p-6"
+      style={{ fontFamily: "Georgia, 'Times New Roman', Times, serif" }}
       role="dialog"
       aria-modal="true"
       aria-label={`Service request ${report.id}`}

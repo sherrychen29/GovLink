@@ -1,0 +1,21 @@
+@font-face {
+  font-family: 'Noto Serif Oriya';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/notoseriforiya/v6/MjQQmj56u-r69izk_LDqWN7w0cYByutv9qeWYrvLaxrc_Hy-.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Noto Serif Oriya';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/notoseriforiya/v6/MjQQmj56u-r69izk_LDqWN7w0cYByutv9qeWYrvLaxoC-3y-.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Noto Serif Oriya';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/notoseriforiya/v6/MjQQmj56u-r69izk_LDqWN7w0cYByutv9qeWYrvLaxo7-3y-.ttf) format('truetype');
+}

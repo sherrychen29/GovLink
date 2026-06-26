@@ -1,17 +1,25 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Monda, Noto_Sans } from "next/font/google";
 import "leaflet/dist/leaflet.css";
 import "./globals.css";
 
-const inter = Inter({
+const monda = Monda({
   subsets: ["latin"],
-  variable: "--font-inter",
+  weight: ["400", "700"],
+  variable: "--font-monda",
+  display: "swap",
+});
+
+const notoSans = Noto_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-noto-sans",
   display: "swap",
 });
 
 export const metadata: Metadata = {
   title: {
-    default: "GovLink — Report. Track. Resolved.",
+    default: "GovLink",
     template: "%s · GovLink",
   },
   description:
@@ -30,7 +38,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={`${monda.variable} ${notoSans.variable}`}>
       <body className="min-h-screen bg-slate-50">
         <a
           href="#main"
