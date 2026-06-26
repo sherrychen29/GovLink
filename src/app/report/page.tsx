@@ -74,18 +74,18 @@ export default function ReportPage() {
   return (
     <SiteShell>
       {mode === "chat" ? (
-        <div className="flex min-h-[calc(100vh-8rem)] flex-col">
-          <div className="border-b border-navy-100 bg-white">
+        <div className="flex min-h-[calc(100vh-8rem)] flex-col bg-navy-900">
+          <div className="border-b border-white/10">
             <div className="gl-container flex flex-col gap-4 py-5 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <h1 className="text-xl font-bold tracking-tight text-navy-900 sm:text-2xl">
+                <h1 className="text-xl font-bold tracking-tight text-white sm:text-2xl">
                   Report an issue
                 </h1>
               </div>
               <button
                 type="button"
                 onClick={() => setMode("manual")}
-                className="btn-ghost shrink-0 self-start"
+                className="inline-flex shrink-0 items-center gap-2 self-start rounded-lg border border-white/20 bg-white/5 px-3.5 py-2 text-sm font-semibold text-white transition-colors hover:border-white/30 hover:bg-white/10"
               >
                 <PenLine className="h-4 w-4" aria-hidden="true" />
                 Enter manually
@@ -93,10 +93,10 @@ export default function ReportPage() {
             </div>
           </div>
 
-          <div className="gl-container flex flex-1 flex-col py-4 lg:py-6">
+          <div className="gl-container flex flex-1 flex-col py-4 lg:py-8">
             <section
               aria-label="Report with Beacon"
-              className="card flex min-h-[480px] flex-1 flex-col p-4 sm:p-5 lg:min-h-[560px]"
+              className="mx-auto flex w-full max-w-3xl min-h-[480px] flex-1 flex-col rounded-2xl border border-navy-100/80 bg-white p-4 shadow-2xl shadow-black/20 sm:p-5 lg:min-h-[560px]"
             >
               <header className="mb-2 flex items-center justify-between border-b border-navy-100 pb-3">
                 <h2 className="text-sm font-semibold text-navy-900">Beacon</h2>

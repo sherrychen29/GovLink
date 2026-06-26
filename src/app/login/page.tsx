@@ -3,9 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { AlertCircle, ArrowRight, Building2, UserRound } from "lucide-react";
+import { AlertCircle, ArrowLeft, ArrowRight, Building2, UserRound } from "lucide-react";
 import { Logo } from "@/components/Logo";
-import { login, registerCitizen } from "@/lib/store";
+import { clearAllData, loadSampleReports, login, registerCitizen } from "@/lib/store";
 import { cx } from "@/lib/utils";
 
 const DEMO = [
@@ -26,10 +26,7 @@ export default function LoginPage() {
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(50%_40%_at_80%_0%,rgba(31,199,239,0.18),transparent),radial-gradient(40%_40%_at_0%_100%,rgba(31,199,239,0.10),transparent)]"
         />
         <Link href="/" className="relative inline-flex">
-          <Logo
-            markClassName="h-9 w-9"
-            className="[&_span]:text-white [&_.text-accent-500]:text-accent-400"
-          />
+          <Logo markClassName="h-9" />
         </Link>
         <div className="relative max-w-md">
           <h1 className="text-3xl font-bold leading-tight">
@@ -46,8 +43,16 @@ export default function LoginPage() {
       </div>
 
       {/* Form panel */}
-      <div className="flex flex-col justify-center px-6 py-12 sm:px-12">
+      <div className="relative flex min-h-screen flex-col justify-center px-6 py-12 sm:px-12">
         <div className="mx-auto w-full max-w-sm">
+          <Link
+            href="/"
+            className="mb-6 inline-flex items-center gap-1.5 text-sm font-medium text-ink-muted transition-colors hover:text-navy-900"
+          >
+            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+            Back to home
+          </Link>
+
           <Link href="/" className="mb-8 inline-flex lg:hidden">
             <Logo />
           </Link>
@@ -85,7 +90,46 @@ export default function LoginPage() {
             <RegisterForm router={router} />
           )}
         </div>
+
+        <DemoTools />
       </div>
+    </div>
+  );
+}
+
+function DemoTools() {
+  return (
+    <div className="pointer-events-none fixed bottom-4 right-4 z-10 flex flex-col items-end gap-1 text-[11px] text-ink-muted/80">
+      <button
+        type="button"
+        className="pointer-events-auto transition-colors hover:text-navy-800"
+        onClick={() => {
+          if (
+            window.confirm(
+              "Clear all reports (resolved and unresolved)? Demo accounts are kept."
+            )
+          ) {
+            clearAllData();
+          }
+        }}
+      >
+        Reset demo
+      </button>
+      <button
+        type="button"
+        className="pointer-events-auto transition-colors hover:text-navy-800"
+        onClick={() => {
+          if (
+            window.confirm(
+              "Load 9 sample San Jose reports? This replaces any reports currently on the site."
+            )
+          ) {
+            loadSampleReports();
+          }
+        }}
+      >
+        Generate samples
+      </button>
     </div>
   );
 }

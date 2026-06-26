@@ -1,8 +1,12 @@
+import Image from "next/image";
+import officialLogo from "@/app/officialLogo.png";
+import beaconLogo from "@/app/12.png";
 import { cx } from "@/lib/utils";
 
 /**
  * GovLink logomark — a "beacon": a solid point emitting two signal arcs,
  * echoing the guiding-light metaphor and the citizen↔government link.
+ * Used in Beacon chat bubbles where the full wordmark image is too wide.
  */
 export function LogoMark({
   className,
@@ -43,6 +47,38 @@ export function LogoMark({
   );
 }
 
+/** Beacon assistant avatar — navy tile with the interlock mark. */
+export function BeaconMark({
+  className,
+  iconClassName,
+  size = "sm",
+}: {
+  className?: string;
+  iconClassName?: string;
+  size?: "sm" | "md";
+}) {
+  const box = size === "md" ? "h-8 w-8" : "h-7 w-7";
+  const icon = size === "md" ? "h-5 w-5" : "h-4 w-4";
+  return (
+    <span
+      className={cx(
+        "grid shrink-0 place-items-center rounded-lg bg-navy-900",
+        box,
+        className
+      )}
+      aria-hidden="true"
+    >
+      <Image
+        src={beaconLogo}
+        alt=""
+        width={beaconLogo.width}
+        height={beaconLogo.height}
+        className={cx(icon, "object-contain mix-blend-screen", iconClassName)}
+      />
+    </span>
+  );
+}
+
 export function Logo({
   className,
   markClassName,
@@ -50,16 +86,20 @@ export function Logo({
 }: {
   className?: string;
   markClassName?: string;
+  /** Kept for API compatibility; the logo image includes the wordmark. */
   showWordmark?: boolean;
 }) {
+  void showWordmark;
   return (
-    <span className={cx("inline-flex items-center gap-2.5", className)}>
-      <LogoMark className={cx("h-8 w-8", markClassName)} />
-      {showWordmark && (
-        <span className="text-lg font-bold tracking-tight text-navy-900">
-          Gov<span className="text-accent-500">Link</span>
-        </span>
-      )}
+    <span className={cx("inline-flex items-center", className)}>
+      <Image
+        src={officialLogo}
+        alt="GovLink"
+        width={officialLogo.width}
+        height={officialLogo.height}
+        priority
+        className={cx("h-8 w-auto", markClassName)}
+      />
     </span>
   );
 }

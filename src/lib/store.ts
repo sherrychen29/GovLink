@@ -22,6 +22,7 @@ import type {
 } from "./types";
 import { clamp } from "./beacon-logic";
 import { buildSeedReports, SEED_ACCOUNTS } from "./seed";
+import { buildSampleReports } from "./sample-reports";
 import { generateTicketId, uid } from "./utils";
 
 const STORAGE_KEY = "govlink.state.v3";
@@ -382,6 +383,15 @@ export function clearAllData() {
   };
   persist();
   emit();
+}
+
+/** Load the nine curated sample reports (replaces all current reports). */
+export function loadSampleReports() {
+  ensureLoaded();
+  setState({
+    reports: buildSampleReports(),
+    hydrated: true,
+  });
 }
 
 /** Dev helper: wipe localStorage and reseed (exposed in the UI footer). */

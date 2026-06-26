@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { Menu, X, UserRound, LogOut, LayoutDashboard } from "lucide-react";
 import { Logo } from "./Logo";
 import { useCurrentUser, logout } from "@/lib/store";
+import { CITY_PARTNERS } from "@/lib/partners";
 import { cx } from "@/lib/utils";
 
 const NAV = [
@@ -28,13 +29,16 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-navy-100 bg-white/85 backdrop-blur-md">
-      <div className="gl-container flex h-16 items-center justify-between gap-4">
+      <div className="gl-container flex min-h-16 items-center justify-between gap-4 py-2">
         <Link
           href="/"
-          className="rounded-lg focus-visible:ring-2 focus-visible:ring-accent-400"
+          className="flex flex-col gap-0.5 rounded-lg focus-visible:ring-2 focus-visible:ring-accent-400"
           aria-label="GovLink home"
         >
           <Logo />
+          <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-navy-600 sm:text-xs">
+            CITY OF SAN JOSE
+          </span>
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex" aria-label="Primary">
@@ -82,14 +86,9 @@ export function SiteHeader() {
             </>
           )}
           {hydrated && !user && (
-            <>
-              <Link href="/login" className="btn-ghost">
-                Sign in
-              </Link>
-              <Link href="/report" className="btn-accent">
-                Report an issue
-              </Link>
-            </>
+            <Link href="/login" className="btn-ghost">
+              Sign in
+            </Link>
           )}
         </div>
 
@@ -103,6 +102,27 @@ export function SiteHeader() {
         >
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
+      </div>
+
+      <div className="border-t border-navy-100 bg-navy-50/90">
+        <p className="gl-container py-1.5 text-[11px] leading-snug text-ink-muted sm:text-xs">
+          An official digital service used by the City of San Jose. In partnership with{" "}
+          {CITY_PARTNERS.map((partner, i) => (
+            <span key={partner.href}>
+              {i > 0 && (i === CITY_PARTNERS.length - 1 ? ", and " : ", ")}
+              {partner.headerPrefix}
+              <a
+                href={partner.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-navy-700 underline decoration-navy-200 underline-offset-2 hover:text-navy-900 hover:decoration-navy-400"
+              >
+                {partner.headerLabel ?? partner.label}
+              </a>
+            </span>
+          ))}
+          .
+        </p>
       </div>
 
       {open && (
@@ -155,14 +175,9 @@ export function SiteHeader() {
                 </>
               )}
               {hydrated && !user && (
-                <>
-                  <Link href="/login" className="btn-outline" onClick={() => setOpen(false)}>
-                    Sign in
-                  </Link>
-                  <Link href="/report" className="btn-accent" onClick={() => setOpen(false)}>
-                    Report an issue
-                  </Link>
-                </>
+                <Link href="/login" className="btn-outline" onClick={() => setOpen(false)}>
+                  Sign in
+                </Link>
               )}
             </div>
           </nav>

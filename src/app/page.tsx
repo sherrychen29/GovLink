@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
+import cityOfSanJoseLogo from "@/app/637078722374930000.png";
 import {
   ArrowRight,
   MessageSquareText,
@@ -8,13 +10,10 @@ import {
   Activity,
   ShieldCheck,
   Building2,
-  CheckCircle2,
 } from "lucide-react";
 import { SiteShell } from "@/components/SiteShell";
+import { BeaconHeroPreview } from "@/components/BeaconHeroPreview";
 import { CategoryChip } from "@/components/Chips";
-import { StatusPill } from "@/components/StatusPill";
-import { SeverityBar } from "@/components/Severity";
-import { CorroborationBadge } from "@/components/Chips";
 import { useReports } from "@/lib/store";
 import { CATEGORIES } from "@/lib/types";
 import { CITY } from "@/lib/seed";
@@ -35,23 +34,30 @@ export default function LandingPage() {
         />
         <div className="gl-container relative grid gap-12 py-16 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:py-24">
           <div>
-            <span className="inline-flex items-center gap-2 rounded-full border border-navy-200 bg-white px-3 py-1 text-xs font-semibold text-navy-700 shadow-sm">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-400 opacity-75 motion-reduce:hidden" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-accent-500" />
-              </span>
-              City of {CITY.name} · Civic services
-            </span>
-            <h1 className="mt-5 text-4xl font-bold leading-[1.07] tracking-tight text-navy-900 sm:text-5xl lg:text-6xl">
+            <a
+              href="https://www.sanjoseca.gov"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block rounded focus-visible:ring-2 focus-visible:ring-accent-400"
+              aria-label="City of San Jose — Capital of Silicon Valley"
+            >
+              <Image
+                src={cityOfSanJoseLogo}
+                alt="City of San Jose — Capital of Silicon Valley"
+                width={cityOfSanJoseLogo.width}
+                height={cityOfSanJoseLogo.height}
+                className="h-20 w-auto sm:h-24"
+              />
+            </a>
+            <h1 className="mt-5 text-[2.125rem] font-bold leading-[1.07] tracking-tight text-navy-900 sm:text-[2.875rem] lg:text-[3.625rem]">
               Report a problem.
               <br />
               <span className="text-accent-500">Watch it get fixed.</span>
             </h1>
             <p className="mt-5 max-w-xl text-lg leading-relaxed text-ink-soft">
               GovLink is the direct line between {CITY.name} residents and city
-              hall for everyday issues — potholes, broken streetlights, water
-              leaks and more. Describe it in plain words; our assistant Beacon
-              handles the rest.
+              hall for everyday non-emergency issues. Broken streetlights, water
+              leaks, fallen trees, and more: describe it in plain words, file a report, and bring it to our attention.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link href="/report" className="btn-accent px-5 py-3 text-base">
@@ -68,46 +74,7 @@ export default function LandingPage() {
             </p>
           </div>
 
-          {/* Live sample report card */}
-          <div className="relative">
-            <div className="card animate-fade-in-up p-5 sm:p-6">
-              <div className="flex items-center justify-between gap-3">
-                <CategoryChip category="Roads & Sidewalks" />
-                <StatusPill status="in_progress" />
-              </div>
-              <p className="mt-4 text-sm leading-relaxed text-ink">
-                “Large, deep pothole in the right lane on Cedar St — cars are
-                swerving around it into oncoming traffic.”
-              </p>
-              <div className="mt-4">
-                <CorroborationBadge count={3} />
-              </div>
-              <div className="mt-5 border-t border-navy-100 pt-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-medium text-ink-muted">
-                    Severity
-                  </span>
-                  <span className="font-mono text-xs text-ink-muted">
-                    GL-9F4-2207
-                  </span>
-                </div>
-                <div className="mt-2">
-                  <SeverityBar severity={8} />
-                </div>
-              </div>
-            </div>
-            <div className="card absolute -bottom-6 -left-2 hidden w-52 animate-fade-in-up p-4 [animation-delay:120ms] sm:block">
-              <div className="flex items-center gap-2 text-emerald-600">
-                <CheckCircle2 className="h-5 w-5" aria-hidden="true" />
-                <span className="text-sm font-semibold text-navy-900">
-                  Streetlight fixed
-                </span>
-              </div>
-              <p className="mt-1 text-xs text-ink-muted">
-                Elm Ave · resolved in 3 days
-              </p>
-            </div>
-          </div>
+          <BeaconHeroPreview />
         </div>
       </section>
 

@@ -15,7 +15,7 @@ import {
   Camera,
   Mail,
 } from "lucide-react";
-import { LogoMark } from "./Logo";
+import { BeaconMark } from "./Logo";
 import { MediaUpload } from "./MediaUpload";
 import { CategoryChip } from "./Chips";
 import { LocationPicker } from "./map/LocationPickerDynamic";
@@ -759,9 +759,7 @@ function BeaconBubble({ text, intent }: { text: string; intent?: BeaconIntent })
   const redirect = intent === "redirect";
   return (
     <div className="flex items-start gap-2.5">
-      <span className="mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-navy-900">
-        <LogoMark className="h-5 w-5" />
-      </span>
+      <BeaconMark className="mt-0.5" />
       <div className="min-w-0 max-w-[85%]">
         <div
           className={cx(
@@ -819,9 +817,7 @@ function UserBubble({ text }: { text: string }) {
 function TypingBubble() {
   return (
     <div className="flex items-center gap-2.5" aria-hidden="true">
-      <span className="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-navy-900">
-        <LogoMark className="h-5 w-5" />
-      </span>
+      <BeaconMark />
       <div className="flex items-center gap-1 rounded-2xl rounded-tl-sm bg-navy-50 px-4 py-3">
         <span className="typing-dot" />
         <span className="typing-dot" />

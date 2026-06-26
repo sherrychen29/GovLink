@@ -10,6 +10,7 @@ import type {
   ChatLogEntry,
   Report,
   ReportStatus,
+  ServicePriority,
   Submission,
 } from "./types";
 import { clamp } from "./beacon-logic";
@@ -82,7 +83,7 @@ function svgPhoto(label: string, from: string, to: string): string {
   return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
 }
 
-interface SeedInput {
+export interface SeedReportInput {
   id: string;
   category: Category;
   description: string;
@@ -109,13 +110,18 @@ interface SeedInput {
   internalNotes?: Array<{ text: string; daysAgo: number }>;
   resolution?: { note: string; rejected: boolean; resolvedAt: string };
   chatLog?: ChatLogEntry[];
+  formalTitle?: string;
+  formalDescription?: string;
+  residentDescription?: string;
+  servicePriority?: ServicePriority;
 }
 
-function buildReport(s: SeedInput): Report {
+export function buildReportFromSeed(s: SeedReportInput): Report {
+  const residentText = s.residentDescription ?? s.description;
   const submissions: Submission[] = [
     {
       id: `sub_${s.id}_0`,
-      description: s.description,
+      description: residentText,
       createdAt: s.createdAt,
       contact: {
         name: s.anonymous ? undefined : s.contactName,
@@ -123,6 +129,7 @@ function buildReport(s: SeedInput): Report {
         phone: s.anonymous ? undefined : s.contactPhone,
         anonymous: !!s.anonymous,
       },
+      chatLog: s.chatLog,
     },
     ...(s.extraSubmissions || []).map((e, i) => ({
       id: `sub_${s.id}_${i + 1}`,
@@ -151,8 +158,11 @@ function buildReport(s: SeedInput): Report {
 
   return {
     id: s.id,
+    formalTitle: s.formalTitle,
     category: s.category,
-    description: s.description,
+    description: s.formalDescription ?? s.description,
+    residentDescription: residentText,
+    servicePriority: s.servicePriority,
     location: {
       lat: s.lat,
       lng: s.lng,
@@ -194,7 +204,7 @@ function buildReport(s: SeedInput): Report {
 
 const c = CITY.center;
 
-const SEED_INPUTS: SeedInput[] = [
+const SEED_INPUTS: SeedReportInput[] = [
   // --- Merged / corroborated set: a deep pothole reported by 3 residents -----
   {
     id: "GL-9F4-2207",
@@ -470,7 +480,7 @@ const SEED_INPUTS: SeedInput[] = [
 ];
 
 export function buildSeedReports(): Report[] {
-  return SEED_INPUTS.map(buildReport).sort(
+  return SEED_INPUTS.map(buildReportFromSeed).sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
   );
 }
