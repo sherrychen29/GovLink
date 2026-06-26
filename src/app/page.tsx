@@ -9,6 +9,7 @@ import {
   Activity,
   ShieldCheck,
   Building2,
+  UserRound,
 } from "lucide-react";
 import { SiteShell } from "@/components/SiteShell";
 import { BeaconHeroPreview } from "@/components/BeaconHeroPreview";
@@ -62,13 +63,14 @@ export default function LandingPage() {
               hall for everyday non-emergency issues. Broken streetlights, water
               leaks, fallen trees, and more: describe it in plain words, file a report, and bring it to our attention.
             </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link href="/report" className="btn-accent px-5 py-3 text-base">
-                Report an issue
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+              <Link href="/report" className="btn-accent flex-1 flex-col gap-2 py-6 text-lg sm:flex-row sm:py-5">
+                <UserRound className="h-7 w-7" aria-hidden="true" />
+                Report an Issue
               </Link>
-              <Link href="/track" className="btn-outline px-5 py-3 text-base">
-                Track a report
+              <Link href="/track" className="btn-primary flex-1 flex-col gap-2 py-6 text-lg sm:flex-row sm:py-5">
+                <Building2 className="h-7 w-7" aria-hidden="true" />
+                Track an Issue
               </Link>
             </div>
             <p className="mt-4 text-xs text-ink-muted">

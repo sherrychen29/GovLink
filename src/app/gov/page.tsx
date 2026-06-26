@@ -2,14 +2,13 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import {
   Map as MapIcon,
   List,
   LogOut,
   ExternalLink,
-  Home,
   CircleCheck,
   Loader2,
   Inbox,
@@ -42,6 +41,7 @@ const ReportMap = dynamic(() => import("@/components/map/ReportMap"), {
 
 export default function GovDashboardPage() {
   const router = useRouter();
+  const pathname = usePathname();
   const { user, hydrated } = useCurrentUser();
   const { reports } = useReports();
 
@@ -116,42 +116,66 @@ export default function GovDashboardPage() {
 
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-slate-50">
-      {/* Header */}
-      <header className="z-30 flex h-16 shrink-0 items-center justify-between border-b border-navy-100 bg-white px-4 sm:px-6">
-        <div className="flex items-center gap-3">
-          <Logo showWordmark={false} markClassName="h-8 w-8" />
-          <div>
-            <h1 className="text-sm font-bold text-navy-900">
-              Operations dashboard
-            </h1>
-            <p className="text-xs text-ink-muted">{user.displayName}</p>
-          </div>
+      {/* Header — matches citizen nav exactly */}
+      <header className="z-30 shrink-0 bg-navy-900 shadow-md shadow-navy-950/20">
+        <div className="gl-container flex h-16 items-center justify-between gap-4">
+        {/* Logo — same layout as citizen nav */}
+        <Link href="/" className="flex flex-col gap-0.5">
+          <Logo markClassName="h-8 w-auto brightness-0 invert" />
+          <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-accent-200/90 sm:text-xs">
+            CITY OF SAN JOSE
+          </span>
+        </Link>
+
+        {/* Nav links — no icons, same style as citizen nav */}
+        <nav className="hidden items-center gap-1 sm:flex">
+          {[
+            { href: "/gov", label: "Dashboard" },
+            { href: "/", label: "Public Site" },
+          ].map((item) => {
+            const active = pathname === item.href;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-current={active ? "page" : undefined}
+                className={cx(
+                  "relative rounded-md px-4 py-2.5 text-xs font-semibold uppercase tracking-wider transition-colors",
+                  active ? "text-white" : "text-navy-200 hover:text-white"
+                )}
+              >
+                {item.label}
+                {active && (
+                  <span
+                    aria-hidden="true"
+                    className="absolute inset-x-3 bottom-1 h-[3px] rounded-full bg-accent-400"
+                  />
+                )}
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* Sign out — same border-2 white outline style as citizen nav buttons */}
+        <button
+          type="button"
+          onClick={() => { logout(); router.push("/"); }}
+          className="btn border-2 border-white bg-white/10 font-semibold text-white hover:bg-white hover:text-navy-900"
+        >
+          <LogOut className="h-4 w-4" aria-hidden="true" />
+          <span className="hidden sm:inline">Sign out</span>
+        </button>
         </div>
-        <div className="flex items-center gap-2">
-          <Link href="/" className="btn-ghost hidden sm:inline-flex">
-            <Home className="h-4 w-4" aria-hidden="true" />
-            Home
-          </Link>
-          <Link href="/resolved" className="btn-ghost hidden sm:inline-flex">
-            <ExternalLink className="h-4 w-4" aria-hidden="true" />
-            Public site
-          </Link>
-          <button
-            type="button"
-            onClick={() => {
-              logout();
-              router.push("/");
-            }}
-            className="btn-outline"
-          >
-            <LogOut className="h-4 w-4" aria-hidden="true" />
-            <span className="hidden sm:inline">Sign out</span>
-          </button>
+        <div className="border-t border-navy-800 bg-navy-950">
+          <p className="gl-container py-1.5 text-[11px] text-navy-400 sm:text-xs">
+            San Jose City Operations · Staff portal
+          </p>
         </div>
       </header>
 
       {/* Stats + view toggle */}
-      <div className="z-20 flex shrink-0 flex-col gap-3 border-b border-navy-100 bg-white px-4 py-3 sm:px-6 lg:flex-row lg:items-center lg:justify-between">
+      <div className="z-20 shrink-0 border-b border-navy-100 bg-white">
+      <div className="gl-container flex flex-col gap-3 py-3 lg:flex-row lg:items-center lg:justify-between">
         <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
           {stats.open} reports · {stats.critical} critical · {stats.resolved} resolved
         </p>
@@ -198,14 +222,17 @@ export default function GovDashboardPage() {
           </div>
         </div>
       </div>
+      </div>
 
       {/* Filters — collapsible top bar */}
-      <div className="z-10 shrink-0 border-b border-navy-100 bg-white px-4 py-3 sm:px-6">
+      <div className="z-10 shrink-0 border-b border-navy-100 bg-white">
+      <div className="gl-container py-3">
         <FilterPanel
           filters={filters}
           onChange={setFilters}
           showStatusFilter={view !== "resolved"}
         />
+      </div>
       </div>
 
       {/* Main content */}
@@ -256,7 +283,8 @@ export default function GovDashboardPage() {
             </div>
           </div>
         ) : view === "resolved" || view === "list" ? (
-          <div className="h-full overflow-y-auto p-4 sm:p-6">
+          <div className="h-full overflow-y-auto">
+          <div className="gl-container py-4 sm:py-6">
             <p className="mb-3 text-sm text-ink-muted">
               {visible.length} report{visible.length === 1 ? "" : "s"} · ranked by{" "}
               {SORT_LABELS[sort]}
@@ -269,6 +297,7 @@ export default function GovDashboardPage() {
               onSortChange={setSort}
               showStatus={view === "list"}
             />
+          </div>
           </div>
         ) : null}
       </main>

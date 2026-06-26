@@ -67,14 +67,14 @@ export function BeaconHeroPreview({ className }: { className?: string }) {
         <div className="flex justify-start">
           <div className="w-full max-w-[95%] rounded-2xl border border-navy-200 bg-white p-4 shadow-sm">
             <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-navy-900">
-              <span className="grid h-7 w-7 place-items-center rounded-lg bg-navy-900 text-accent-300">
+              <span className="grid h-7 w-7 place-items-center rounded-lg bg-navy-900 text-[#1fc7ef]">
                 <MapPin className="h-4 w-4" aria-hidden="true" />
               </span>
               Pin the location
             </div>
             <div className="overflow-hidden rounded-lg border border-navy-200 bg-navy-50">
               <div className="flex h-24 items-center justify-center bg-[linear-gradient(135deg,#e8eef6_25%,#d4dce8_25%,#d4dce8_50%,#e8eef6_50%,#e8eef6_75%,#d4dce8_75%,#d4dce8)] bg-[length:16px_16px]">
-                <MapPin className="h-6 w-6 text-accent-500" aria-hidden="true" />
+                <MapPin className="h-6 w-6 text-[#1fc7ef]" aria-hidden="true" />
               </div>
             </div>
             <p className="mt-2 text-sm text-navy-900">Elm St &amp; 22nd St, San Jose</p>

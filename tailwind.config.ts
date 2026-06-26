@@ -19,19 +19,19 @@ const config: Config = {
           900: "#0b2447",
           950: "#06152e",
         },
-        // Confident civic cyan — used sparingly for CTAs, focus, status.
+        // San Jose civic tan/bronze — official #B08861, used for CTAs, focus, status.
         accent: {
-          50: "#ecfdff",
-          100: "#cef6fe",
-          200: "#a2ecfc",
-          300: "#63ddf8",
-          400: "#1fc7ef",
-          500: "#06a6d4",
-          600: "#0a85b2",
-          700: "#106a8f",
-          800: "#175874",
-          900: "#174962",
-          950: "#0a2f43",
+          50: "#faf5ef",
+          100: "#f2e8da",
+          200: "#e4d0b6",
+          300: "#d2b38a",
+          400: "#be9a6e",
+          500: "#b08861",
+          600: "#9a7250",
+          700: "#7e5c42",
+          800: "#684c38",
+          900: "#573f30",
+          950: "#2e2019",
         },
         ink: {
           DEFAULT: "#0b1220",
@@ -47,7 +47,7 @@ const config: Config = {
         card: "0 1px 2px rgba(11, 36, 71, 0.04), 0 8px 24px -12px rgba(11, 36, 71, 0.18)",
         "card-hover":
           "0 2px 4px rgba(11, 36, 71, 0.06), 0 16px 40px -16px rgba(11, 36, 71, 0.28)",
-        focus: "0 0 0 3px rgba(31, 199, 239, 0.45)",
+        focus: "0 0 0 3px rgba(176, 136, 97, 0.45)",
       },
       borderRadius: {
         xl: "0.875rem",

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Menu, X, UserRound, LogOut, LayoutDashboard } from "lucide-react";
+import { Menu, X, LogOut, LayoutDashboard } from "lucide-react";
 import { Logo } from "./Logo";
 import { useCurrentUser, logout } from "@/lib/store";
 import { CITY_PARTNERS } from "@/lib/partners";
@@ -16,11 +16,11 @@ const NAV = [
   { href: "/resolved", label: "Resolved issues" },
 ];
 
-// Button styles tuned for a solid navy header — light text, solid navy hovers.
+// Button styles tuned for a solid navy header — high contrast, clearly visible.
 const NAVY_OUTLINE_BTN =
-  "btn border border-navy-600 text-white hover:bg-navy-800";
+  "btn border-2 border-white bg-white/10 text-white font-semibold hover:bg-white hover:text-navy-900";
 const NAVY_GHOST_BTN =
-  "btn text-navy-100 hover:bg-navy-800 hover:text-white";
+  "btn border-2 border-white/60 text-white font-semibold hover:border-white hover:bg-white hover:text-navy-900";
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -33,12 +33,7 @@ export function SiteHeader() {
       ? pathname === "/"
       : pathname === href || pathname.startsWith(href + "/");
 
-  const dashboardHref =
-    user?.role === "government"
-      ? "/gov"
-      : user
-        ? "/account"
-        : "/login";
+  const isGov = hydrated && user?.role === "government";
 
   return (
     <header className="sticky top-0 z-50 border-b border-navy-800 bg-navy-900 shadow-md shadow-navy-950/20">
@@ -82,32 +77,26 @@ export function SiteHeader() {
         </nav>
 
         <div className="hidden items-center gap-2 md:flex">
-          <Link href={dashboardHref} className={NAVY_OUTLINE_BTN}>
-            <LayoutDashboard className="h-4 w-4" aria-hidden="true" />
-            Dashboard
-          </Link>
-          {hydrated && user?.role === "citizen" && (
+          {isGov && (
             <>
-              <Link href="/account" className={NAVY_GHOST_BTN}>
-                <UserRound className="h-4 w-4" aria-hidden="true" />
-                {user.displayName.split(" ")[0]}
-              </Link>
               <button
                 type="button"
-                onClick={() => {
-                  logout();
-                  router.push("/");
-                }}
-                className={NAVY_OUTLINE_BTN}
+                onClick={() => { logout(); router.push("/"); }}
+                className={NAVY_GHOST_BTN}
               >
                 <LogOut className="h-4 w-4" aria-hidden="true" />
                 Sign out
               </button>
+              <Link href="/gov" className={NAVY_OUTLINE_BTN}>
+                <LayoutDashboard className="h-4 w-4" aria-hidden="true" />
+                Dashboard
+              </Link>
             </>
           )}
-          {!user && (
-            <Link href="/login" className={NAVY_GHOST_BTN}>
-              Sign in
+          {hydrated && !isGov && (
+            <Link href="/login?role=government" className={NAVY_OUTLINE_BTN}>
+              <LayoutDashboard className="h-4 w-4" aria-hidden="true" />
+              Government Login
             </Link>
           )}
         </div>
@@ -168,37 +157,25 @@ export function SiteHeader() {
               </Link>
             ))}
             <div className="mt-2 flex flex-col gap-2 border-t border-navy-800 pt-3">
-              <Link
-                href={dashboardHref}
-                className={NAVY_OUTLINE_BTN}
-                onClick={() => setOpen(false)}
-              >
-                <LayoutDashboard className="h-4 w-4" aria-hidden="true" />
-                Dashboard
-              </Link>
-              {hydrated && user?.role === "citizen" && (
+              {isGov ? (
                 <>
-                  <Link href="/account" className={NAVY_OUTLINE_BTN} onClick={() => setOpen(false)}>
-                    <UserRound className="h-4 w-4" aria-hidden="true" />
-                    My reports
-                  </Link>
                   <button
                     type="button"
                     className={cx(NAVY_GHOST_BTN, "justify-start")}
-                    onClick={() => {
-                      logout();
-                      setOpen(false);
-                      router.push("/");
-                    }}
+                    onClick={() => { logout(); setOpen(false); router.push("/"); }}
                   >
                     <LogOut className="h-4 w-4" aria-hidden="true" />
                     Sign out
                   </button>
+                  <Link href="/gov" className={NAVY_OUTLINE_BTN} onClick={() => setOpen(false)}>
+                    <LayoutDashboard className="h-4 w-4" aria-hidden="true" />
+                    Dashboard
+                  </Link>
                 </>
-              )}
-              {!user && (
-                <Link href="/login" className={NAVY_OUTLINE_BTN} onClick={() => setOpen(false)}>
-                  Sign in
+              ) : (
+                <Link href="/login?role=government" className={NAVY_OUTLINE_BTN} onClick={() => setOpen(false)}>
+                  <LayoutDashboard className="h-4 w-4" aria-hidden="true" />
+                  Government Login
                 </Link>
               )}
             </div>
