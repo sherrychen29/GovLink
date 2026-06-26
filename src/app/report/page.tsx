@@ -150,18 +150,18 @@ export default function ReportPage() {
                 onFiled={setResult}
                 onChatEnded={setChatEnded}
               />
-              <div className="mt-4">
-                <BeaconCapabilities />
-              </div>
               {chatEnded && (
                 <button
                   type="button"
                   onClick={() => window.location.reload()}
-                  className="btn-outline mt-4 w-full py-3.5 text-base"
+                  className="btn mt-4 w-full border-2 border-navy-900 bg-white py-3.5 text-base font-semibold text-navy-900 hover:bg-navy-50"
                 >
                   Report a new issue
                 </button>
               )}
+              <div className="mt-4">
+                <BeaconCapabilities />
+              </div>
             </section>
           ) : (
             <ManualForm

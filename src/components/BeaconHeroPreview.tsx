@@ -44,7 +44,6 @@ export function BeaconHeroPreview({ className }: { className?: string }) {
         <BeaconMark size="md" />
         <div>
           <p className="text-sm font-semibold text-navy-900">Beacon</p>
-          <p className="text-xs text-ink-muted">Intake assistant</p>
         </div>
       </header>
 
