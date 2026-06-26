@@ -36,7 +36,7 @@ export function SiteHeader() {
   const isGov = hydrated && user?.role === "government";
 
   return (
-    <header className="sticky top-0 z-50 border-b border-navy-800 bg-navy-900 shadow-md shadow-navy-950/20">
+    <header className="sticky top-0 z-[1100] border-b border-navy-800 bg-navy-900 shadow-md shadow-navy-950/20">
       <div className="gl-container flex min-h-16 items-center justify-between gap-4 py-2">
         <Link
           href="/"

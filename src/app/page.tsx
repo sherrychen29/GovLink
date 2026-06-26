@@ -3,16 +3,23 @@
 import Link from "next/link";
 import Image from "next/image";
 import {
-  MessageSquareText,
   MapPin,
-  Activity,
   Building2,
   UserRound,
+  Zap,
+  Users,
+  Route,
+  Check,
+  Loader2,
+  ChevronRight,
 } from "lucide-react";
 import { SiteShell } from "@/components/SiteShell";
 import { BeaconHeroPreview } from "@/components/BeaconHeroPreview";
+import { BeaconMark } from "@/components/Logo";
 import { CategoryIcon } from "@/components/CategoryIcon";
 import { CATEGORIES } from "@/lib/types";
+import { severityMeta } from "@/lib/meta";
+import { cx } from "@/lib/utils";
 import { CITY } from "@/lib/seed";
 
 export default function LandingPage() {
@@ -76,53 +83,7 @@ export default function LandingPage() {
       </section>
 
       {/* How it works ---------------------------------------------------- */}
-      <section className="gl-container py-16 lg:py-20">
-        <div className="max-w-2xl">
-          <h2 className="text-2xl font-bold tracking-tight text-navy-900 sm:text-3xl">
-            Reporting an issue takes a minute
-          </h2>
-          <p className="mt-3 text-ink-soft">
-            No forms to decode. Just tell Beacon what&apos;s wrong and where —
-            it builds a complete, standardized report for the right city team.
-          </p>
-        </div>
-        <div className="mt-10 grid gap-5 md:grid-cols-3">
-          {[
-            {
-              icon: MessageSquareText,
-              title: "Describe it",
-              body: "Tell Beacon what you see in plain language. It asks only the questions it needs to file a clear report.",
-            },
-            {
-              icon: MapPin,
-              title: "Pinpoint it",
-              body: "Share your location automatically or drop a pin on the map. Add a photo if you have one.",
-            },
-            {
-              icon: Activity,
-              title: "Track it",
-              body: "Get a tracking ID and follow your report from Sent to Resolved — no chasing required.",
-            },
-          ].map((step, i) => (
-            <div key={step.title} className="card p-6">
-              <div className="flex items-center gap-3">
-                <div className="grid h-10 w-10 place-items-center rounded-xl bg-navy-900 text-accent-300">
-                  <step.icon className="h-5 w-5" aria-hidden="true" />
-                </div>
-                <span className="text-xs font-bold uppercase tracking-wider text-accent-600">
-                  Step {i + 1}
-                </span>
-              </div>
-              <h3 className="mt-4 text-lg font-semibold text-navy-900">
-                {step.title}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-ink-soft">
-                {step.body}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
+      <HowItWorks />
 
       {/* Categories ------------------------------------------------------ */}
       <section className="border-y border-navy-100 bg-white py-16">
@@ -163,7 +124,7 @@ export default function LandingPage() {
           },
           {
             href: "/login",
-            title: "City Staff",
+            title: "City Staff Dashboard",
             image: "/images/city-staff.jpeg",
             alt: "City of San Jose staff gathered for a community cleanup",
           },
@@ -191,5 +152,227 @@ export default function LandingPage() {
         ))}
       </section>
     </SiteShell>
+  );
+}
+
+/* ====================================================================== */
+/*  How it works — the life of one report, shown end-to-end               */
+/* ====================================================================== */
+
+const sev = severityMeta(4);
+
+function HowItWorks() {
+  return (
+    <section className="border-b border-navy-100 bg-gradient-to-b from-white to-navy-50/40 py-16 lg:py-24">
+      <div className="gl-container">
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="text-2xl font-bold tracking-tight text-navy-900 sm:text-3xl lg:text-4xl">
+            How GovLink works
+          </h2>
+        </div>
+
+        {/* Three stages, connected left → right on desktop */}
+        <div className="mt-12 grid gap-6 md:grid-cols-[1fr_auto_1fr_auto_1fr] md:items-stretch md:gap-2">
+          <Stage n={1} kicker="You describe it" title="Say it like you'd text a neighbor">
+            <div className="flex justify-end">
+              <p className="max-w-[92%] rounded-2xl rounded-tr-sm bg-navy-900 px-3.5 py-2.5 text-sm leading-relaxed text-white">
+                The streetlight at Elm &amp; 22nd has been out for about a week.
+              </p>
+            </div>
+            <div className="my-3 flex items-center gap-2 pl-1">
+              <BeaconMark size="sm" />
+              <span className="text-xs font-semibold uppercase tracking-wide text-accent-600">
+                Beacon turns it into a ticket
+              </span>
+            </div>
+            {/* structured ticket */}
+            <div className="rounded-xl border border-navy-100 bg-white p-3.5 shadow-sm">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-yellow-50 px-2.5 py-1 text-xs font-semibold text-yellow-700 ring-1 ring-yellow-200">
+                  <Zap className="h-3.5 w-3.5" aria-hidden="true" />
+                  Electricity / Power
+                </span>
+                <span
+                  className={cx(
+                    "rounded-full px-2.5 py-1 text-xs font-semibold ring-1",
+                    sev.chip
+                  )}
+                >
+                  Severity 4 · {sev.label}
+                </span>
+              </div>
+              <div className="mt-3 flex items-center gap-1.5 text-sm font-medium text-navy-800">
+                <MapPin className="h-4 w-4 text-navy-400" aria-hidden="true" />
+                Elm St &amp; 22nd St, San Jose
+              </div>
+            </div>
+          </Stage>
+
+          <Connector />
+
+          <Stage n={2} kicker="The city connects it" title="One pin on a smarter map">
+            {/* mini map */}
+            <div className="relative overflow-hidden rounded-xl border border-navy-100">
+              <div className="h-32 bg-[linear-gradient(135deg,#e8eef6_25%,#d4dce8_25%,#d4dce8_50%,#e8eef6_50%,#e8eef6_75%,#d4dce8_75%,#d4dce8)] bg-[length:16px_16px]" />
+              {/* corroborating pins */}
+              <Pin className="left-[22%] top-[58%]" color="#16a34a" />
+              <Pin className="left-[64%] top-[30%]" color="#eab308" />
+              {/* the focal pin */}
+              <span className="absolute left-[42%] top-[44%] -translate-x-1/2 -translate-y-full">
+                <span className="absolute inset-0 -z-10 animate-ping rounded-full bg-accent-400/40" />
+                <MapPin
+                  className="h-7 w-7 fill-accent-500 text-white drop-shadow"
+                  aria-hidden="true"
+                />
+              </span>
+            </div>
+            <div className="mt-3.5 space-y-2.5">
+              <p className="flex items-center gap-2 text-sm text-navy-800">
+                <Users className="h-4 w-4 shrink-0 text-accent-600" aria-hidden="true" />
+                <span>
+                  <strong className="font-semibold">3 neighbors</strong> flagged the
+                  same light — ranked higher
+                </span>
+              </p>
+              <p className="flex items-center gap-2 text-sm text-navy-800">
+                <Route className="h-4 w-4 shrink-0 text-accent-600" aria-hidden="true" />
+                <span>
+                  Auto-routed to <strong className="font-semibold">Dept. of
+                  Transportation</strong>
+                </span>
+              </p>
+            </div>
+          </Stage>
+
+          <Connector />
+
+          <Stage n={3} kicker="You watch it close" title="Live status, no chasing">
+            <ol className="space-y-0">
+              <Step icon={<Check className="h-4 w-4" />} label="Sent" sub="Jun 24 · 9:14 AM" done first />
+              <Step icon={<Check className="h-4 w-4" />} label="Opened by city staff" sub="Jun 24 · 2:03 PM" done />
+              <Step
+                icon={<Loader2 className="h-4 w-4 motion-safe:animate-spin" />}
+                label="In progress"
+                sub="Crew dispatched"
+                done
+                current
+              />
+              <Step icon={<Check className="h-4 w-4" />} label="Resolved" sub="Pending" />
+            </ol>
+            <div className="mt-4 flex items-center justify-between rounded-xl bg-navy-900 px-3.5 py-2.5">
+              <span className="text-xs font-medium text-navy-300">Tracking ID</span>
+              <span className="font-mono text-sm font-bold tracking-wide text-accent-300">
+                GL-7H4N-9B
+              </span>
+            </div>
+          </Stage>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Stage({
+  n,
+  kicker,
+  title,
+  children,
+}: {
+  n: number;
+  kicker: string;
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="card flex flex-col p-5 sm:p-6">
+      <div className="flex items-center gap-3">
+        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-navy-900 text-sm font-bold text-accent-300">
+          {n}
+        </span>
+        <div>
+          <p className="text-[11px] font-bold uppercase tracking-wider text-accent-600">
+            {kicker}
+          </p>
+          <h3 className="text-base font-semibold leading-tight text-navy-900">
+            {title}
+          </h3>
+        </div>
+      </div>
+      <div className="mt-5">{children}</div>
+    </div>
+  );
+}
+
+/** Chevron between stages — horizontal on desktop, hidden (stacked) on mobile. */
+function Connector() {
+  return (
+    <div className="hidden items-center justify-center md:flex" aria-hidden="true">
+      <ChevronRight className="h-6 w-6 text-navy-300" />
+    </div>
+  );
+}
+
+function Pin({ className, color }: { className: string; color: string }) {
+  return (
+    <MapPin
+      className={cx("absolute h-5 w-5 -translate-x-1/2 -translate-y-full drop-shadow", className)}
+      style={{ fill: color, color: "#fff" }}
+      aria-hidden="true"
+    />
+  );
+}
+
+function Step({
+  icon,
+  label,
+  sub,
+  done = false,
+  current = false,
+  first = false,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  sub: string;
+  done?: boolean;
+  current?: boolean;
+  first?: boolean;
+}) {
+  return (
+    <li className="relative flex gap-3 pb-5 last:pb-0">
+      {/* connector line */}
+      {!first && (
+        <span
+          className={cx(
+            "absolute left-[15px] top-[-12px] h-[12px] w-0.5",
+            done ? "bg-accent-400" : "bg-navy-100"
+          )}
+          aria-hidden="true"
+        />
+      )}
+      <span
+        className={cx(
+          "relative z-10 grid h-8 w-8 shrink-0 place-items-center rounded-full ring-4 ring-white",
+          done ? "bg-accent-500 text-white" : "bg-navy-100 text-navy-400"
+        )}
+      >
+        {icon}
+      </span>
+      <div className="pt-0.5">
+        <p
+          className={cx(
+            "text-sm font-semibold leading-tight",
+            done ? "text-navy-900" : "text-navy-400"
+          )}
+        >
+          {label}
+          {current && (
+            <span className="ml-2 rounded-full bg-accent-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-accent-700">
+              Now
+            </span>
+          )}
+        </p>
+        <p className={cx("text-xs", done ? "text-ink-muted" : "text-navy-300")}>{sub}</p>
+      </div>
+    </li>
   );
 }

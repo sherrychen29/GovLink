@@ -13,6 +13,7 @@ import {
   MessageSquareText,
   Loader2,
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { SiteShell } from "@/components/SiteShell";
 import { BeaconCapabilities } from "@/components/BeaconIntake";
 import { LocationPicker } from "@/components/map/LocationPickerDynamic";
@@ -42,6 +43,36 @@ const BeaconIntake = dynamic(
 );
 
 type ReportMode = "chat" | "manual";
+
+const MODE_TOGGLE_BTN =
+  "flex h-20 w-20 flex-col items-center justify-center rounded-full border-2 border-accent-300 bg-white text-navy-700 shadow-md transition-colors hover:border-accent-500 hover:bg-accent-100";
+
+function ModeToggleButton({
+  label,
+  icon: Icon,
+  onClick,
+  ariaLabel,
+}: {
+  label: string;
+  icon: LucideIcon;
+  onClick: () => void;
+  ariaLabel: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={ariaLabel}
+      title={ariaLabel}
+      className={MODE_TOGGLE_BTN}
+    >
+      <Icon className="h-8 w-8" aria-hidden="true" />
+      <span className="mt-1.5 text-[11px] font-bold leading-none tracking-wide text-navy-600">
+        {label}
+      </span>
+    </button>
+  );
+}
 
 export default function ReportPage() {
   const { user } = useCurrentUser();
@@ -73,24 +104,30 @@ export default function ReportPage() {
 
   return (
     <SiteShell>
+      <div className="fixed right-4 top-[6.75rem] z-[1050] sm:right-6 lg:right-8">
+        {mode === "chat" ? (
+          <ModeToggleButton
+            label="Manual"
+            icon={PenLine}
+            onClick={() => setMode("manual")}
+            ariaLabel="Enter manually"
+          />
+        ) : (
+          <ModeToggleButton
+            label="Beacon"
+            icon={MessageSquareText}
+            onClick={() => setMode("chat")}
+            ariaLabel="Back to Beacon"
+          />
+        )}
+      </div>
+
       {mode === "chat" ? (
-        <div className="flex min-h-[calc(100vh-8rem)] flex-col bg-navy-900">
-          <div className="border-b border-white/10">
-            <div className="gl-container flex flex-col gap-4 py-5 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <h1 className="text-xl font-bold tracking-tight text-white sm:text-2xl">
-                  Report an issue
-                </h1>
-              </div>
-              <button
-                type="button"
-                onClick={() => setMode("manual")}
-                className="inline-flex shrink-0 items-center gap-2 self-start rounded-lg border border-white/20 bg-white/5 px-3.5 py-2 text-sm font-semibold text-white transition-colors hover:border-white/30 hover:bg-white/10"
-              >
-                <PenLine className="h-4 w-4" aria-hidden="true" />
-                Enter manually
-              </button>
-            </div>
+        <div className="flex min-h-[calc(100vh-8rem)] flex-col bg-accent-50">
+          <div className="gl-container py-6 text-center">
+            <h1 className="text-xl font-bold tracking-tight text-navy-900 sm:text-2xl">
+              Report an issue
+            </h1>
           </div>
 
           <div className="gl-container flex flex-1 flex-col py-4 lg:py-8">
@@ -122,7 +159,6 @@ export default function ReportPage() {
           location={location}
           onLocationChange={setLocation}
           filing={filing}
-          onBack={() => setMode("chat")}
           onSubmit={async () => {
             if (!category || !location || !description.trim()) return;
             setFiling(true);
@@ -164,7 +200,6 @@ function ManualForm({
   location,
   onLocationChange,
   filing,
-  onBack,
   onSubmit,
 }: {
   category: Category | "";
@@ -174,13 +209,12 @@ function ManualForm({
   location: ReportLocation | null;
   onLocationChange: (l: ReportLocation | null) => void;
   filing: boolean;
-  onBack: () => void;
   onSubmit: () => void;
 }) {
   return (
-    <div className="gl-container max-w-2xl py-8 lg:py-10">
-      <div className="mb-6 flex items-start justify-between gap-4">
-        <div>
+    <div className="min-h-screen bg-accent-50">
+      <div className="gl-container max-w-2xl py-8 lg:py-10">
+        <div className="mb-6 text-center">
           <h1 className="text-2xl font-bold tracking-tight text-navy-900">
             Enter report manually
           </h1>
@@ -188,59 +222,55 @@ function ManualForm({
             Fill out the form directly — no chat required.
           </p>
         </div>
-        <button type="button" onClick={onBack} className="btn-outline shrink-0">
-          <MessageSquareText className="h-4 w-4" aria-hidden="true" />
-          Back to Beacon
-        </button>
-      </div>
 
-      <div className="card space-y-4 p-5 sm:p-6">
-        <div>
-          <label htmlFor="manual-category" className="field-label">
-            Category
-          </label>
-          <select
-            id="manual-category"
-            className="field-input"
-            value={category}
-            onChange={(e) => onCategoryChange(e.target.value as Category)}
+        <div className="card space-y-4 p-5 sm:p-6">
+          <div>
+            <label htmlFor="manual-category" className="field-label">
+              Category
+            </label>
+            <select
+              id="manual-category"
+              className="field-input"
+              value={category}
+              onChange={(e) => onCategoryChange(e.target.value as Category)}
+            >
+              <option value="">Select…</option>
+              {CATEGORIES.map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label htmlFor="manual-desc" className="field-label">
+              Description
+            </label>
+            <textarea
+              id="manual-desc"
+              rows={4}
+              className="field-input resize-none"
+              value={description}
+              onChange={(e) => onDescriptionChange(e.target.value)}
+            />
+          </div>
+          <div>
+            <span className="field-label">Location</span>
+            <LocationPicker value={location} onChange={onLocationChange} />
+          </div>
+          <button
+            type="button"
+            onClick={onSubmit}
+            disabled={filing || !category || !description.trim() || !location}
+            className="btn-accent w-full py-3"
           >
-            <option value="">Select…</option>
-            {CATEGORIES.map((c) => (
-              <option key={c} value={c}>
-                {c}
-              </option>
-            ))}
-          </select>
+            {filing ? "Formatting & submitting…" : "Submit report"}
+          </button>
+          <p className="mt-2 text-center text-xs text-ink-muted">
+            Beacon will verify the category, assign a priority rating, and format
+            your report for city staff before filing.
+          </p>
         </div>
-        <div>
-          <label htmlFor="manual-desc" className="field-label">
-            Description
-          </label>
-          <textarea
-            id="manual-desc"
-            rows={4}
-            className="field-input resize-none"
-            value={description}
-            onChange={(e) => onDescriptionChange(e.target.value)}
-          />
-        </div>
-        <div>
-          <span className="field-label">Location</span>
-          <LocationPicker value={location} onChange={onLocationChange} />
-        </div>
-        <button
-          type="button"
-          onClick={onSubmit}
-          disabled={filing || !category || !description.trim() || !location}
-          className="btn-accent w-full py-3"
-        >
-          {filing ? "Formatting & submitting…" : "Submit report"}
-        </button>
-        <p className="mt-2 text-center text-xs text-ink-muted">
-          Beacon will verify the category, assign a priority rating, and format
-          your report for city staff before filing.
-        </p>
       </div>
     </div>
   );
