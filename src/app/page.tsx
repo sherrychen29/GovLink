@@ -92,8 +92,9 @@ export default function LandingPage() {
             What you can report
           </h2>
           <p className="mt-2 text-ink-soft">
-            From a flickering streetlight to a downed branch — if it&apos;s a
-            non-emergency city issue, it belongs here.
+            Report non-emergency public infrastructure and service issues in your
+            neighborhood or citywide so the City of San Jose can investigate
+            and address them.
           </p>
           <div className="mt-9 flex flex-wrap justify-center gap-x-6 gap-y-8 sm:justify-start">
             {CATEGORIES.map((c) => (

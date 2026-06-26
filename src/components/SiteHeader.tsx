@@ -49,7 +49,7 @@ export function SiteHeader() {
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-1 md:flex" aria-label="Primary">
+        <nav className="hidden items-center gap-1.5 md:flex" aria-label="Primary">
           {NAV.map((item) => {
             const active = isActive(item.href);
             return (
@@ -58,7 +58,7 @@ export function SiteHeader() {
                 href={item.href}
                 aria-current={active ? "page" : undefined}
                 className={cx(
-                  "relative rounded-md px-4 py-2.5 text-xs font-semibold uppercase tracking-wider transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400",
+                  "relative rounded-md px-5 py-3 text-sm font-semibold uppercase tracking-wider transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400",
                   active
                     ? "text-white"
                     : "text-navy-200 hover:text-white"
@@ -147,7 +147,7 @@ export function SiteHeader() {
                 onClick={() => setOpen(false)}
                 aria-current={isActive(item.href) ? "page" : undefined}
                 className={cx(
-                  "rounded-md px-3 py-2.5 text-xs font-semibold uppercase tracking-wider transition-colors",
+                  "rounded-md px-4 py-3 text-sm font-semibold uppercase tracking-wider transition-colors",
                   isActive(item.href)
                     ? "border-l-2 border-accent-400 bg-navy-800 text-white"
                     : "text-navy-200 hover:bg-navy-800 hover:text-white"

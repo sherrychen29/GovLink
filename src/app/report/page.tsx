@@ -124,25 +124,25 @@ export default function ReportPage() {
       </div>
 
       <div className="flex min-h-[calc(100vh-8rem)] flex-col bg-accent-50">
-        <div className="gl-container pt-6 pb-3 text-center">
-          <h1 className="text-xl font-bold tracking-tight text-navy-900 sm:text-2xl">
+        <div className="gl-container pt-8 pb-4 text-center">
+          <h1 className="text-2xl font-bold tracking-tight text-navy-900 sm:text-3xl">
             {mode === "chat" ? "Report an issue" : "Enter report manually"}
           </h1>
-          <p className="mt-1 text-sm text-ink-soft">
+          <p className="mt-2 text-base text-ink-soft sm:text-lg">
             {mode === "chat"
               ? "Chat with Beacon to create a report for the City of San Jose to review"
               : "Fill out the form directly, the City of San Jose will review it afterwards"}
           </p>
         </div>
 
-        <div className="gl-container flex flex-1 flex-col pt-2 pb-4 lg:pb-8">
+        <div className="gl-container flex flex-1 flex-col pt-3 pb-6 lg:pb-10">
           {mode === "chat" ? (
             <section
               aria-label="Report with Beacon"
-              className="mx-auto flex w-full max-w-3xl min-h-[480px] flex-1 flex-col rounded-2xl border border-navy-100/80 bg-white p-4 shadow-2xl shadow-black/20 sm:p-5 lg:min-h-[560px]"
+              className="mx-auto flex w-full max-w-3xl min-h-[480px] flex-1 flex-col rounded-2xl border border-navy-100/80 bg-white p-5 shadow-2xl shadow-black/20 sm:p-6 lg:min-h-[560px]"
             >
-              <header className="mb-2 border-b border-navy-100 pb-3">
-                <h2 className="text-lg font-semibold text-navy-900">Beacon</h2>
+              <header className="mb-3 border-b border-navy-100 pb-4">
+                <h2 className="text-xl font-semibold text-navy-900">Beacon</h2>
               </header>
               <BeaconIntake
                 reporterId={user?.role === "citizen" ? user.id : undefined}
@@ -150,14 +150,14 @@ export default function ReportPage() {
                 onFiled={setResult}
                 onChatEnded={setChatEnded}
               />
-              <div className="mt-3">
+              <div className="mt-4">
                 <BeaconCapabilities />
               </div>
               {chatEnded && (
                 <button
                   type="button"
                   onClick={() => window.location.reload()}
-                  className="btn-outline mt-3 w-full py-3"
+                  className="btn-outline mt-4 w-full py-3.5 text-base"
                 >
                   Report a new issue
                 </button>
@@ -227,14 +227,14 @@ function ManualForm({
   onSubmit: () => void;
 }) {
   return (
-    <div className="card mx-auto w-full max-w-2xl space-y-4 p-5 sm:p-6">
+    <div className="card mx-auto w-full max-w-2xl space-y-5 p-6 sm:p-8">
       <div>
-        <label htmlFor="manual-category" className="field-label">
+        <label htmlFor="manual-category" className="field-label text-base">
           Category
         </label>
         <select
           id="manual-category"
-          className="field-input"
+          className="field-input text-base"
           value={category}
           onChange={(e) => onCategoryChange(e.target.value as Category)}
         >
@@ -247,30 +247,30 @@ function ManualForm({
         </select>
       </div>
       <div>
-        <label htmlFor="manual-desc" className="field-label">
+        <label htmlFor="manual-desc" className="field-label text-base">
           Description
         </label>
         <textarea
           id="manual-desc"
           rows={4}
-          className="field-input resize-none"
+          className="field-input resize-none text-base"
           value={description}
           onChange={(e) => onDescriptionChange(e.target.value)}
         />
       </div>
       <div>
-        <span className="field-label">Location</span>
+        <span className="field-label text-base">Location</span>
         <LocationPicker value={location} onChange={onLocationChange} />
       </div>
       <button
         type="button"
         onClick={onSubmit}
         disabled={filing || !category || !description.trim() || !location}
-        className="btn-accent w-full py-3"
+        className="btn-accent w-full py-3.5 text-base"
       >
         {filing ? "Formatting & submitting…" : "Submit report"}
       </button>
-      <p className="mt-2 text-center text-xs text-ink-muted">
+      <p className="mt-2 text-center text-sm text-ink-muted">
         Beacon will verify the category, assign a priority rating, and format
         your report for city staff before filing.
       </p>

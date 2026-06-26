@@ -489,7 +489,7 @@ export function BeaconIntake({
             return (
               <WidgetShell key={item.id} title="Add photos" icon={<Camera className="h-4 w-4" />}>
                 {item.locked ? (
-                  <p className="text-sm text-ink-soft">
+                  <p className="text-base text-ink-soft">
                     {media.length
                       ? `${media.length} photo${media.length === 1 ? "" : "s"} attached`
                       : "No photos added"}
@@ -523,27 +523,27 @@ export function BeaconIntake({
             return (
               <WidgetShell key={item.id} title="Contact info (optional)" icon={<Mail className="h-4 w-4" />}>
                 {item.locked ? (
-                  <p className="text-sm text-ink-soft">
+                  <p className="text-base text-ink-soft">
                     {hasTrackableContact(reportContact)
                       ? [reportContact.email, reportContact.phone].filter(Boolean).join(" · ")
                       : "No contact info added"}
                   </p>
                 ) : (
                   <>
-                    <p className="mb-3 text-sm text-ink-soft">
+                    <p className="mb-3 text-base text-ink-soft">
                       Used only to look up this report on the Track page — the city
                       won&apos;t share it publicly.
                     </p>
                     <div className="space-y-3">
                       <div>
-                        <label htmlFor="beacon-contact-email" className="field-label">
+                        <label htmlFor="beacon-contact-email" className="field-label text-base">
                           Email
                         </label>
                         <input
                           id="beacon-contact-email"
                           type="email"
                           autoComplete="email"
-                          className="field-input"
+                          className="field-input text-base"
                           placeholder="you@example.com"
                           value={contactEmail}
                           onChange={(e) => {
@@ -553,14 +553,14 @@ export function BeaconIntake({
                         />
                       </div>
                       <div>
-                        <label htmlFor="beacon-contact-phone" className="field-label">
+                        <label htmlFor="beacon-contact-phone" className="field-label text-base">
                           Phone
                         </label>
                         <input
                           id="beacon-contact-phone"
                           type="tel"
                           autoComplete="tel"
-                          className="field-input"
+                          className="field-input text-base"
                           placeholder="(408) 555-0100"
                           value={contactPhone}
                           onChange={(e) => {
@@ -571,7 +571,7 @@ export function BeaconIntake({
                       </div>
                     </div>
                     {contactError && (
-                      <p className="mt-2 text-xs font-medium text-red-700" role="alert">
+                      <p className="mt-2 text-sm font-medium text-red-700" role="alert">
                         {contactError}
                       </p>
                     )}
@@ -605,11 +605,11 @@ export function BeaconIntake({
                 icon={<CheckCircle2 className="h-4 w-4" />}
               >
                 {draft.formalTitle && (
-                  <p className="mb-3 text-sm font-semibold text-navy-900">
+                  <p className="mb-3 text-base font-semibold text-navy-900">
                     {draft.formalTitle}
                   </p>
                 )}
-                <dl className="space-y-3 text-sm">
+                <dl className="space-y-3 text-base">
                   <ReviewRow label="Category">
                     <CategoryChip category={draft.category} size="sm" />
                   </ReviewRow>
@@ -648,7 +648,7 @@ export function BeaconIntake({
                     type="button"
                     onClick={submitReport}
                     disabled={filing}
-                    className="btn-accent mt-4 w-full py-3 text-base"
+                    className="btn-accent mt-4 w-full py-3.5 text-base"
                   >
                     {filing ? (
                       <>
@@ -669,12 +669,12 @@ export function BeaconIntake({
       </div>
 
       {phase === "filed" ? (
-        <div className="mt-3 rounded-xl bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-800 ring-1 ring-emerald-200">
+        <div className="mt-4 rounded-xl bg-emerald-50 px-4 py-3.5 text-base font-medium text-emerald-800 ring-1 ring-emerald-200">
           Report submitted successfully.
         </div>
       ) : (
         <form
-          className="mt-3 flex items-end gap-2 border-t border-navy-100 pt-3"
+          className="mt-4 flex items-end gap-2 border-t border-navy-100 pt-4"
           onSubmit={(e) => {
             e.preventDefault();
             send();
@@ -701,7 +701,7 @@ export function BeaconIntake({
                       ? "Question or correction about your report…"
                       : "Describe what's wrong…"
             }
-            className="field-input max-h-32 min-h-[44px] flex-1 resize-none py-2.5"
+            className="field-input max-h-32 min-h-[48px] flex-1 resize-none py-3 text-base"
             disabled={busy || chatDisabled}
           />
           <button
@@ -729,9 +729,9 @@ function WidgetShell({
 }) {
   return (
     <div className="flex justify-start">
-      <div className="w-full max-w-[95%] rounded-2xl border border-navy-200 bg-white p-4 shadow-sm">
-        <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-navy-900">
-          <span className="grid h-7 w-7 place-items-center rounded-lg bg-navy-900 text-accent-300">
+      <div className="w-full max-w-[95%] rounded-2xl border border-navy-200 bg-white p-5 shadow-sm">
+        <div className="mb-3 flex items-center gap-2.5 text-base font-semibold text-navy-900">
+          <span className="grid h-8 w-8 place-items-center rounded-lg bg-navy-900 text-accent-300">
             {icon}
           </span>
           {title}
@@ -751,7 +751,7 @@ function ReviewRow({
 }) {
   return (
     <div>
-      <dt className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
+      <dt className="text-sm font-semibold uppercase tracking-wide text-ink-muted">
         {label}
       </dt>
       <dd className="mt-1 text-navy-900">{children}</dd>
@@ -769,7 +769,7 @@ function BeaconBubble({ text, intent }: { text: string; intent?: BeaconIntent })
       <div className="min-w-0 max-w-[85%]">
         <div
           className={cx(
-            "rounded-2xl rounded-tl-sm px-3.5 py-2.5 text-sm leading-relaxed",
+            "rounded-2xl rounded-tl-sm px-4 py-3 text-base leading-relaxed",
             emergency
               ? "bg-red-50 text-red-900 ring-1 ring-red-200"
               : spam
@@ -780,17 +780,17 @@ function BeaconBubble({ text, intent }: { text: string; intent?: BeaconIntent })
           )}
         >
           {emergency && (
-            <span className="mb-1.5 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-red-700">
+            <span className="mb-1.5 flex items-center gap-1.5 text-sm font-bold uppercase tracking-wide text-red-700">
               <TriangleAlert className="h-4 w-4" aria-hidden="true" /> Emergency
             </span>
           )}
           {spam && (
-            <span className="mb-1.5 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-amber-700">
+            <span className="mb-1.5 flex items-center gap-1.5 text-sm font-bold uppercase tracking-wide text-amber-700">
               <Ban className="h-4 w-4" aria-hidden="true" /> Couldn&apos;t file this
             </span>
           )}
           {redirect && (
-            <span className="mb-1.5 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-sky-700">
+            <span className="mb-1.5 flex items-center gap-1.5 text-sm font-bold uppercase tracking-wide text-sky-700">
               <ArrowRight className="h-4 w-4" aria-hidden="true" /> Not a city report
             </span>
           )}
@@ -799,7 +799,7 @@ function BeaconBubble({ text, intent }: { text: string; intent?: BeaconIntent })
         {emergency && (
           <a
             href="tel:911"
-            className="mt-2 inline-flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-sm font-bold text-white shadow-sm transition-colors hover:bg-red-700"
+            className="mt-2 inline-flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2.5 text-base font-bold text-white shadow-sm transition-colors hover:bg-red-700"
           >
             <Phone className="h-4 w-4" aria-hidden="true" />
             Call 911 now
@@ -813,7 +813,7 @@ function BeaconBubble({ text, intent }: { text: string; intent?: BeaconIntent })
 function UserBubble({ text }: { text: string }) {
   return (
     <div className="flex justify-end">
-      <div className="max-w-[85%] rounded-2xl rounded-tr-sm bg-navy-900 px-3.5 py-2.5 text-sm leading-relaxed text-white">
+      <div className="max-w-[85%] rounded-2xl rounded-tr-sm bg-navy-900 px-4 py-3 text-base leading-relaxed text-white">
         <p className="whitespace-pre-wrap">{text}</p>
       </div>
     </div>
@@ -835,8 +835,8 @@ function TypingBubble() {
 
 export function BeaconCapabilities() {
   return (
-    <div className="flex items-start gap-2 rounded-lg bg-navy-50/70 px-3 py-2 text-xs text-ink-soft">
-      <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-navy-400" aria-hidden="true" />
+    <div className="flex items-start gap-2.5 rounded-lg bg-navy-50/70 px-4 py-3 text-sm text-ink-soft">
+      <Info className="mt-0.5 h-4 w-4 shrink-0 text-navy-400" aria-hidden="true" />
       <span>
         Beacon walks you through reporting step by step: map, photos, optional
         contact, and review all happen right here in chat. Add an email or phone
