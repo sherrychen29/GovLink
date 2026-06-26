@@ -37,18 +37,7 @@ Fresh installs start with **empty reports**. Use **Restore demo data** in the
 footer to load sample tickets (including a corroborated merge and a rejected
 resolution).
 
----
 
-## Security — the OpenAI key
-
-- The key is read **only** from `OPENAI_API_KEY` in server-side API routes
-  (`src/app/api/beacon/**`). It is never imported into client code or sent to the
-  browser.
-- `.env.local` is gitignored. `.env.example` holds a placeholder.
-- ⚠️ If you pasted a real key during setup/chat, **rotate it** — treat any shared
-  key as compromised.
-
----
 
 ## Meet Beacon
 
