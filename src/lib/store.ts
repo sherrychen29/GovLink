@@ -20,8 +20,8 @@ import type {
   ServicePriority,
   Submission,
 } from "./types";
-import { clamp } from "./beacon-logic";
-import { buildSeedReports, SEED_ACCOUNTS } from "./seed";
+import { clamp, weightedSeverity } from "./beacon-logic";
+import { SEED_ACCOUNTS } from "./seed";
 import { buildSampleReports } from "./sample-reports";
 import { generateTicketId, uid } from "./utils";
 
@@ -293,7 +293,7 @@ export function mergeSubmission(
   const updated: Report = {
     ...target,
     baseSeverity: newBase,
-    severity: clamp(newBase, 1, 10),
+    severity: weightedSeverity(newBase, submissions.length),
     submissions,
     media: [...target.media, ...input.media].slice(0, 6),
     updatedAt: now,
@@ -392,19 +392,4 @@ export function loadSampleReports() {
     reports: buildSampleReports(),
     hydrated: true,
   });
-}
-
-/** Dev helper: wipe localStorage and reseed (exposed in the UI footer). */
-export function resetDemoData() {
-  if (typeof window !== "undefined") {
-    window.localStorage.removeItem(STORAGE_KEY);
-  }
-  state = {
-    reports: buildSeedReports(),
-    accounts: SEED_ACCOUNTS,
-    currentUserId: null,
-    hydrated: true,
-  };
-  persist();
-  emit();
 }

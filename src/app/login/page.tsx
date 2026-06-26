@@ -47,22 +47,22 @@ export default function LoginPage() {
         <div className="mx-auto w-full max-w-sm">
           <Link
             href="/"
-            className="mb-6 inline-flex items-center gap-1.5 text-sm font-medium text-ink-muted transition-colors hover:text-navy-900"
+            className="mb-8 flex items-center gap-1.5 text-sm font-medium text-ink-muted transition-colors hover:text-navy-900"
           >
             <ArrowLeft className="h-4 w-4" aria-hidden="true" />
             Back to home
           </Link>
 
-          <Link href="/" className="mb-8 inline-flex lg:hidden">
+          <Link href="/" className="mb-8 flex lg:hidden">
             <Logo />
           </Link>
 
-          <div className="mb-6 inline-flex rounded-lg border border-navy-200 bg-navy-50 p-1">
+          <div className="mb-6 flex w-full rounded-lg border border-navy-200 bg-navy-50 p-1">
             <button
               type="button"
               onClick={() => setMode("signin")}
               className={cx(
-                "rounded-md px-4 py-1.5 text-sm font-semibold transition-colors",
+                "flex-1 rounded-md px-4 py-1.5 text-sm font-semibold transition-colors",
                 mode === "signin"
                   ? "bg-white text-navy-900 shadow-sm"
                   : "text-ink-soft hover:text-navy-900"
@@ -74,7 +74,7 @@ export default function LoginPage() {
               type="button"
               onClick={() => setMode("register")}
               className={cx(
-                "rounded-md px-4 py-1.5 text-sm font-semibold transition-colors",
+                "flex-1 rounded-md px-4 py-1.5 text-sm font-semibold transition-colors",
                 mode === "register"
                   ? "bg-white text-navy-900 shadow-sm"
                   : "text-ink-soft hover:text-navy-900"

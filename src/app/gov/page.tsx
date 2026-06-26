@@ -28,6 +28,7 @@ import {
   type SortKey,
 } from "@/lib/filters";
 import { logout, useCurrentUser, useReports } from "@/lib/store";
+import { SEVERITY_LEGEND } from "@/lib/meta";
 import { cx } from "@/lib/utils";
 
 const ReportMap = dynamic(() => import("@/components/map/ReportMap"), {
@@ -242,18 +243,13 @@ export default function GovDashboardPage() {
                 Severity ({mapReports.length} shown)
               </p>
               <div className="flex flex-col gap-1">
-                {[
-                  { c: "#16a34a", l: "1–3 Low" },
-                  { c: "#eab308", l: "4–6 Moderate" },
-                  { c: "#f97316", l: "7–8 High" },
-                  { c: "#dc2626", l: "9–10 Critical" },
-                ].map((x) => (
-                  <span key={x.l} className="flex items-center gap-2 text-ink-soft">
+                {SEVERITY_LEGEND.map((x) => (
+                  <span key={x.label} className="flex items-center gap-2 text-ink-soft">
                     <span
                       className="h-2.5 w-2.5 rounded-full"
-                      style={{ backgroundColor: x.c }}
+                      style={{ backgroundColor: x.hex }}
                     />
-                    {x.l}
+                    {x.label}
                   </span>
                 ))}
               </div>

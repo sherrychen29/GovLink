@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import cityOfSanJoseLogo from "@/app/637078722374930000.png";
 import {
   ArrowRight,
   MessageSquareText,
@@ -42,10 +41,10 @@ export default function LandingPage() {
               aria-label="City of San Jose — Capital of Silicon Valley"
             >
               <Image
-                src={cityOfSanJoseLogo}
+                src="/images/san-jose-seal.png"
                 alt="City of San Jose — Capital of Silicon Valley"
-                width={cityOfSanJoseLogo.width}
-                height={cityOfSanJoseLogo.height}
+                width={1752}
+                height={990}
                 className="h-20 w-auto sm:h-24"
               />
             </a>

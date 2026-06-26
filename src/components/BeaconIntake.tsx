@@ -21,7 +21,7 @@ import { CategoryChip } from "./Chips";
 import { LocationPicker } from "./map/LocationPickerDynamic";
 import { cx } from "@/lib/utils";
 import { extractLocationHint, type BeaconIntent } from "@/lib/beacon-logic";
-import type { Category, ContactInfo, ChatLogEntry, MediaItem, Report, ReportLocation, ServicePriority } from "@/lib/types";
+import type { Category, ContactInfo, ChatLogEntry, MediaItem, ReportLocation, ServicePriority } from "@/lib/types";
 import { formalizeReport, locationLabel } from "@/lib/formalize-report";
 import { fileReport, type FileReportResult } from "@/lib/file-report";
 import { BEACON_GREETING } from "@/lib/seed";

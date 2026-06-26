@@ -1,51 +1,8 @@
 import Image from "next/image";
-import officialLogo from "@/app/officialLogo.png";
-import beaconLogo from "@/app/12.png";
 import { cx } from "@/lib/utils";
 
-/**
- * GovLink logomark — a "beacon": a solid point emitting two signal arcs,
- * echoing the guiding-light metaphor and the citizen↔government link.
- * Used in Beacon chat bubbles where the full wordmark image is too wide.
- */
-export function LogoMark({
-  className,
-  title = "GovLink",
-}: {
-  className?: string;
-  title?: string;
-}) {
-  return (
-    <svg
-      viewBox="0 0 32 32"
-      className={cx("shrink-0", className)}
-      role="img"
-      aria-label={title}
-      fill="none"
-    >
-      <rect width="32" height="32" rx="8" className="fill-navy-900" />
-      {/* signal arcs */}
-      <path
-        d="M11.2 20.8a6.8 6.8 0 0 1 9.6 0"
-        stroke="currentColor"
-        className="text-accent-400"
-        strokeWidth="2.1"
-        strokeLinecap="round"
-        opacity="0.55"
-      />
-      <path
-        d="M8.4 18a10.8 10.8 0 0 1 15.2 0"
-        stroke="currentColor"
-        className="text-accent-400"
-        strokeWidth="2.1"
-        strokeLinecap="round"
-        opacity="0.28"
-      />
-      {/* beacon point */}
-      <circle cx="16" cy="22.2" r="3.1" className="fill-accent-400" />
-    </svg>
-  );
-}
+const BEACON_AVATAR = "/images/beacon-avatar.png";
+const GOVLINK_LOGO = "/images/govlink-logo.png";
 
 /** Beacon assistant avatar — navy tile with the interlock mark. */
 export function BeaconMark({
@@ -69,10 +26,10 @@ export function BeaconMark({
       aria-hidden="true"
     >
       <Image
-        src={beaconLogo}
+        src={BEACON_AVATAR}
         alt=""
-        width={beaconLogo.width}
-        height={beaconLogo.height}
+        width={2000}
+        height={2000}
         className={cx(icon, "object-contain mix-blend-screen", iconClassName)}
       />
     </span>
@@ -93,10 +50,10 @@ export function Logo({
   return (
     <span className={cx("inline-flex items-center", className)}>
       <Image
-        src={officialLogo}
+        src={GOVLINK_LOGO}
         alt="GovLink"
-        width={officialLogo.width}
-        height={officialLogo.height}
+        width={2000}
+        height={692}
         priority
         className={cx("h-8 w-auto", markClassName)}
       />

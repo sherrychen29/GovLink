@@ -157,3 +157,11 @@ export const SEVERITY_META: Record<SeverityBand, SeverityMeta> = {
 export function severityMeta(severity: number): SeverityMeta {
   return SEVERITY_META[severityBand(severity)];
 }
+
+/** Map legend entries — keeps marker colors and dashboard legend in sync. */
+export const SEVERITY_LEGEND: Array<{ hex: string; label: string }> = [
+  { hex: SEVERITY_META.low.hex, label: "1–3 Low" },
+  { hex: SEVERITY_META.moderate.hex, label: "4–6 Moderate" },
+  { hex: SEVERITY_META.high.hex, label: "7–8 High" },
+  { hex: SEVERITY_META.critical.hex, label: "9–10 Critical" },
+];

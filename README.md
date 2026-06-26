@@ -33,9 +33,12 @@ npm run dev                  # http://localhost:3000
 | `citizen2`   | Citizen    | "                       |
 | `citizen3`   | Citizen    | "                       |
 
-Fresh installs start with **empty reports**. Use **Restore demo data** in the
-footer to load sample tickets (including a corroborated merge and a rejected
-resolution).
+The login quick-pick buttons show **government** and **citizen1** only; **citizen2**
+and **citizen3** are listed on the form and work with the same password.
+
+Fresh installs start with **empty reports**. On the **login page**, use
+**Generate samples** to load nine curated demo tickets, or **Reset demo** to
+clear all reports.
 
 ---
 
@@ -106,7 +109,9 @@ src/
   lib/
     types.ts                 Domain model
     store.ts                 Data layer (localStorage + useSyncExternalStore)
-    seed.ts                  Seeded reports + demo accounts + BEACON_GREETING
+    seed.ts                  Demo accounts, city config, report builder
+    seed-helpers.ts            Relative timestamps for sample reports
+    sample-reports.ts          Curated demo reports (login "Generate samples")
     beacon-logic.ts          Severity weighting + heuristic fallback brain
     formalize-report.ts      Client helper for formalization API
     file-report.ts           Shared filing pipeline (dedup + persist)
@@ -121,8 +126,8 @@ src/
 The prototype persists to **localStorage** so the demo survives a refresh. The
 store exposes a DB-shaped action surface (`createReport`, `mergeSubmission`,
 `updateStatus`, `addInternalNote`, …) — swapping localStorage for real API calls
-would not change any component. Use **Clear all data** or **Restore demo data**
-in the footer to reset state.
+would not change any component. Use **Reset demo** or **Generate samples** on
+the login page to reset or reload demo state.
 
 ---
 
