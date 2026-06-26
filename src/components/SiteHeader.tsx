@@ -33,6 +33,13 @@ export function SiteHeader() {
       ? pathname === "/"
       : pathname === href || pathname.startsWith(href + "/");
 
+  const dashboardHref =
+    user?.role === "government"
+      ? "/gov"
+      : user
+        ? "/account"
+        : "/login";
+
   return (
     <header className="sticky top-0 z-50 border-b border-navy-800 bg-navy-900 shadow-md shadow-navy-950/20">
       <div className="gl-container flex min-h-16 items-center justify-between gap-4 py-2">
@@ -75,12 +82,10 @@ export function SiteHeader() {
         </nav>
 
         <div className="hidden items-center gap-2 md:flex">
-          {hydrated && user?.role === "government" && (
-            <Link href="/gov" className={NAVY_OUTLINE_BTN}>
-              <LayoutDashboard className="h-4 w-4" aria-hidden="true" />
-              Dashboard
-            </Link>
-          )}
+          <Link href={dashboardHref} className={NAVY_OUTLINE_BTN}>
+            <LayoutDashboard className="h-4 w-4" aria-hidden="true" />
+            Dashboard
+          </Link>
           {hydrated && user?.role === "citizen" && (
             <>
               <Link href="/account" className={NAVY_GHOST_BTN}>
@@ -100,7 +105,7 @@ export function SiteHeader() {
               </button>
             </>
           )}
-          {hydrated && !user && (
+          {!user && (
             <Link href="/login" className={NAVY_GHOST_BTN}>
               Sign in
             </Link>
@@ -163,12 +168,14 @@ export function SiteHeader() {
               </Link>
             ))}
             <div className="mt-2 flex flex-col gap-2 border-t border-navy-800 pt-3">
-              {hydrated && user?.role === "government" && (
-                <Link href="/gov" className={NAVY_OUTLINE_BTN} onClick={() => setOpen(false)}>
-                  <LayoutDashboard className="h-4 w-4" aria-hidden="true" />
-                  Government dashboard
-                </Link>
-              )}
+              <Link
+                href={dashboardHref}
+                className={NAVY_OUTLINE_BTN}
+                onClick={() => setOpen(false)}
+              >
+                <LayoutDashboard className="h-4 w-4" aria-hidden="true" />
+                Dashboard
+              </Link>
               {hydrated && user?.role === "citizen" && (
                 <>
                   <Link href="/account" className={NAVY_OUTLINE_BTN} onClick={() => setOpen(false)}>
@@ -189,7 +196,7 @@ export function SiteHeader() {
                   </button>
                 </>
               )}
-              {hydrated && !user && (
+              {!user && (
                 <Link href="/login" className={NAVY_OUTLINE_BTN} onClick={() => setOpen(false)}>
                   Sign in
                 </Link>

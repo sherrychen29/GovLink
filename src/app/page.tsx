@@ -29,8 +29,9 @@ export default function LandingPage() {
       <section className="relative overflow-hidden border-b border-navy-100">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_55%_at_85%_-5%,rgba(31,199,239,0.10),transparent),radial-gradient(45%_40%_at_5%_110%,rgba(16,42,86,0.06),transparent)]"
+          className="absolute inset-0 bg-[url('/images/san-jose-skyline.jpg')] bg-cover bg-center bg-no-repeat"
         />
+        <div aria-hidden="true" className="absolute inset-0 bg-white/80" />
         <div className="gl-container relative grid gap-12 py-16 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:py-24">
           <div>
             <a
@@ -48,12 +49,15 @@ export default function LandingPage() {
                 className="h-20 w-auto sm:h-24"
               />
             </a>
-            <h1 className="mt-5 text-[2.125rem] font-bold leading-[1.07] tracking-tight text-navy-900 sm:text-[2.875rem] lg:text-[3.625rem]">
-              Report a problem.
-              <br />
-              <span className="text-accent-500">Watch it get fixed.</span>
+            <h1 className="mt-5">
+              <span className="block text-[2.125rem] font-bold leading-[1.07] tracking-tight text-accent-500 sm:text-[2.875rem] lg:text-[3.625rem]">
+                Built for residents.
+              </span>
+              <span className="mt-1 block text-[2.125rem] font-bold leading-[1.07] tracking-tight text-navy-900 sm:text-[2.875rem] lg:text-[3.625rem]">
+                Built for San Jose.
+              </span>
             </h1>
-            <p className="mt-5 max-w-xl text-lg leading-relaxed text-ink-soft">
+            <p className="mt-5 max-w-xl text-lg font-medium leading-relaxed text-ink">
               GovLink is the direct line between {CITY.name} residents and city
               hall for everyday non-emergency issues. Broken streetlights, water
               leaks, fallen trees, and more: describe it in plain words, file a report, and bring it to our attention.
