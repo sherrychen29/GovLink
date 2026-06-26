@@ -45,7 +45,7 @@ const BeaconIntake = dynamic(
 type ReportMode = "chat" | "manual";
 
 const MODE_TOGGLE_BTN =
-  "flex h-20 w-20 flex-col items-center justify-center rounded-full border-2 border-accent-300 bg-white text-navy-700 shadow-md transition-colors hover:border-accent-500 hover:bg-accent-100";
+  "flex h-28 w-28 flex-col items-center justify-center rounded-full border-2 border-accent-300 bg-white px-2 text-navy-700 shadow-md transition-colors hover:border-accent-500 hover:bg-accent-100";
 
 function ModeToggleButton({
   label,
@@ -66,8 +66,8 @@ function ModeToggleButton({
       title={ariaLabel}
       className={MODE_TOGGLE_BTN}
     >
-      <Icon className="h-8 w-8" aria-hidden="true" />
-      <span className="mt-1.5 text-[11px] font-bold leading-none tracking-wide text-navy-600">
+      <Icon className="h-8 w-8 shrink-0" aria-hidden="true" />
+      <span className="mt-1 max-w-[6rem] text-center text-xs font-bold leading-tight tracking-wide text-navy-600">
         {label}
       </span>
     </button>
@@ -78,6 +78,7 @@ export default function ReportPage() {
   const { user } = useCurrentUser();
   const [mode, setMode] = useState<ReportMode>("chat");
   const [result, setResult] = useState<FileReportResult | null>(null);
+  const [chatEnded, setChatEnded] = useState(false);
 
   const [category, setCategory] = useState<Category | "">("");
   const [description, setDescription] = useState("");
@@ -104,90 +105,104 @@ export default function ReportPage() {
 
   return (
     <SiteShell>
-      <div className="fixed right-4 top-[6.75rem] z-[1050] sm:right-6 lg:right-8">
+      <div className="fixed right-4 top-[7rem] z-[1050] sm:right-6 lg:right-8">
         {mode === "chat" ? (
           <ModeToggleButton
-            label="Manual"
+            label="Manual Report Entry"
             icon={PenLine}
             onClick={() => setMode("manual")}
-            ariaLabel="Enter manually"
+            ariaLabel="Manual report entry"
           />
         ) : (
           <ModeToggleButton
-            label="Beacon"
+            label="Chat with Beacon"
             icon={MessageSquareText}
             onClick={() => setMode("chat")}
-            ariaLabel="Back to Beacon"
+            ariaLabel="Chat with Beacon"
           />
         )}
       </div>
 
-      {mode === "chat" ? (
-        <div className="flex min-h-[calc(100vh-8rem)] flex-col bg-accent-50">
-          <div className="gl-container py-6 text-center">
-            <h1 className="text-xl font-bold tracking-tight text-navy-900 sm:text-2xl">
-              Report an issue
-            </h1>
-          </div>
+      <div className="flex min-h-[calc(100vh-8rem)] flex-col bg-accent-50">
+        <div className="gl-container pt-6 pb-3 text-center">
+          <h1 className="text-xl font-bold tracking-tight text-navy-900 sm:text-2xl">
+            {mode === "chat" ? "Report an issue" : "Enter report manually"}
+          </h1>
+          <p className="mt-1 text-sm text-ink-soft">
+            {mode === "chat"
+              ? "Chat with Beacon to create a report for the City of San Jose to review"
+              : "Fill out the form directly, the City of San Jose will review it afterwards"}
+          </p>
+        </div>
 
-          <div className="gl-container flex flex-1 flex-col py-4 lg:py-8">
+        <div className="gl-container flex flex-1 flex-col pt-2 pb-4 lg:pb-8">
+          {mode === "chat" ? (
             <section
               aria-label="Report with Beacon"
               className="mx-auto flex w-full max-w-3xl min-h-[480px] flex-1 flex-col rounded-2xl border border-navy-100/80 bg-white p-4 shadow-2xl shadow-black/20 sm:p-5 lg:min-h-[560px]"
             >
-              <header className="mb-2 flex items-center justify-between border-b border-navy-100 pb-3">
-                <h2 className="text-sm font-semibold text-navy-900">Beacon</h2>
-                <span className="text-xs text-ink-muted">Intake assistant</span>
+              <header className="mb-2 border-b border-navy-100 pb-3">
+                <h2 className="text-lg font-semibold text-navy-900">Beacon</h2>
               </header>
               <BeaconIntake
                 reporterId={user?.role === "citizen" ? user.id : undefined}
                 contact={contact}
                 onFiled={setResult}
+                onChatEnded={setChatEnded}
               />
               <div className="mt-3">
                 <BeaconCapabilities />
               </div>
+              {chatEnded && (
+                <button
+                  type="button"
+                  onClick={() => window.location.reload()}
+                  className="btn-outline mt-3 w-full py-3"
+                >
+                  Report a new issue
+                </button>
+              )}
             </section>
-          </div>
+          ) : (
+            <ManualForm
+              category={category}
+              onCategoryChange={setCategory}
+              description={description}
+              onDescriptionChange={setDescription}
+              location={location}
+              onLocationChange={setLocation}
+              filing={filing}
+              onSubmit={async () => {
+                if (!category || !location || !description.trim()) return;
+                setFiling(true);
+                try {
+                  const formal = await formalizeReport({
+                    description: description.trim(),
+                    category: category as Category,
+                    location,
+                  });
+                  const result = await fileReport({
+                    category: formal.category,
+                    description: formal.formalDescription,
+                    location,
+                    media: [],
+                    contact,
+                    baseSeverity: formal.baseSeverity,
+                    noticedAt: new Date().toISOString(),
+                    reporterId: user?.role === "citizen" ? user.id : undefined,
+                    formalTitle: formal.formalTitle,
+                    residentDescription: description.trim(),
+                    servicePriority: formal.servicePriority,
+                  });
+                  setResult(result);
+                } finally {
+                  setFiling(false);
+                }
+              }}
+            />
+          )}
         </div>
-      ) : (
-        <ManualForm
-          category={category}
-          onCategoryChange={setCategory}
-          description={description}
-          onDescriptionChange={setDescription}
-          location={location}
-          onLocationChange={setLocation}
-          filing={filing}
-          onSubmit={async () => {
-            if (!category || !location || !description.trim()) return;
-            setFiling(true);
-            try {
-              const formal = await formalizeReport({
-                description: description.trim(),
-                category: category as Category,
-                location,
-              });
-              const result = await fileReport({
-                category: formal.category,
-                description: formal.formalDescription,
-                location,
-                media: [],
-                contact,
-                baseSeverity: formal.baseSeverity,
-                noticedAt: new Date().toISOString(),
-                reporterId: user?.role === "citizen" ? user.id : undefined,
-                formalTitle: formal.formalTitle,
-                residentDescription: description.trim(),
-                servicePriority: formal.servicePriority,
-              });
-              setResult(result);
-            } finally {
-              setFiling(false);
-            }
-          }}
-        />
-      )}
+      </div>
     </SiteShell>
   );
 }
@@ -212,66 +227,53 @@ function ManualForm({
   onSubmit: () => void;
 }) {
   return (
-    <div className="min-h-screen bg-accent-50">
-      <div className="gl-container max-w-2xl py-8 lg:py-10">
-        <div className="mb-6 text-center">
-          <h1 className="text-2xl font-bold tracking-tight text-navy-900">
-            Enter report manually
-          </h1>
-          <p className="mt-1 text-sm text-ink-soft">
-            Fill out the form directly — no chat required.
-          </p>
-        </div>
-
-        <div className="card space-y-4 p-5 sm:p-6">
-          <div>
-            <label htmlFor="manual-category" className="field-label">
-              Category
-            </label>
-            <select
-              id="manual-category"
-              className="field-input"
-              value={category}
-              onChange={(e) => onCategoryChange(e.target.value as Category)}
-            >
-              <option value="">Select…</option>
-              {CATEGORIES.map((c) => (
-                <option key={c} value={c}>
-                  {c}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label htmlFor="manual-desc" className="field-label">
-              Description
-            </label>
-            <textarea
-              id="manual-desc"
-              rows={4}
-              className="field-input resize-none"
-              value={description}
-              onChange={(e) => onDescriptionChange(e.target.value)}
-            />
-          </div>
-          <div>
-            <span className="field-label">Location</span>
-            <LocationPicker value={location} onChange={onLocationChange} />
-          </div>
-          <button
-            type="button"
-            onClick={onSubmit}
-            disabled={filing || !category || !description.trim() || !location}
-            className="btn-accent w-full py-3"
-          >
-            {filing ? "Formatting & submitting…" : "Submit report"}
-          </button>
-          <p className="mt-2 text-center text-xs text-ink-muted">
-            Beacon will verify the category, assign a priority rating, and format
-            your report for city staff before filing.
-          </p>
-        </div>
+    <div className="card mx-auto w-full max-w-2xl space-y-4 p-5 sm:p-6">
+      <div>
+        <label htmlFor="manual-category" className="field-label">
+          Category
+        </label>
+        <select
+          id="manual-category"
+          className="field-input"
+          value={category}
+          onChange={(e) => onCategoryChange(e.target.value as Category)}
+        >
+          <option value="">Select…</option>
+          {CATEGORIES.map((c) => (
+            <option key={c} value={c}>
+              {c}
+            </option>
+          ))}
+        </select>
       </div>
+      <div>
+        <label htmlFor="manual-desc" className="field-label">
+          Description
+        </label>
+        <textarea
+          id="manual-desc"
+          rows={4}
+          className="field-input resize-none"
+          value={description}
+          onChange={(e) => onDescriptionChange(e.target.value)}
+        />
+      </div>
+      <div>
+        <span className="field-label">Location</span>
+        <LocationPicker value={location} onChange={onLocationChange} />
+      </div>
+      <button
+        type="button"
+        onClick={onSubmit}
+        disabled={filing || !category || !description.trim() || !location}
+        className="btn-accent w-full py-3"
+      >
+        {filing ? "Formatting & submitting…" : "Submit report"}
+      </button>
+      <p className="mt-2 text-center text-xs text-ink-muted">
+        Beacon will verify the category, assign a priority rating, and format
+        your report for city staff before filing.
+      </p>
     </div>
   );
 }

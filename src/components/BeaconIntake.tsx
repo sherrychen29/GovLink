@@ -76,10 +76,12 @@ export function BeaconIntake({
   reporterId,
   contact,
   onFiled,
+  onChatEnded,
 }: {
   reporterId?: string;
   contact: ContactInfo;
   onFiled: (result: FileReportResult) => void;
+  onChatEnded?: (ended: boolean) => void;
 }) {
   const [items, setItems] = useState<ChatItem[]>([
     { id: "greet", kind: "beacon", text: BEACON_GREETING },
@@ -110,6 +112,10 @@ export function BeaconIntake({
       behavior: "smooth",
     });
   }, [items, busy, draft, location, media]);
+
+  useEffect(() => {
+    onChatEnded?.(phase === "blocked" || phase === "filed");
+  }, [phase, onChatEnded]);
 
   function append(...next: ChatItem[]) {
     setItems((prev) => [...prev, ...next]);
@@ -832,7 +838,7 @@ export function BeaconCapabilities() {
     <div className="flex items-start gap-2 rounded-lg bg-navy-50/70 px-3 py-2 text-xs text-ink-soft">
       <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-navy-400" aria-hidden="true" />
       <span>
-        Beacon walks you through reporting step by step — map, photos, optional
+        Beacon walks you through reporting step by step: map, photos, optional
         contact, and review all happen right here in chat. Add an email or phone
         to look up reports without a tracking ID. Emergencies go to 911.
       </span>
