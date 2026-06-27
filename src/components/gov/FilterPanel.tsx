@@ -1,6 +1,7 @@
 "use client";
 
-import { Search, ArrowUpDown } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Search, ArrowUpDown, ChevronDown } from "lucide-react";
 import type { ReactNode } from "react";
 import { CollapsibleFilterBar } from "@/components/CollapsibleFilterBar";
 import { MultiSelectDropdown } from "@/components/MultiSelectDropdown";
@@ -9,25 +10,39 @@ import {
   countActiveFilters,
   DEFAULT_FILTERS,
   summarizeGovFilters,
+  type SortKey,
 } from "@/lib/filters";
 import { CATEGORIES, OPEN_STATUS_PIPELINE, type Category, type ReportStatus } from "@/lib/types";
 import { STATUS_META } from "@/lib/meta";
 import { SeverityRangeSlider } from "@/components/gov/SeverityRangeSlider";
+import { cx } from "@/lib/utils";
 
 const GOV_FILTER_LABEL = "gov-filter-label";
+
+const SORT_OPTIONS: { value: SortKey; label: string }[] = [
+  { value: "reports", label: "# of reports" },
+  { value: "severity", label: "Severity" },
+  { value: "date", label: "Date submitted" },
+  { value: "category", label: "Category" },
+  { value: "status", label: "Status" },
+];
 
 export function FilterPanel({
   filters,
   onChange,
   showStatusFilter = true,
   trailing,
-  sortSlot,
+  sort,
+  onSortChange,
+  showSort = false,
 }: {
   filters: GovFilters;
   onChange: (f: GovFilters) => void;
   showStatusFilter?: boolean;
   trailing?: ReactNode;
-  sortSlot?: ReactNode;
+  sort?: SortKey;
+  onSortChange?: (s: SortKey) => void;
+  showSort?: boolean;
 }) {
   const active = countActiveFilters(filters);
 
@@ -49,6 +64,7 @@ export function FilterPanel({
 
   return (
     <CollapsibleFilterBar
+      variant="gov"
       activeCount={active}
       summary={summarizeGovFilters(filters)}
       onClear={() => onChange({ ...DEFAULT_FILTERS })}
@@ -114,16 +130,84 @@ export function FilterPanel({
           />
         </fieldset>
 
-        {sortSlot && (
-          <div className="w-full shrink-0 lg:w-auto">
-            <span className={GOV_FILTER_LABEL}>Sort</span>
-            <div className="flex items-center gap-2 rounded-md border border-navy-200 px-3 py-1.5 transition-colors hover:border-navy-400">
-              <ArrowUpDown className="h-4 w-4 shrink-0 text-navy-500" aria-hidden="true" />
-              {sortSlot}
-            </div>
-          </div>
+        {showSort && sort !== undefined && onSortChange && (
+          <SortDropdown
+            value={sort}
+            onChange={onSortChange}
+            showStatus={showStatusFilter}
+          />
         )}
       </div>
     </CollapsibleFilterBar>
+  );
+}
+
+function SortDropdown({
+  value,
+  onChange,
+  showStatus,
+}: {
+  value: SortKey;
+  onChange: (s: SortKey) => void;
+  showStatus: boolean;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    function onPointerDown(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", onPointerDown);
+    return () => document.removeEventListener("mousedown", onPointerDown);
+  }, [open]);
+
+  const options = showStatus ? SORT_OPTIONS : SORT_OPTIONS.filter((o) => o.value !== "status");
+  const current = options.find((o) => o.value === value)?.label ?? value;
+
+  return (
+    <div ref={ref} className="relative w-full shrink-0 lg:w-auto">
+      <span className={GOV_FILTER_LABEL}>Sort</span>
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        aria-expanded={open}
+        aria-haspopup="listbox"
+        className="field-input flex w-full items-center justify-between gap-2 text-left text-sm"
+      >
+        <span className="flex items-center gap-2">
+          <ArrowUpDown className="h-4 w-4 shrink-0 text-navy-500" aria-hidden="true" />
+          <span>{current}</span>
+        </span>
+        <ChevronDown
+          className={cx("h-4 w-4 shrink-0 text-ink-muted transition-transform", open && "rotate-180")}
+          aria-hidden="true"
+        />
+      </button>
+      {open && (
+        <div
+          role="listbox"
+          aria-label="Sort by"
+          className="absolute z-50 mt-1 w-full min-w-[11rem] overflow-hidden rounded-lg border border-navy-200 bg-white py-1 shadow-lg"
+        >
+          {options.map((opt) => (
+            <button
+              key={opt.value}
+              role="option"
+              aria-selected={opt.value === value}
+              type="button"
+              onClick={() => { onChange(opt.value); setOpen(false); }}
+              className={cx(
+                "flex w-full items-center px-3 py-2 text-left text-sm transition-colors hover:bg-navy-50",
+                opt.value === value ? "bg-navy-50/80 font-medium text-navy-900" : "text-navy-700"
+              )}
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }

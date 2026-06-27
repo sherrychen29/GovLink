@@ -153,10 +153,10 @@ export default function GovDashboardPage() {
         <nav className="hidden items-center gap-1 md:flex" aria-label="Gov views">
           {(
             [
-              { key: "map", icon: <MapIcon className="h-4 w-4" aria-hidden="true" />, label: "Map" },
-              { key: "list", icon: <List className="h-4 w-4" aria-hidden="true" />, label: "List" },
-              { key: "resolved", icon: <CircleCheck className="h-4 w-4" aria-hidden="true" />, label: "Resolved" },
+              { key: "map", icon: <MapIcon className="h-4 w-4" aria-hidden="true" />, label: "Map View" },
+              { key: "list", icon: <List className="h-4 w-4" aria-hidden="true" />, label: "Issues" },
               { key: "analytics", icon: <BarChart3 className="h-4 w-4" aria-hidden="true" />, label: "Analytics" },
+              { key: "resolved", icon: <CircleCheck className="h-4 w-4" aria-hidden="true" />, label: "Resolved" },
             ] as const
           ).map(({ key, icon, label }) => {
             const active = view === key;
@@ -214,22 +214,9 @@ export default function GovDashboardPage() {
               filters={filters}
               onChange={setFilters}
               showStatusFilter={view !== "resolved"}
-              sortSlot={
-                (view === "list" || view === "resolved") ? (
-                  <select
-                    id="sort"
-                    value={sort}
-                    onChange={(e) => setSort(e.target.value as SortKey)}
-                    className="appearance-none bg-transparent text-sm font-semibold text-navy-900 focus:outline-none"
-                  >
-                    <option value="reports"># of reports</option>
-                    <option value="severity">Severity</option>
-                    <option value="date">Date submitted</option>
-                    <option value="category">Category</option>
-                    {view === "list" && <option value="status">Status</option>}
-                  </select>
-                ) : undefined
-              }
+              showSort={view === "list" || view === "resolved"}
+              sort={sort}
+              onSortChange={setSort}
             />
           )}
         </div>
