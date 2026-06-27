@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AlertCircle, ArrowLeft, ArrowRight, Building2 } from "lucide-react";
 import { Logo } from "@/components/Logo";
-import { clearAllData, loadSampleReports, login } from "@/lib/store";
+import { clearAllData, loadBulkSampleReports, loadImported500SampleReports, loadSampleReports, login } from "@/lib/store";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -67,6 +67,28 @@ export default function LoginPage() {
 }
 
 function DemoTools() {
+  const [loading500, setLoading500] = useState(false);
+
+  async function handleLoad500() {
+    if (
+      !window.confirm(
+        "Load 500 curated sample reports for analytics testing? This replaces all current reports."
+      )
+    ) {
+      return;
+    }
+    setLoading500(true);
+    try {
+      await loadImported500SampleReports();
+    } catch (err) {
+      window.alert(
+        err instanceof Error ? err.message : "Failed to load 500 sample reports."
+      );
+    } finally {
+      setLoading500(false);
+    }
+  }
+
   return (
     <div className="pointer-events-none fixed bottom-4 right-4 z-10 flex flex-col items-end gap-1 text-[11px] text-ink-muted/80">
       <button
@@ -84,12 +106,35 @@ function DemoTools() {
         type="button"
         className="pointer-events-auto transition-colors hover:text-navy-800"
         onClick={() => {
-          if (window.confirm("Load 9 sample San Jose reports?")) {
+          if (window.confirm("Load 9 curated sample reports?")) {
             loadSampleReports();
           }
         }}
       >
-        Generate samples
+        Generate 9 samples
+      </button>
+      <button
+        type="button"
+        className="pointer-events-auto transition-colors hover:text-navy-800 disabled:opacity-50"
+        disabled={loading500}
+        onClick={handleLoad500}
+      >
+        {loading500 ? "Loading 500…" : "Generate 500 samples"}
+      </button>
+      <button
+        type="button"
+        className="pointer-events-auto transition-colors hover:text-navy-800"
+        onClick={() => {
+          if (
+            window.confirm(
+              "Load 1,000 procedural reports for analytics testing? This replaces all current reports."
+            )
+          ) {
+            loadBulkSampleReports(1000);
+          }
+        }}
+      >
+        Generate 1,000 samples
       </button>
     </div>
   );
@@ -169,7 +214,7 @@ function SignInForm({ router }: { router: ReturnType<typeof useRouter> }) {
 
       <div className="mt-7">
         <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
-          Demo account · password "demo"
+          Demo account · password &ldquo;demo&rdquo;
         </p>
         <div className="mt-3">
           <button

@@ -23,6 +23,8 @@ import type {
 import { clamp, weightedSeverity } from "./beacon-logic";
 import { SEED_ACCOUNTS } from "./seed";
 import { buildSampleReports } from "./sample-reports";
+import { buildBulkSampleReports } from "./bulk-sample-reports";
+import { fetchImported500Reports } from "./imported-500-reports";
 import { generateTicketId, uid } from "./utils";
 
 const STORAGE_KEY = "govlink.state.v3";
@@ -390,6 +392,25 @@ export function loadSampleReports() {
   ensureLoaded();
   setState({
     reports: buildSampleReports(),
+    hydrated: true,
+  });
+}
+
+/** Load ~1000 procedural reports for analytics stress-testing. */
+export function loadBulkSampleReports(count = 1000) {
+  ensureLoaded();
+  setState({
+    reports: buildBulkSampleReports(count),
+    hydrated: true,
+  });
+}
+
+/** Load the curated 500-report JSON dataset from public/data. */
+export async function loadImported500SampleReports(): Promise<void> {
+  ensureLoaded();
+  const reports = await fetchImported500Reports();
+  setState({
+    reports,
     hydrated: true,
   });
 }

@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import {
   Map as MapIcon,
@@ -13,6 +13,8 @@ import {
   Inbox,
   ChevronLeft,
   ChevronRight,
+  ExternalLink,
+  BarChart3,
 } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { FilterPanel } from "@/components/gov/FilterPanel";
@@ -42,13 +44,24 @@ const ReportMap = dynamic(() => import("@/components/map/ReportMap"), {
   ),
 });
 
+const AnalyticsPanel = dynamic(
+  () => import("@/components/gov/AnalyticsPanel").then((m) => m.AnalyticsPanel),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="grid h-full w-full place-items-center bg-slate-50">
+        <Loader2 className="h-6 w-6 animate-spin text-navy-400" aria-hidden="true" />
+      </div>
+    ),
+  }
+);
+
 export default function GovDashboardPage() {
   const router = useRouter();
-  const pathname = usePathname();
   const { user, hydrated } = useCurrentUser();
   const { reports } = useReports();
 
-  const [view, setView] = useState<"map" | "list" | "resolved">("list");
+  const [view, setView] = useState<"map" | "list" | "resolved" | "analytics">("list");
   const [filters, setFilters] = useState<GovFilters>({ ...DEFAULT_FILTERS });
   const [sort, setSort] = useState<SortKey>("reports");
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -136,52 +149,31 @@ export default function GovDashboardPage() {
       {/* Header — matches citizen nav exactly */}
       <header className="z-30 shrink-0 bg-navy-900 shadow-md shadow-navy-950/20">
         <div className="gl-container flex h-16 items-center justify-between gap-4">
-        {/* Logo — same layout as citizen nav */}
-        <Link href="/" className="flex flex-col gap-0.5">
+        {/* Logo — gov home */}
+        <Link href="/gov" className="flex flex-col gap-0.5">
           <Logo markClassName="h-8 w-auto brightness-0 invert" />
           <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-accent-200/90 sm:text-xs">
             CITY OF SAN JOSE
           </span>
         </Link>
 
-        {/* Nav links — no icons, same style as citizen nav */}
-        <nav className="hidden items-center gap-1 sm:flex">
-          {[
-            { href: "/gov", label: "Dashboard" },
-            { href: "/", label: "Public Site" },
-          ].map((item) => {
-            const active = pathname === item.href;
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                aria-current={active ? "page" : undefined}
-                className={cx(
-                  "relative rounded-md px-4 py-2.5 text-xs font-semibold uppercase tracking-wider transition-colors",
-                  active ? "text-white" : "text-navy-200 hover:text-white"
-                )}
-              >
-                {item.label}
-                {active && (
-                  <span
-                    aria-hidden="true"
-                    className="absolute inset-x-3 bottom-1 h-[3px] rounded-full bg-accent-400"
-                  />
-                )}
-              </Link>
-            );
-          })}
-        </nav>
-
-        {/* Sign out — same border-2 white outline style as citizen nav buttons */}
-        <button
-          type="button"
-          onClick={() => { logout(); router.push("/"); }}
-          className="btn border-2 border-white bg-white/10 font-semibold text-white hover:bg-white hover:text-navy-900"
-        >
-          <LogOut className="h-4 w-4" aria-hidden="true" />
-          <span className="hidden sm:inline">Sign out</span>
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => { logout(); router.push("/"); }}
+            className="btn border-2 border-white/60 font-semibold text-white hover:border-white hover:bg-white hover:text-navy-900"
+          >
+            <LogOut className="h-4 w-4" aria-hidden="true" />
+            <span className="hidden sm:inline">Sign out</span>
+          </button>
+          <Link
+            href="/"
+            className="btn border-2 border-white bg-white/10 font-semibold text-white hover:bg-white hover:text-navy-900"
+          >
+            <ExternalLink className="h-4 w-4" aria-hidden="true" />
+            <span className="hidden sm:inline">Public Site</span>
+          </Link>
+        </div>
         </div>
         <div className="border-t border-navy-800 bg-navy-950">
           <p className="gl-container py-1.5 text-[11px] text-navy-400 sm:text-xs">
@@ -236,12 +228,19 @@ export default function GovDashboardPage() {
               icon={<CircleCheck className="h-4 w-4" />}
               label="Resolved"
             />
+            <ViewToggle
+              active={view === "analytics"}
+              onClick={() => setView("analytics")}
+              icon={<BarChart3 className="h-4 w-4" />}
+              label="Analytics"
+            />
           </div>
         </div>
       </div>
       </div>
 
-      {/* Filters — collapsible top bar */}
+      {/* Filters — collapsible top bar (not used on analytics) */}
+      {view !== "analytics" && (
       <div className="z-10 shrink-0 border-b border-navy-100 bg-white">
       <div className="gl-container py-3">
         <FilterPanel
@@ -251,10 +250,13 @@ export default function GovDashboardPage() {
         />
       </div>
       </div>
+      )}
 
       {/* Main content */}
       <main className="relative min-h-0 flex-1">
-        {visible.length === 0 ? (
+        {view === "analytics" ? (
+          <AnalyticsPanel reports={reports} />
+        ) : visible.length === 0 ? (
           <div className="grid h-full place-items-center p-6">
             <EmptyState
               icon={view === "resolved" ? <CircleCheck className="h-6 w-6" /> : <Inbox className="h-6 w-6" />}

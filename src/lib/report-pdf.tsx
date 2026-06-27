@@ -10,7 +10,20 @@ export async function downloadReportPdf(report: Report): Promise<void> {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(report),
   });
-  if (!res.ok) throw new Error(`PDF generation failed: ${res.status}`);
+  if (!res.ok) {
+    let detail = `PDF generation failed (${res.status})`;
+    try {
+      const data = (await res.json()) as { error?: string };
+      if (data.error) detail = data.error;
+    } catch {
+      /* non-JSON error body */
+    }
+    throw new Error(detail);
+  }
+  const contentType = res.headers.get("Content-Type") ?? "";
+  if (!contentType.includes("application/pdf")) {
+    throw new Error("Server did not return a PDF.");
+  }
   const blob = await res.blob();
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");

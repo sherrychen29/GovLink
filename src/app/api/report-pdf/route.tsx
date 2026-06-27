@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
   eventNote: { fontSize: 9, color: INK, marginTop: 1 },
   note: { borderLeftWidth: 2, borderLeftColor: RULE, paddingLeft: 8, marginBottom: 8 },
   noteMeta: { fontSize: 7.5, fontWeight: 600, color: NAVY_MUTED, marginTop: 2 },
-  confidential: { marginTop: 4, marginBottom: 2, fontSize: 7.5, color: "#9aa1b2", fontStyle: "italic" },
+  confidential: { marginTop: 4, marginBottom: 2, fontSize: 7.5, color: "#9aa1b2" },
   footer: {
     position: "absolute",
     bottom: 28, left: 48, right: 48,
@@ -240,12 +240,14 @@ function ReportDocument({ report }: { report: Report }) {
           <>
             <Text style={styles.sectionHead}>Internal Staff Notes</Text>
             <Text style={styles.confidential}>
-              Confidential — for municipal staff use only. Not part of the public record released to the reporting party.
+              Confidential - for municipal staff use only. Not part of the public record released to the reporting party.
             </Text>
             {report.internalNotes.map((n) => (
               <View key={n.id} style={styles.note}>
                 <Text style={styles.bodyText}>{n.text}</Text>
-                <Text style={styles.noteMeta}>{n.author} · {formatDateTime(n.createdAt)}</Text>
+                <Text style={styles.noteMeta}>
+                  {n.author} - {formatDateTime(n.createdAt)}
+                </Text>
               </View>
             ))}
           </>
@@ -261,13 +263,21 @@ function ReportDocument({ report }: { report: Report }) {
 }
 
 export async function POST(req: NextRequest) {
-  ensureFonts();
-  const report: Report = await req.json();
-  const buf = await renderToBuffer(<ReportDocument report={report} />);
-  return new Response(buf, {
-    headers: {
-      "Content-Type": "application/pdf",
-      "Content-Disposition": `attachment; filename="${report.id}.pdf"`,
-    },
-  });
+  try {
+    ensureFonts();
+    const report: Report = await req.json();
+    const buf = await renderToBuffer(<ReportDocument report={report} />);
+    return new Response(buf, {
+      headers: {
+        "Content-Type": "application/pdf",
+        "Content-Disposition": `attachment; filename="${report.id}.pdf"`,
+      },
+    });
+  } catch (err) {
+    console.error("[report-pdf]", err);
+    return new Response(
+      JSON.stringify({ error: "PDF generation failed" }),
+      { status: 500, headers: { "Content-Type": "application/json" } }
+    );
+  }
 }
