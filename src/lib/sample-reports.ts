@@ -32,7 +32,7 @@ const SAMPLE_INPUTS: SeedReportInput[] = [
     contactName: "Daniel Reyes",
     contactEmail: "daniel.reyes@gmail.com",
     contactPhone: "(555) 274-9930",
-    media: [{ label: "Pothole, Winchester", from: "#92400e", to: "#78350f" }],
+    media: [{ label: "Pothole, Winchester", from: "#92400e", to: "#78350f", url: "https://images.unsplash.com/photo-1741996951192-f4762170f3cb?auto=format&w=400&q=75&fit=crop" }],
     internalNotes: [
       { text: "Field crew verified. Patch scheduled for Thursday AM.", daysAgo: 2 },
     ],
@@ -77,6 +77,7 @@ const SAMPLE_INPUTS: SeedReportInput[] = [
     createdAt: daysAgo(8, 19, 45),
     noticedAt: daysAgo(9, 6, 0),
     anonymous: true,
+    media: [{ label: "Dark street, Elm & 22nd", from: "#1e293b", to: "#0f172a", url: "https://images.unsplash.com/photo-1732925177535-8f63b44a095f?auto=format&w=400&q=75&fit=crop" }],
     chatLog: [
       { role: "beacon", text: BEACON_GREETING, at: atOffset(daysAgo(8, 19, 45), -1) },
       {
@@ -120,7 +121,7 @@ const SAMPLE_INPUTS: SeedReportInput[] = [
     reporterId: "acc_c1",
     contactName: "Maya Thompson",
     contactEmail: "maya.thompson@gmail.com",
-    media: [{ label: "Fallen tree, trail", from: "#166534", to: "#14532d" }],
+    media: [{ label: "Fallen tree, trail", from: "#166534", to: "#14532d", url: "https://images.unsplash.com/photo-1685717347580-796a30bf44e6?auto=format&w=400&q=75&fit=crop" }],
     internalNotes: [{ text: "Parks crew dispatched with chainsaw equipment.", daysAgo: 1 }],
     chatLog: [
       { role: "beacon", text: BEACON_GREETING, at: atOffset(daysAgo(2, 11, 10), -2) },
@@ -163,7 +164,7 @@ const SAMPLE_INPUTS: SeedReportInput[] = [
     createdAt: daysAgo(3, 16, 30),
     noticedAt: daysAgo(4, 8, 0),
     anonymous: true,
-    media: [{ label: "Water on Meridian", from: "#0284c7", to: "#0369a1" }],
+    media: [{ label: "Water on Meridian", from: "#0284c7", to: "#0369a1", url: "https://images.unsplash.com/photo-1576749288264-207936efb479?auto=format&w=400&q=75&fit=crop" }],
     chatLog: [
       { role: "beacon", text: BEACON_GREETING, at: atOffset(daysAgo(3, 16, 30), -1) },
       {
@@ -207,7 +208,7 @@ const SAMPLE_INPUTS: SeedReportInput[] = [
     reporterId: "acc_c3",
     contactName: "Aisha Khan",
     contactEmail: "aisha.khan@gmail.com",
-    media: [{ label: "Damaged slide", from: "#047857", to: "#065f46" }],
+    media: [{ label: "Damaged slide", from: "#047857", to: "#065f46", url: "https://images.unsplash.com/photo-1575783970733-1aaedde1db74?auto=format&w=400&q=75&fit=crop" }],
     chatLog: [
       { role: "beacon", text: BEACON_GREETING, at: atOffset(hoursAgo(14, 20), -2) },
       {
@@ -250,6 +251,7 @@ const SAMPLE_INPUTS: SeedReportInput[] = [
     createdAt: daysAgo(4, 13, 5),
     noticedAt: daysAgo(6, 10, 0),
     contactPhone: "(555) 412-8890",
+    media: [{ label: "Overflowing dumpster", from: "#374151", to: "#1f2937", url: "https://images.unsplash.com/photo-1759279699693-baa1a19fcb34?auto=format&w=400&q=75&fit=crop" }],
     chatLog: [
       { role: "beacon", text: BEACON_GREETING, at: atOffset(daysAgo(4, 13, 5), -1) },
       {
@@ -293,7 +295,7 @@ const SAMPLE_INPUTS: SeedReportInput[] = [
     reporterId: "acc_c1",
     contactName: "Maya Thompson",
     contactEmail: "maya.thompson@gmail.com",
-    media: [{ label: "Sinkhole, library", from: "#57534e", to: "#44403c" }],
+    media: [{ label: "Sinkhole, library", from: "#57534e", to: "#44403c", url: "https://images.unsplash.com/photo-1680206491409-bc73fce33707?auto=format&w=400&q=75&fit=crop" }],
     internalNotes: [{ text: "Barricades requested. Public Works inspecting subsurface.", daysAgo: 0 }],
     chatLog: [
       { role: "beacon", text: BEACON_GREETING, at: atOffset(daysAgo(1, 8, 40), -2) },
@@ -336,7 +338,7 @@ const SAMPLE_INPUTS: SeedReportInput[] = [
     createdAt: hoursAgo(22, 35),
     noticedAt: hoursAgo(24, 0),
     anonymous: true,
-    media: [{ label: "Low line, Pine St", from: "#b91c1c", to: "#991b1b" }],
+    media: [{ label: "Low line, Pine St", from: "#b91c1c", to: "#991b1b", url: "https://images.unsplash.com/photo-1693013112835-5f3128bb555f?auto=format&w=400&q=75&fit=crop" }],
     chatLog: [
       { role: "beacon", text: BEACON_GREETING, at: atOffset(hoursAgo(22, 35), -1) },
       {
@@ -378,6 +380,7 @@ const SAMPLE_INPUTS: SeedReportInput[] = [
     createdAt: daysAgo(2, 17, 55),
     noticedAt: daysAgo(3, 9, 0),
     anonymous: true,
+    media: [{ label: "Injured raccoon", from: "#92400e", to: "#78350f", url: "https://images.unsplash.com/photo-1749414767955-0e4a9bda515e?auto=format&w=400&q=75&fit=crop" }],
     chatLog: [
       { role: "beacon", text: BEACON_GREETING, at: atOffset(daysAgo(2, 17, 55), -2) },
       {

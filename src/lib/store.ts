@@ -27,7 +27,7 @@ import { buildBulkSampleReports } from "./bulk-sample-reports";
 import { fetchImported500Reports } from "./imported-500-reports";
 import { generateTicketId, uid } from "./utils";
 
-const STORAGE_KEY = "govlink.state.v3";
+const STORAGE_KEY = "govlink.state.v4";
 
 interface GovLinkState {
   reports: Report[];
@@ -92,7 +92,7 @@ function ensureLoaded() {
     };
   } else {
     state = {
-      reports: [],
+      reports: buildSampleReports(),
       accounts: SEED_ACCOUNTS,
       currentUserId: null,
       hydrated: true,

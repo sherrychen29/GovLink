@@ -93,7 +93,7 @@ export interface SeedReportInput {
   contactName?: string;
   contactEmail?: string;
   contactPhone?: string;
-  media?: Array<{ label: string; from: string; to: string }>;
+  media?: Array<{ label: string; from: string; to: string; url?: string }>;
   extraSubmissions?: Array<{
     description: string;
     createdAt: string;
@@ -165,9 +165,9 @@ export function buildReportFromSeed(s: SeedReportInput): Report {
     },
     media: (s.media || []).map((m, i) => ({
       id: `media_${s.id}_${i}`,
-      dataUrl: svgPhoto(m.label, m.from, m.to),
+      dataUrl: m.url ?? svgPhoto(m.label, m.from, m.to),
       kind: "image" as const,
-      name: `${m.label}.svg`,
+      name: `${m.label}.${m.url ? "jpg" : "svg"}`,
     })),
     severity,
     baseSeverity: s.baseSeverity,

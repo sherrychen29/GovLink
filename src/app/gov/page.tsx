@@ -17,6 +17,7 @@ import {
   BarChart3,
 } from "lucide-react";
 import { Logo } from "@/components/Logo";
+import { SiteFooter } from "@/components/SiteShell";
 import { FilterPanel } from "@/components/gov/FilterPanel";
 import { IssueTable } from "@/components/gov/IssueTable";
 import { FormalReportModal } from "@/components/gov/FormalReportModal";
@@ -25,7 +26,7 @@ import {
   DEFAULT_FILTERS,
   filterReports,
   sortReports,
-  SORT_LABELS,
+
   type GovFilters,
   type SortKey,
 } from "@/lib/filters";
@@ -33,7 +34,7 @@ import { logout, useCurrentUser, useReports } from "@/lib/store";
 import { SEVERITY_LEGEND } from "@/lib/meta";
 import { cx } from "@/lib/utils";
 
-const PAGE_SIZE = 15;
+const PAGE_SIZE = 20;
 
 const ReportMap = dynamic(() => import("@/components/map/ReportMap"), {
   ssr: false,
@@ -124,15 +125,6 @@ export default function GovDashboardPage() {
     setModalId(null);
     setView("map");
   }
-  const stats = useMemo(() => {
-    const open = reports.filter((r) => r.status !== "resolved");
-    return {
-      open: open.length,
-      critical: open.filter((r) => r.severity >= 8).length,
-      resolved: reports.filter((r) => r.status === "resolved").length,
-    };
-  }, [reports]);
-
   if (!hydrated || !user || user.role !== "government") {
     return (
       <div className="grid min-h-screen place-items-center bg-slate-50">
@@ -145,7 +137,7 @@ export default function GovDashboardPage() {
   }
 
   return (
-    <div className="flex h-screen flex-col overflow-hidden bg-slate-50">
+    <div className="flex h-screen flex-col overflow-hidden bg-accent-50">
       {/* Header — matches citizen nav exactly */}
       <header className="z-30 shrink-0 bg-navy-900 shadow-md shadow-navy-950/20">
         <div className="gl-container flex h-16 items-center justify-between gap-4">
@@ -182,75 +174,71 @@ export default function GovDashboardPage() {
         </div>
       </header>
 
-      {/* Stats + view toggle */}
+      {/* Controls bar: filters (left) + sort + view toggle (right) */}
       <div className="z-20 shrink-0 border-b border-navy-100 bg-white">
-      <div className="gl-container flex flex-col gap-3 py-3 lg:flex-row lg:items-center lg:justify-between">
-        <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
-          {stats.open} reports · {stats.critical} critical · {stats.resolved} resolved
-        </p>
-
-        <div className="flex items-center justify-end gap-2">
-          {(view === "list" || view === "resolved") && (
-            <div className="hidden items-center gap-2 sm:flex">
-              <label htmlFor="sort" className="text-xs font-medium text-ink-muted">
-                Sort
-              </label>
-              <select
-                id="sort"
-                value={sort}
-                onChange={(e) => setSort(e.target.value as SortKey)}
-                className="rounded-lg border border-navy-200 bg-white px-2.5 py-1.5 text-sm focus:border-accent-400 focus:outline-none focus:ring-2 focus:ring-accent-400/40"
-              >
-                <option value="reports"># of reports</option>
-                <option value="severity">Severity</option>
-                <option value="date">Date submitted</option>
-                <option value="category">Category</option>
-                {view === "list" && <option value="status">Status</option>}
-              </select>
+        <div className="gl-container py-3">
+          <div className="flex items-center gap-3">
+            {/* Filters toggle + expanded panel — hidden in analytics */}
+            {view !== "analytics" && (
+              <div className="min-w-0 flex-1">
+                <FilterPanel
+                  filters={filters}
+                  onChange={setFilters}
+                  showStatusFilter={view !== "resolved"}
+                />
+              </div>
+            )}
+            {/* Sort + view toggles */}
+            <div className={cx("flex shrink-0 items-center gap-2", view === "analytics" && "ml-auto")}>
+              {(view === "list" || view === "resolved") && (
+                <div className="hidden items-center gap-2 sm:flex">
+                  <label htmlFor="sort" className="text-xs font-medium text-ink-muted">
+                    Sort
+                  </label>
+                  <select
+                    id="sort"
+                    value={sort}
+                    onChange={(e) => setSort(e.target.value as SortKey)}
+                    className="rounded-lg border border-navy-200 bg-white px-2.5 py-1.5 text-sm focus:border-accent-400 focus:outline-none focus:ring-2 focus:ring-accent-400/40"
+                  >
+                    <option value="reports"># of reports</option>
+                    <option value="severity">Severity</option>
+                    <option value="date">Date submitted</option>
+                    <option value="category">Category</option>
+                    {view === "list" && <option value="status">Status</option>}
+                  </select>
+                </div>
+              )}
+              <div className="inline-flex rounded-lg border border-navy-200 bg-navy-50 p-1">
+                <ViewToggle
+                  active={view === "map"}
+                  onClick={() => setView("map")}
+                  icon={<MapIcon className="h-4 w-4" />}
+                  label="Map"
+                />
+                <ViewToggle
+                  active={view === "list"}
+                  onClick={() => setView("list")}
+                  icon={<List className="h-4 w-4" />}
+                  label="List"
+                />
+                <ViewToggle
+                  active={view === "resolved"}
+                  onClick={() => setView("resolved")}
+                  icon={<CircleCheck className="h-4 w-4" />}
+                  label="Resolved"
+                />
+                <ViewToggle
+                  active={view === "analytics"}
+                  onClick={() => setView("analytics")}
+                  icon={<BarChart3 className="h-4 w-4" />}
+                  label="Analytics"
+                />
+              </div>
             </div>
-          )}
-          <div className="inline-flex rounded-lg border border-navy-200 bg-navy-50 p-1">
-            <ViewToggle
-              active={view === "map"}
-              onClick={() => setView("map")}
-              icon={<MapIcon className="h-4 w-4" />}
-              label="Map"
-            />
-            <ViewToggle
-              active={view === "list"}
-              onClick={() => setView("list")}
-              icon={<List className="h-4 w-4" />}
-              label="List"
-            />
-            <ViewToggle
-              active={view === "resolved"}
-              onClick={() => setView("resolved")}
-              icon={<CircleCheck className="h-4 w-4" />}
-              label="Resolved"
-            />
-            <ViewToggle
-              active={view === "analytics"}
-              onClick={() => setView("analytics")}
-              icon={<BarChart3 className="h-4 w-4" />}
-              label="Analytics"
-            />
           </div>
         </div>
       </div>
-      </div>
-
-      {/* Filters — collapsible top bar (not used on analytics) */}
-      {view !== "analytics" && (
-      <div className="z-10 shrink-0 border-b border-navy-100 bg-white">
-      <div className="gl-container py-3">
-        <FilterPanel
-          filters={filters}
-          onChange={setFilters}
-          showStatusFilter={view !== "resolved"}
-        />
-      </div>
-      </div>
-      )}
 
       {/* Main content */}
       <main className="relative min-h-0 flex-1">
@@ -284,15 +272,15 @@ export default function GovDashboardPage() {
               selectedId={selectedId}
               onSelect={selectReport}
             />
-            <div className="pointer-events-none absolute bottom-4 left-4 z-[400] rounded-xl border border-navy-100 bg-white/95 p-3 text-xs shadow-card">
-              <p className="mb-1.5 font-semibold text-navy-900">
+            <div className="pointer-events-none absolute bottom-4 left-4 z-[400] rounded-xl border border-navy-100 bg-white/95 p-4 shadow-card">
+              <p className="mb-2 text-sm font-bold text-navy-900">
                 Severity ({mapReports.length} shown)
               </p>
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-1.5">
                 {SEVERITY_LEGEND.map((x) => (
-                  <span key={x.label} className="flex items-center gap-2 text-ink-soft">
+                  <span key={x.label} className="flex items-center gap-2.5 text-sm font-medium text-ink-soft">
                     <span
-                      className="h-2.5 w-2.5 rounded-full"
+                      className="h-3.5 w-3.5 rounded-full"
                       style={{ backgroundColor: x.hex }}
                     />
                     {x.label}
@@ -305,14 +293,7 @@ export default function GovDashboardPage() {
           <div className="h-full overflow-y-auto">
           <div className="gl-container py-4 sm:py-6">
             <p className="mb-3 text-sm text-ink-muted">
-              {visible.length} report{visible.length === 1 ? "" : "s"} · ranked by{" "}
-              {SORT_LABELS[sort]}
-              {totalPages > 1 && (
-                <>
-                  {" · "}showing {(safePage - 1) * PAGE_SIZE + 1}–
-                  {Math.min(safePage * PAGE_SIZE, visible.length)}
-                </>
-              )}
+              {visible.length} report{visible.length === 1 ? "" : "s"} displayed
             </p>
             <IssueTable
               reports={pageReports}
@@ -330,6 +311,7 @@ export default function GovDashboardPage() {
               />
             )}
           </div>
+          <SiteFooter compact />
           </div>
         ) : null}
       </main>
@@ -365,7 +347,7 @@ function ViewToggle({
       aria-pressed={active}
       className={cx(
         "inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-semibold transition-colors",
-        active ? "bg-white text-navy-900 shadow-sm" : "text-ink-soft hover:text-navy-900"
+        active ? "bg-accent-500 text-white shadow-sm" : "text-ink-soft hover:text-navy-900"
       )}
     >
       {icon}
@@ -383,69 +365,40 @@ function Pagination({
   totalPages: number;
   onChange: (p: number) => void;
 }) {
-  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
   return (
     <nav
       aria-label="Pagination"
-      className="mt-5 flex flex-wrap items-center justify-center gap-1.5"
+      className="mt-5 flex items-center justify-center gap-4"
     >
-      <PageButton
+      <button
+        type="button"
         onClick={() => onChange(page - 1)}
         disabled={page === 1}
-        ariaLabel="Previous page"
+        aria-label="Previous page"
+        className={cx(
+          "inline-flex items-center gap-1.5 rounded-lg border border-navy-200 bg-white px-4 py-2 text-sm font-semibold text-navy-800 transition-colors hover:bg-navy-50",
+          page === 1 && "cursor-not-allowed opacity-40 hover:bg-white"
+        )}
       >
         <ChevronLeft className="h-4 w-4" aria-hidden="true" />
-      </PageButton>
-      {pages.map((p) => (
-        <PageButton
-          key={p}
-          onClick={() => onChange(p)}
-          active={p === page}
-          ariaLabel={`Page ${p}`}
-        >
-          {p}
-        </PageButton>
-      ))}
-      <PageButton
+        Prev
+      </button>
+      <span className="text-sm text-ink-muted">
+        {page} / {totalPages}
+      </span>
+      <button
+        type="button"
         onClick={() => onChange(page + 1)}
         disabled={page === totalPages}
-        ariaLabel="Next page"
+        aria-label="Next page"
+        className={cx(
+          "inline-flex items-center gap-1.5 rounded-lg border border-navy-200 bg-white px-4 py-2 text-sm font-semibold text-navy-800 transition-colors hover:bg-navy-50",
+          page === totalPages && "cursor-not-allowed opacity-40 hover:bg-white"
+        )}
       >
+        Next
         <ChevronRight className="h-4 w-4" aria-hidden="true" />
-      </PageButton>
+      </button>
     </nav>
-  );
-}
-
-function PageButton({
-  children,
-  onClick,
-  active = false,
-  disabled = false,
-  ariaLabel,
-}: {
-  children: React.ReactNode;
-  onClick: () => void;
-  active?: boolean;
-  disabled?: boolean;
-  ariaLabel: string;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      disabled={disabled}
-      aria-label={ariaLabel}
-      aria-current={active ? "page" : undefined}
-      className={cx(
-        "inline-flex h-9 min-w-9 items-center justify-center rounded-lg border px-3 text-sm font-semibold transition-colors",
-        active
-          ? "border-accent-500 bg-accent-500 text-white"
-          : "border-navy-200 bg-white text-navy-800 hover:bg-navy-50",
-        disabled && "cursor-not-allowed opacity-40 hover:bg-white"
-      )}
-    >
-      {children}
-    </button>
   );
 }

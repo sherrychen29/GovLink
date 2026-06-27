@@ -131,6 +131,8 @@ export interface Report {
   statusHistory: StatusEvent[];
   /** Archived Beacon intake conversation, when filed via chat. */
   chatLog?: ChatLogEntry[];
+  /** Staff member assigned to handle this report. */
+  assignedTo?: string;
   /** Citizen-visible resolution note (includes rejection reason when rejected). */
   resolution?: {
     note: string;

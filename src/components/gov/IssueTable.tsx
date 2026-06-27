@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUpDown, ArrowDown, Users, ImageIcon } from "lucide-react";
+import { ArrowUpDown, ArrowDown, Users, ImageIcon, AlertCircle, CheckCircle2 } from "lucide-react";
 import type { Report } from "@/lib/types";
 import { corroborations } from "@/lib/types";
 import type { SortKey } from "@/lib/filters";
@@ -13,14 +13,15 @@ const COLUMNS: Array<{
   key: SortKey | null;
   label: string;
   className?: string;
+  align?: "left" | "center";
 }> = [
-  { key: null, label: "Ticket" },
-  { key: "category", label: "Category" },
-  { key: "reports", label: "Reports" },
-  { key: "severity", label: "Severity" },
-  { key: "status", label: "Status" },
-  { key: "date", label: "Submitted", className: "hidden md:table-cell" },
-  { key: null, label: "Assigned", className: "hidden xl:table-cell" },
+  { key: null, label: "TICKET" },
+  { key: "category", label: "CATEGORY" },
+  { key: "reports", label: "REPORTS", align: "center" },
+  { key: "severity", label: "SEVERITY", align: "center" },
+  { key: "status", label: "STATUS" },
+  { key: null, label: "ASSIGNED", className: "hidden xl:table-cell", align: "center" },
+  { key: "date", label: "SUBMITTED", className: "hidden md:table-cell" },
 ];
 
 export function IssueTable({
@@ -51,7 +52,8 @@ export function IssueTable({
                 key={col.label}
                 scope="col"
                 className={cx(
-                  "px-4 py-3 text-xs font-semibold uppercase tracking-wide text-ink-muted",
+                  "px-4 py-3 text-xs font-extrabold uppercase tracking-widest text-navy-600",
+                  col.align === "center" && "text-center",
                   col.className
                 )}
                 aria-sort={
@@ -62,7 +64,10 @@ export function IssueTable({
                   <button
                     type="button"
                     onClick={() => onSortChange(col.key as SortKey)}
-                    className="inline-flex items-center gap-1 hover:text-navy-900"
+                    className={cx(
+                      "inline-flex items-center gap-1 hover:text-navy-900",
+                      col.align === "center" && "mx-auto"
+                    )}
                   >
                     {col.label}
                     {sort === col.key ? (
@@ -92,39 +97,57 @@ export function IssueTable({
                 )}
               >
                 <td className="px-4 py-3">
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onSelect(r.id);
-                    }}
-                    className="text-left font-mono text-xs font-semibold text-navy-900 hover:text-accent-600"
-                  >
-                    {r.id}
-                  </button>
-                  {r.formalTitle && (
-                    <p className="mt-1 line-clamp-1 text-xs font-medium text-ink-soft">
-                      {r.formalTitle}
-                    </p>
-                  )}
-                  {r.media.length > 0 && (
-                    <ImageIcon
-                      className="mt-1 h-3 w-3 text-ink-muted"
-                      aria-label="Has media"
-                    />
-                  )}
+                  <div className="flex items-center gap-3">
+                    {/* Square image preview */}
+                    <div className="h-10 w-10 shrink-0 overflow-hidden rounded bg-navy-100">
+                      {(() => {
+                        const img = r.media.find((m) => m.kind === "image");
+                        return img ? (
+                          <img
+                            src={img.dataUrl}
+                            alt=""
+                            className="h-full w-full object-cover"
+                          />
+                        ) : (
+                          <div className="flex h-full w-full items-center justify-center">
+                            <ImageIcon className="h-4 w-4 text-navy-300" aria-hidden="true" />
+                          </div>
+                        );
+                      })()}
+                    </div>
+                    {/* Ticket ID + description */}
+                    <div>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onSelect(r.id);
+                        }}
+                        className="text-left font-mono text-xs font-semibold text-navy-900 hover:text-accent-600"
+                      >
+                        {r.id}
+                      </button>
+                      {r.formalTitle && (
+                        <p className="mt-0.5 line-clamp-1 text-xs font-medium text-ink-soft">
+                          {r.formalTitle}
+                        </p>
+                      )}
+                    </div>
+                  </div>
                 </td>
                 <td className="px-4 py-3">
                   <CategoryChip category={r.category} size="sm" />
                 </td>
-                <td className="px-4 py-3">
-                  <span className="inline-flex items-center gap-1 font-semibold text-navy-800">
+                <td className="px-4 py-3 text-center">
+                  <span className="inline-flex items-center justify-center gap-1 font-semibold text-navy-800">
                     <Users className="h-3.5 w-3.5 text-ink-muted" aria-hidden="true" />
                     {count}
                   </span>
                 </td>
-                <td className="px-4 py-3">
-                  <SeverityDot severity={r.severity} />
+                <td className="px-4 py-3 text-center">
+                  <div className="flex justify-center">
+                    <SeverityDot severity={r.severity} />
+                  </div>
                 </td>
                 {showStatus && (
                   <td className="px-4 py-3">
@@ -135,11 +158,17 @@ export function IssueTable({
                     />
                   </td>
                 )}
+                <td className="hidden px-4 py-3 text-center xl:table-cell">
+                  <div className="flex justify-center">
+                    {r.assignedTo ? (
+                      <CheckCircle2 className="h-6 w-6 text-emerald-500" aria-label="Assigned" />
+                    ) : (
+                      <AlertCircle className="h-6 w-6 text-amber-500" aria-label="Unassigned" />
+                    )}
+                  </div>
+                </td>
                 <td className="hidden px-4 py-3 text-ink-muted md:table-cell">
                   {formatDate(r.createdAt)}
-                </td>
-                <td className="hidden px-4 py-3 text-ink-muted xl:table-cell">
-                  <span className="text-xs italic text-navy-300">Unassigned</span>
                 </td>
               </tr>
             );
