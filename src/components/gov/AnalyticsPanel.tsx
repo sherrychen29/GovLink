@@ -127,7 +127,6 @@ export function AnalyticsPanel({ reports }: { reports: Report[] }) {
             <SectionHeading
               title="2026 Summary"
               note="Key metrics for reports filed in 2026."
-              large
             />
             <Summary2026 reports={reports} />
           </section>
@@ -138,7 +137,7 @@ export function AnalyticsPanel({ reports }: { reports: Report[] }) {
               note="Total filed per service type, with solved overlay."
             />
             <ChartFrame>
-              <ResponsiveContainer width="100%" height={Math.max(260, categoryChartData.length * 32)}>
+              <ResponsiveContainer width="100%" height={Math.max(150, categoryChartData.length * 17)}>
                 <ComposedChart
                   data={categoryChartData}
                   layout="vertical"
@@ -157,6 +156,7 @@ export function AnalyticsPanel({ reports }: { reports: Report[] }) {
                     type="category"
                     dataKey="name"
                     width={112}
+                    interval={0}
                     tick={{ fontSize: 10, fill: CHART.navy, fontFamily: "system-ui" }}
                     axisLine={false}
                     tickLine={false}
@@ -167,14 +167,14 @@ export function AnalyticsPanel({ reports }: { reports: Report[] }) {
                     labelFormatter={(_, payload) => payload?.[0]?.payload?.fullName ?? ""}
                   />
                   <Legend wrapperStyle={{ fontSize: 11, fontFamily: "system-ui" }} />
-                  <Bar dataKey="total" name="Total filed" fill={CHART.navyMid} barSize={22} />
+                  <Bar dataKey="total" name="Total filed" fill={CHART.navyMid} barSize={9} />
                   <Line
                     dataKey="solved"
                     name="Solved"
                     stroke="#06b6d4"
                     strokeWidth={2}
-                    dot={{ r: 4, fill: "#06b6d4", strokeWidth: 0 }}
-                    activeDot={{ r: 5 }}
+                    dot={{ r: 3, fill: "#06b6d4", strokeWidth: 0 }}
+                    activeDot={{ r: 4 }}
                   />
                 </ComposedChart>
               </ResponsiveContainer>
@@ -395,10 +395,10 @@ export function AnalyticsPanel({ reports }: { reports: Report[] }) {
   );
 }
 
-function SectionHeading({ title, note, large }: { title: string; note: string; large?: boolean }) {
+function SectionHeading({ title, note }: { title: string; note: string }) {
   return (
     <div className="border-b border-navy-200 pb-2">
-      <h3 className={large ? "text-xl font-bold text-navy-900" : "text-base font-bold text-navy-900"}>{title}</h3>
+      <h3 className="text-xl font-bold text-navy-900">{title}</h3>
       <p className="mt-0.5 font-sans text-xs leading-relaxed text-ink-muted">{note}</p>
     </div>
   );
