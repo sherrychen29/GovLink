@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import {
   Map as MapIcon,
@@ -62,7 +62,20 @@ export default function GovDashboardPage() {
   const { user, hydrated } = useCurrentUser();
   const { reports } = useReports();
 
-  const [view, setView] = useState<"map" | "list" | "resolved" | "analytics">("list");
+  const searchParams = useSearchParams();
+  const validViews = ["map", "list", "resolved", "analytics"] as const;
+  type ViewKey = typeof validViews[number];
+  const paramView = searchParams.get("view") as ViewKey | null;
+  const [view, setViewState] = useState<ViewKey>(
+    validViews.includes(paramView as ViewKey) ? (paramView as ViewKey) : "list"
+  );
+
+  function setView(v: ViewKey) {
+    setViewState(v);
+    const params = new URLSearchParams(window.location.search);
+    params.set("view", v);
+    router.replace(`/gov?${params.toString()}`, { scroll: false });
+  }
   const [filters, setFilters] = useState<GovFilters>({ ...DEFAULT_FILTERS });
   const [sort, setSort] = useState<SortKey>("reports");
   const [selectedId, setSelectedId] = useState<string | null>(null);

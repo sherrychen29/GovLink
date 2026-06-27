@@ -5,6 +5,7 @@ import {
   Bar,
   BarChart,
   CartesianGrid,
+  ComposedChart,
   Legend,
   Line,
   LineChart,
@@ -13,8 +14,9 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { ClipboardList, CheckCircle2, Gauge, Users } from "lucide-react";
 import { computeGovAnalytics, shortCategory } from "@/lib/gov-analytics";
-import { STATUS_META } from "@/lib/meta";
+import { STATUS_META, severityMeta } from "@/lib/meta";
 import { CITY } from "@/lib/seed";
 import type { Report } from "@/lib/types";
 import { formatDateTime } from "@/lib/utils";
@@ -78,12 +80,17 @@ export function AnalyticsPanel({ reports }: { reports: Report[] }) {
     );
   }
 
-  const categoryChartData = data.categoryBreakdown.map((c) => ({
-    name: shortCategory(c.category),
-    fullName: c.category,
-    total: c.count,
-    open: c.open,
-  }));
+  const categoryChartData = data.categoryBreakdown.map((c) => {
+    const solved = reports.filter(
+      (r) => r.category === c.category && r.status === "resolved" && r.resolution && !r.resolution.rejected
+    ).length;
+    return {
+      name: shortCategory(c.category),
+      fullName: c.category,
+      total: c.count,
+      solved,
+    };
+  });
 
   const statusChartData = data.statusBreakdown.map((s) => ({
     name: STATUS_META[s.status].label,
@@ -94,18 +101,15 @@ export function AnalyticsPanel({ reports }: { reports: Report[] }) {
   const yearClosed = data.monthlyTrend.reduce((n, m) => n + m.resolved, 0);
 
   return (
-    <div
-      className="h-full overflow-y-auto border-t border-navy-200 bg-white"
-      style={{ fontFamily: "Georgia, 'Times New Roman', Times, serif" }}
-    >
+    <div className="h-full overflow-y-auto border-t border-navy-200 bg-white">
       <div className="gl-container max-w-6xl py-8 sm:py-10">
         {/* Document masthead */}
         <header className="border-b-2 border-navy-900 pb-6 text-center">
           <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-navy-500">
             City of {CITY.name}
           </p>
-          <h2 className="mt-2 font-serif text-2xl font-bold tracking-tight text-navy-900 sm:text-[1.75rem]">
-            Service Request Statistical Summary
+          <h2 className="mt-2 text-2xl font-bold tracking-tight text-navy-900 sm:text-[1.75rem]">
+            Service Request Analytics
           </h2>
           <p className="mt-1 text-sm text-ink-muted">
             Department of Public Works · Operations Division
@@ -117,47 +121,62 @@ export function AnalyticsPanel({ reports }: { reports: Report[] }) {
           </p>
         </header>
 
-        {/* I + II side by side on wide screens */}
+        {/* Top row: 2026 Summary + Submissions by Category */}
         <div className="mt-8 grid gap-6 lg:grid-cols-2 lg:items-start">
           <section>
             <SectionHeading
-              number="I"
-              title="Executive Summary"
-              note="Aggregate measures on record."
+              title="2026 Summary"
+              note="Key metrics for reports filed in 2026."
+              large
             />
-            <CompactSummary summary={summary} />
+            <Summary2026 reports={reports} />
           </section>
 
           <section>
             <SectionHeading
-              number="II"
-              title="Annual Volume"
-              note="Filed, closed, and open by calendar year."
+              title="Submissions by Category"
+              note="Total filed per service type, with solved overlay."
             />
             <ChartFrame>
-              <ResponsiveContainer width="100%" height={280}>
-                <BarChart data={data.yearlyTrend} margin={{ top: 12, right: 12, left: 4, bottom: 4 }}>
-                  <CartesianGrid stroke={CHART.grid} vertical={false} />
+              <ResponsiveContainer width="100%" height={Math.max(260, categoryChartData.length * 32)}>
+                <ComposedChart
+                  data={categoryChartData}
+                  layout="vertical"
+                  margin={{ top: 4, right: 24, left: 4, bottom: 4 }}
+                >
+                  <CartesianGrid stroke={CHART.grid} horizontal={false} />
                   <XAxis
-                    dataKey="year"
-                    tick={{ fontSize: 11, fill: CHART.slate, fontFamily: "system-ui" }}
+                    type="number"
+                    domain={[0, Math.max(...categoryChartData.map((d) => d.total))]}
+                    tick={{ fontSize: 10, fill: CHART.slate, fontFamily: "system-ui" }}
                     axisLine={{ stroke: CHART.border }}
-                    tickLine={false}
-                  />
-                  <YAxis
-                    tick={{ fontSize: 11, fill: CHART.slate, fontFamily: "system-ui" }}
-                    axisLine={false}
                     tickLine={false}
                     allowDecimals={false}
                   />
-                  <Tooltip {...TOOLTIP_STYLE} />
-                  <Legend
-                    wrapperStyle={{ fontSize: 11, fontFamily: "system-ui", paddingTop: 8 }}
+                  <YAxis
+                    type="category"
+                    dataKey="name"
+                    width={112}
+                    tick={{ fontSize: 10, fill: CHART.navy, fontFamily: "system-ui" }}
+                    axisLine={false}
+                    tickLine={false}
                   />
-                  <Bar dataKey="filed" name="Filed" fill={CHART.filed} barSize={24} />
-                  <Bar dataKey="resolved" name="Closed" fill={CHART.resolved} barSize={24} />
-                  <Bar dataKey="open" name="Open (cohort)" fill={CHART.open} barSize={24} />
-                </BarChart>
+                  <Tooltip
+                    {...TOOLTIP_STYLE}
+                    formatter={(value, name) => [value, name === "total" ? "Total filed" : "Solved"]}
+                    labelFormatter={(_, payload) => payload?.[0]?.payload?.fullName ?? ""}
+                  />
+                  <Legend wrapperStyle={{ fontSize: 11, fontFamily: "system-ui" }} />
+                  <Bar dataKey="total" name="Total filed" fill={CHART.navyMid} barSize={22} />
+                  <Line
+                    dataKey="solved"
+                    name="Solved"
+                    stroke="#06b6d4"
+                    strokeWidth={2}
+                    dot={{ r: 4, fill: "#06b6d4", strokeWidth: 0 }}
+                    activeDot={{ r: 5 }}
+                  />
+                </ComposedChart>
               </ResponsiveContainer>
             </ChartFrame>
           </section>
@@ -166,7 +185,7 @@ export function AnalyticsPanel({ reports }: { reports: Report[] }) {
         {/* Year filter */}
         <div className="mt-6 flex flex-col gap-2 border border-navy-200 bg-navy-50/40 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs uppercase tracking-wider text-navy-600">
-            Calendar-year filter for Sections III–VII
+            Calendar-year filter for charts below
           </p>
           <label className="flex items-center gap-2 text-sm text-navy-900">
             <span className="font-semibold">Reporting year</span>
@@ -184,11 +203,44 @@ export function AnalyticsPanel({ reports }: { reports: Report[] }) {
           </label>
         </div>
 
-        {/* III–V */}
-        <div className="mt-6 grid gap-6 xl:grid-cols-3">
+        {/* Annual Volume (full width) */}
+        <div className="mt-6">
           <section>
             <SectionHeading
-              number="III"
+              title="Annual Volume"
+              note="Filed, closed, and open by calendar year."
+            />
+            <ChartFrame>
+              <ResponsiveContainer width="100%" height={260}>
+                <BarChart data={data.yearlyTrend} margin={{ top: 12, right: 12, left: 4, bottom: 4 }}>
+                  <CartesianGrid stroke={CHART.grid} vertical={false} />
+                  <XAxis
+                    dataKey="year"
+                    tick={{ fontSize: 11, fill: CHART.slate, fontFamily: "system-ui" }}
+                    axisLine={{ stroke: CHART.border }}
+                    tickLine={false}
+                  />
+                  <YAxis
+                    tick={{ fontSize: 11, fill: CHART.slate, fontFamily: "system-ui" }}
+                    axisLine={false}
+                    tickLine={false}
+                    allowDecimals={false}
+                  />
+                  <Tooltip {...TOOLTIP_STYLE} />
+                  <Legend wrapperStyle={{ fontSize: 11, fontFamily: "system-ui", paddingTop: 8 }} />
+                  <Bar dataKey="filed" name="Filed" fill={CHART.filed} barSize={28} />
+                  <Bar dataKey="resolved" name="Closed" fill={CHART.resolved} barSize={28} />
+                  <Bar dataKey="open" name="Open (cohort)" fill={CHART.open} barSize={28} />
+                </BarChart>
+              </ResponsiveContainer>
+            </ChartFrame>
+          </section>
+        </div>
+
+        {/* Monthly + Status */}
+        <div className="mt-6 grid gap-6 lg:grid-cols-2">
+          <section>
+            <SectionHeading
               title={`${year} Monthly Activity`}
               note={`${yearFilings.toLocaleString()} filed · ${yearClosed.toLocaleString()} closed.`}
             />
@@ -210,8 +262,8 @@ export function AnalyticsPanel({ reports }: { reports: Report[] }) {
                   />
                   <Tooltip {...TOOLTIP_STYLE} />
                   <Legend wrapperStyle={{ fontSize: 11, fontFamily: "system-ui" }} />
-                  <Bar dataKey="filed" name="Filed" fill={CHART.navy} barSize={14} />
-                  <Bar dataKey="resolved" name="Closed" fill={CHART.slate} barSize={14} />
+                  <Bar dataKey="filed" name="Filed" fill={CHART.navy} barSize={16} />
+                  <Bar dataKey="resolved" name="Closed" fill={CHART.slate} barSize={16} />
                 </BarChart>
               </ResponsiveContainer>
             </ChartFrame>
@@ -219,7 +271,6 @@ export function AnalyticsPanel({ reports }: { reports: Report[] }) {
 
           <section>
             <SectionHeading
-              number="IV"
               title="Status Distribution"
               note="Current disposition of all requests."
             />
@@ -247,54 +298,7 @@ export function AnalyticsPanel({ reports }: { reports: Report[] }) {
                     tickLine={false}
                   />
                   <Tooltip {...TOOLTIP_STYLE} />
-                  <Bar dataKey="count" name="Cases" fill={CHART.navyMid} barSize={18} />
-                </BarChart>
-              </ResponsiveContainer>
-            </ChartFrame>
-          </section>
-
-          <section>
-            <SectionHeading
-              number="V"
-              title="Volume by Category"
-              note="Filed and open queue by service type."
-            />
-            <ChartFrame>
-              <ResponsiveContainer width="100%" height={Math.max(220, categoryChartData.length * 28)}>
-                <BarChart
-                  data={categoryChartData}
-                  layout="vertical"
-                  margin={{ top: 4, right: 16, left: 4, bottom: 4 }}
-                >
-                  <CartesianGrid stroke={CHART.grid} horizontal={false} />
-                  <XAxis
-                    type="number"
-                    tick={{ fontSize: 10, fill: CHART.slate, fontFamily: "system-ui" }}
-                    axisLine={{ stroke: CHART.border }}
-                    tickLine={false}
-                    allowDecimals={false}
-                  />
-                  <YAxis
-                    type="category"
-                    dataKey="name"
-                    width={108}
-                    tick={{ fontSize: 10, fill: CHART.navy, fontFamily: "system-ui" }}
-                    axisLine={false}
-                    tickLine={false}
-                  />
-                  <Tooltip
-                    {...TOOLTIP_STYLE}
-                    formatter={(value, name) => [
-                      value,
-                      name === "total" ? "Total filed" : "Open queue",
-                    ]}
-                    labelFormatter={(_, payload) =>
-                      payload?.[0]?.payload?.fullName ?? ""
-                    }
-                  />
-                  <Legend wrapperStyle={{ fontSize: 11, fontFamily: "system-ui" }} />
-                  <Bar dataKey="total" name="Total filed" fill={CHART.navy} barSize={14} />
-                  <Bar dataKey="open" name="Open queue" fill={CHART.slateLight} barSize={14} />
+                  <Bar dataKey="count" name="Cases" fill={CHART.navyMid} barSize={20} />
                 </BarChart>
               </ResponsiveContainer>
             </ChartFrame>
@@ -304,7 +308,6 @@ export function AnalyticsPanel({ reports }: { reports: Report[] }) {
         <div className="mt-6 grid gap-6 lg:grid-cols-2">
           <section>
             <SectionHeading
-              number="VI"
               title="Severity Distribution"
               note="Final assigned severity (scale 1–10) across all records."
             />
@@ -336,7 +339,6 @@ export function AnalyticsPanel({ reports }: { reports: Report[] }) {
 
           <section>
             <SectionHeading
-              number="VII"
               title={`${year} Resolution Timeliness`}
               note="Mean calendar days from filing to closure (non-declined cases)."
             />
@@ -393,72 +395,102 @@ export function AnalyticsPanel({ reports }: { reports: Report[] }) {
   );
 }
 
-function SectionHeading({
-  number,
-  title,
-  note,
-}: {
-  number: string;
-  title: string;
-  note: string;
-}) {
+function SectionHeading({ title, note, large }: { title: string; note: string; large?: boolean }) {
   return (
     <div className="border-b border-navy-200 pb-2">
-      <h3 className="font-serif text-base font-bold text-navy-900">
-        {number}. {title}
-      </h3>
+      <h3 className={large ? "text-xl font-bold text-navy-900" : "text-base font-bold text-navy-900"}>{title}</h3>
       <p className="mt-0.5 font-sans text-xs leading-relaxed text-ink-muted">{note}</p>
     </div>
   );
 }
 
-function CompactSummary({
-  summary,
-}: {
-  summary: ReturnType<typeof computeGovAnalytics>["summary"];
-}) {
-  const items: Array<{ label: string; value: string }> = [
-    { label: "Total on file", value: summary.total.toLocaleString() },
-    { label: "Open queue", value: summary.open.toLocaleString() },
-    { label: "Critical open (8+)", value: summary.criticalOpen.toLocaleString() },
-    {
-      label: "Closed",
-      value: `${summary.resolved.toLocaleString()} (${summary.resolutionRate}%)`,
-    },
-    { label: "Declined when closed", value: `${summary.declinedRate}%` },
-    {
-      label: "Mean time to close",
-      value:
-        summary.avgResolutionDays != null
-          ? `${summary.avgResolutionDays}d (med. ${summary.medianResolutionDays}d)`
-          : "N/A",
-    },
-    { label: "Mean open severity", value: `${summary.avgOpenSeverity}/10` },
-    {
-      label: "Mean open queue age",
-      value: summary.avgOpenAgeDays != null ? `${summary.avgOpenAgeDays}d` : "N/A",
-    },
-    {
-      label: "Corroborated",
-      value: `${summary.corroboratedCount} (${summary.corroborationRate}%)`,
-    },
-    {
-      label: "Resident submissions",
-      value: `${summary.residentSubmissions.toLocaleString()} (${summary.avgSubmissions}/case)`,
-    },
-  ];
+function Summary2026({ reports }: { reports: Report[] }) {
+  const r2026 = reports.filter((r) => new Date(r.createdAt).getFullYear() === 2026);
+  const resolved2026 = r2026.filter((r) => r.status === "resolved");
+  const fixed2026 = resolved2026.filter((r) => r.resolution && !r.resolution.rejected);
+  const corroborated2026 = r2026.filter((r) => r.submissions.length >= 2);
+  const severities = r2026.map((r) => r.severity).filter((s) => s != null);
+  const avgSeverity =
+    severities.length > 0
+      ? parseFloat((severities.reduce((a, b) => a + b, 0) / severities.length).toFixed(1))
+      : null;
+  const fixRate = r2026.length > 0 ? Math.round((fixed2026.length / r2026.length) * 100) : 0;
+  const corrobRate =
+    r2026.length > 0 ? Math.round((corroborated2026.length / r2026.length) * 100) : 0;
+  const sevColor = avgSeverity != null ? severityMeta(Math.round(avgSeverity)).hex : undefined;
 
   return (
-    <dl className="mt-3 grid grid-cols-1 gap-px overflow-hidden border border-navy-200 bg-navy-200 sm:grid-cols-2">
-      {items.map((item) => (
-        <div key={item.label} className="bg-white px-3 py-2">
-          <dt className="font-sans text-[10px] font-semibold uppercase tracking-wide text-navy-600">
-            {item.label}
-          </dt>
-          <dd className="mt-0.5 font-sans text-sm tabular-nums text-navy-900">{item.value}</dd>
+    <div className="mt-3 grid grid-cols-2 gap-px overflow-hidden rounded-md border border-navy-200 bg-navy-200">
+      <Kpi
+        icon={<ClipboardList className="h-3.5 w-3.5" />}
+        label="Issues"
+        value={r2026.length.toLocaleString()}
+        sub="filed in 2026"
+      />
+      <Kpi
+        icon={<CheckCircle2 className="h-3.5 w-3.5" />}
+        label="Fix Rate"
+        value={`${fixRate}`}
+        suffix="%"
+        meter={fixRate}
+        meterColor="#1e3a5f"
+      />
+      <Kpi
+        icon={<Gauge className="h-3.5 w-3.5" />}
+        label="Avg Severity"
+        value={avgSeverity != null ? `${avgSeverity}` : "N/A"}
+        suffix={avgSeverity != null ? "/10" : undefined}
+        meter={avgSeverity != null ? (avgSeverity / 10) * 100 : undefined}
+        meterColor={sevColor}
+      />
+      <Kpi
+        icon={<Users className="h-3.5 w-3.5" />}
+        label="Corroborated"
+        value={corroborated2026.length.toLocaleString()}
+        sub={`${corrobRate}% of issues`}
+      />
+    </div>
+  );
+}
+
+function Kpi({
+  icon,
+  label,
+  value,
+  suffix,
+  sub,
+  meter,
+  meterColor,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+  suffix?: string;
+  sub?: string;
+  meter?: number;
+  meterColor?: string;
+}) {
+  return (
+    <div className="bg-white px-3.5 py-2.5">
+      <div className="flex items-center gap-1.5 text-navy-500">
+        {icon}
+        <span className="text-[10px] font-bold uppercase tracking-wide">{label}</span>
+      </div>
+      <div className="mt-1 flex items-baseline gap-0.5">
+        <span className="text-2xl font-bold leading-none tabular-nums text-navy-900">{value}</span>
+        {suffix && <span className="text-sm font-semibold text-navy-400">{suffix}</span>}
+      </div>
+      {meter != null ? (
+        <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-navy-100">
+          <div
+            className="h-full rounded-full"
+            style={{ width: `${Math.max(0, Math.min(100, meter))}%`, backgroundColor: meterColor }}
+          />
         </div>
-      ))}
-    </dl>
+      ) : (
+        <div className="mt-1.5 text-[10px] font-medium text-ink-muted">{sub}</div>
+      )}
+    </div>
   );
 }
 
