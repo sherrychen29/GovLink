@@ -9,6 +9,7 @@ export function CollapsibleFilterBar({
   onClear,
   startExpanded = false,
   children,
+  trailing,
   className,
 }: {
   activeCount: number;
@@ -17,6 +18,8 @@ export function CollapsibleFilterBar({
   /** When true, filters start expanded (e.g. when filters are already active). */
   startExpanded?: boolean;
   children: ReactNode;
+  /** Controls pinned to the header row (e.g. sort + view toggles); stays put when the body expands. */
+  trailing?: ReactNode;
   className?: string;
 }) {
   const [expanded, setExpanded] = useState(startExpanded || activeCount > 0);
@@ -47,16 +50,19 @@ export function CollapsibleFilterBar({
           )}
         </button>
 
-        {activeCount > 0 && onClear && (
-          <button
-            type="button"
-            onClick={onClear}
-            className="inline-flex shrink-0 items-center gap-1 text-xs font-semibold text-ink-muted hover:text-navy-900"
-          >
-            <X className="h-3.5 w-3.5" aria-hidden="true" />
-            Clear
-          </button>
-        )}
+        <div className="flex shrink-0 items-center gap-3">
+          {activeCount > 0 && onClear && (
+            <button
+              type="button"
+              onClick={onClear}
+              className="inline-flex shrink-0 items-center gap-1 text-xs font-semibold text-ink-muted hover:text-navy-900"
+            >
+              <X className="h-3.5 w-3.5" aria-hidden="true" />
+              Clear
+            </button>
+          )}
+          {trailing}
+        </div>
       </div>
 
       {expanded && children && <div className="mt-4">{children}</div>}

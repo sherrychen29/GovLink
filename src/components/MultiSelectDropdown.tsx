@@ -12,6 +12,7 @@ export function MultiSelectDropdown<T extends string>({
   onToggle,
   getLabel,
   className,
+  labelClassName,
 }: {
   label: string;
   summaryAll: string;
@@ -20,6 +21,7 @@ export function MultiSelectDropdown<T extends string>({
   onToggle: (value: T) => void;
   getLabel: (value: T) => string;
   className?: string;
+  labelClassName?: string;
 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -44,7 +46,7 @@ export function MultiSelectDropdown<T extends string>({
 
   return (
     <div ref={ref} className={cx("relative", className)}>
-      <span className="field-label">{label}</span>
+      <span className={labelClassName ?? "field-label"}>{label}</span>
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}

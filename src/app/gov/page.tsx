@@ -177,66 +177,72 @@ export default function GovDashboardPage() {
       {/* Controls bar: filters (left) + sort + view toggle (right) */}
       <div className="z-20 shrink-0 border-b border-navy-100 bg-white">
         <div className="gl-container py-3">
-          <div className="flex items-center gap-3">
-            {/* Filters toggle + expanded panel — hidden in analytics */}
-            {view !== "analytics" && (
-              <div className="min-w-0 flex-1">
-                <FilterPanel
-                  filters={filters}
-                  onChange={setFilters}
-                  showStatusFilter={view !== "resolved"}
-                />
-              </div>
-            )}
-            {/* Sort + view toggles */}
-            <div className={cx("flex shrink-0 items-center gap-2", view === "analytics" && "ml-auto")}>
-              {(view === "list" || view === "resolved") && (
-                <div className="hidden items-center gap-2 sm:flex">
-                  <label htmlFor="sort" className="text-xs font-medium text-ink-muted">
-                    Sort
-                  </label>
-                  <select
-                    id="sort"
-                    value={sort}
-                    onChange={(e) => setSort(e.target.value as SortKey)}
-                    className="rounded-lg border border-navy-200 bg-white px-2.5 py-1.5 text-sm focus:border-accent-400 focus:outline-none focus:ring-2 focus:ring-accent-400/40"
-                  >
-                    <option value="reports"># of reports</option>
-                    <option value="severity">Severity</option>
-                    <option value="date">Date submitted</option>
-                    <option value="category">Category</option>
-                    {view === "list" && <option value="status">Status</option>}
-                  </select>
+          {(() => {
+            {/* Sort + view toggles — pinned to the header row so the expanded filter panel never overlaps them */}
+            const controls = (
+              <div className="flex shrink-0 items-center gap-2">
+                {(view === "list" || view === "resolved") && (
+                  <div className="hidden items-center gap-2 sm:flex">
+                    <label htmlFor="sort" className="text-xs font-medium text-ink-muted">
+                      Sort
+                    </label>
+                    <select
+                      id="sort"
+                      value={sort}
+                      onChange={(e) => setSort(e.target.value as SortKey)}
+                      className="rounded-lg border border-navy-200 bg-white px-2.5 py-1.5 text-sm focus:border-accent-400 focus:outline-none focus:ring-2 focus:ring-accent-400/40"
+                    >
+                      <option value="reports"># of reports</option>
+                      <option value="severity">Severity</option>
+                      <option value="date">Date submitted</option>
+                      <option value="category">Category</option>
+                      {view === "list" && <option value="status">Status</option>}
+                    </select>
+                  </div>
+                )}
+                <div className="inline-flex rounded-lg border border-navy-200 bg-navy-50 p-1">
+                  <ViewToggle
+                    active={view === "map"}
+                    onClick={() => setView("map")}
+                    icon={<MapIcon className="h-4 w-4" />}
+                    label="Map"
+                  />
+                  <ViewToggle
+                    active={view === "list"}
+                    onClick={() => setView("list")}
+                    icon={<List className="h-4 w-4" />}
+                    label="List"
+                  />
+                  <ViewToggle
+                    active={view === "resolved"}
+                    onClick={() => setView("resolved")}
+                    icon={<CircleCheck className="h-4 w-4" />}
+                    label="Resolved"
+                  />
+                  <ViewToggle
+                    active={view === "analytics"}
+                    onClick={() => setView("analytics")}
+                    icon={<BarChart3 className="h-4 w-4" />}
+                    label="Analytics"
+                  />
                 </div>
-              )}
-              <div className="inline-flex rounded-lg border border-navy-200 bg-navy-50 p-1">
-                <ViewToggle
-                  active={view === "map"}
-                  onClick={() => setView("map")}
-                  icon={<MapIcon className="h-4 w-4" />}
-                  label="Map"
-                />
-                <ViewToggle
-                  active={view === "list"}
-                  onClick={() => setView("list")}
-                  icon={<List className="h-4 w-4" />}
-                  label="List"
-                />
-                <ViewToggle
-                  active={view === "resolved"}
-                  onClick={() => setView("resolved")}
-                  icon={<CircleCheck className="h-4 w-4" />}
-                  label="Resolved"
-                />
-                <ViewToggle
-                  active={view === "analytics"}
-                  onClick={() => setView("analytics")}
-                  icon={<BarChart3 className="h-4 w-4" />}
-                  label="Analytics"
-                />
               </div>
-            </div>
-          </div>
+            );
+
+            // Analytics has no filter panel — just show the controls on their own.
+            if (view === "analytics") {
+              return <div className="flex justify-end">{controls}</div>;
+            }
+
+            return (
+              <FilterPanel
+                filters={filters}
+                onChange={setFilters}
+                showStatusFilter={view !== "resolved"}
+                trailing={controls}
+              />
+            );
+          })()}
         </div>
       </div>
 

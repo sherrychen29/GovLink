@@ -1,6 +1,7 @@
 "use client";
 
 import { Search } from "lucide-react";
+import type { ReactNode } from "react";
 import { CollapsibleFilterBar } from "@/components/CollapsibleFilterBar";
 import { MultiSelectDropdown } from "@/components/MultiSelectDropdown";
 import {
@@ -10,16 +11,21 @@ import {
   summarizeGovFilters,
 } from "@/lib/filters";
 import { CATEGORIES, OPEN_STATUS_PIPELINE, type Category, type ReportStatus } from "@/lib/types";
-import { STATUS_META, severityMeta } from "@/lib/meta";
+import { STATUS_META } from "@/lib/meta";
+import { SeverityRangeSlider } from "@/components/gov/SeverityRangeSlider";
+
+const GOV_FILTER_LABEL = "gov-filter-label";
 
 export function FilterPanel({
   filters,
   onChange,
   showStatusFilter = true,
+  trailing,
 }: {
   filters: GovFilters;
   onChange: (f: GovFilters) => void;
   showStatusFilter?: boolean;
+  trailing?: ReactNode;
 }) {
   const active = countActiveFilters(filters);
 
@@ -45,10 +51,11 @@ export function FilterPanel({
       summary={summarizeGovFilters(filters)}
       onClear={() => onChange({ ...DEFAULT_FILTERS })}
       startExpanded={active > 0}
+      trailing={trailing}
     >
       <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:gap-5">
         <div className="w-full shrink-0 lg:max-w-xs">
-          <label htmlFor="gov-search" className="field-label">
+          <label htmlFor="gov-search" className={GOV_FILTER_LABEL}>
             Search
           </label>
           <div className="relative">
@@ -69,6 +76,7 @@ export function FilterPanel({
         {showStatusFilter && (
           <MultiSelectDropdown
             label="Status"
+            labelClassName={GOV_FILTER_LABEL}
             summaryAll="All statuses"
             options={OPEN_STATUS_PIPELINE}
             selected={filters.statuses.filter((s) => s !== "resolved")}
@@ -80,6 +88,7 @@ export function FilterPanel({
 
         <MultiSelectDropdown
           label="Category"
+          labelClassName={GOV_FILTER_LABEL}
           summaryAll="All categories"
           options={CATEGORIES}
           selected={filters.categories}
@@ -88,55 +97,19 @@ export function FilterPanel({
           className="w-full lg:w-52"
         />
 
-        <fieldset className="min-w-0 flex-1">
-          <legend className="field-label">
-            Severity
-            <span className="ml-2 font-mono text-xs font-normal text-ink-muted">
-              {filters.severityMin}–{filters.severityMax}
-            </span>
-          </legend>
-          <div className="grid gap-3 pt-1 sm:grid-cols-2">
-            <div>
-              <label htmlFor="sev-min" className="mb-1 block text-xs text-ink-muted">
-                Minimum
-              </label>
-              <input
-                id="sev-min"
-                type="range"
-                min={1}
-                max={10}
-                value={filters.severityMin}
-                onChange={(e) =>
-                  onChange({
-                    ...filters,
-                    severityMin: Math.min(Number(e.target.value), filters.severityMax),
-                  })
-                }
-                className="w-full accent-accent-500"
-                style={{ accentColor: severityMeta(filters.severityMin).hex }}
-              />
-            </div>
-            <div>
-              <label htmlFor="sev-max" className="mb-1 block text-xs text-ink-muted">
-                Maximum
-              </label>
-              <input
-                id="sev-max"
-                type="range"
-                min={1}
-                max={10}
-                value={filters.severityMax}
-                onChange={(e) =>
-                  onChange({
-                    ...filters,
-                    severityMax: Math.max(Number(e.target.value), filters.severityMin),
-                  })
-                }
-                className="w-full"
-                style={{ accentColor: severityMeta(filters.severityMax).hex }}
-              />
-            </div>
-          </div>
+        <fieldset className="w-full shrink-0 lg:w-52">
+          <legend className={GOV_FILTER_LABEL}>Severity</legend>
+          <SeverityRangeSlider
+            min={filters.severityMin}
+            max={filters.severityMax}
+            onChange={({ min, max }) =>
+              onChange({
+                ...filters,
+                severityMin: min,
+                severityMax: max,
+              })
+            }
+          />
         </fieldset>
       </div>
     </CollapsibleFilterBar>
