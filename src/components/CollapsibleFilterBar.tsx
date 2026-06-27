@@ -30,7 +30,7 @@ export function CollapsibleFilterBar({
         <button
           type="button"
           onClick={() => setExpanded((e) => !e)}
-          className="flex min-w-0 flex-1 items-center gap-2 text-left"
+          className="flex min-w-0 flex-1 items-center gap-2 rounded-md border border-navy-200 px-3 py-1.5 text-left transition-colors hover:border-navy-400"
           aria-expanded={expanded}
         >
           <SlidersHorizontal className="h-4 w-4 shrink-0 text-navy-500" aria-hidden="true" />

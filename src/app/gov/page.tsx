@@ -149,6 +149,38 @@ export default function GovDashboardPage() {
           </span>
         </Link>
 
+        {/* Nav tabs — same style as citizen header */}
+        <nav className="hidden items-center gap-1 md:flex" aria-label="Gov views">
+          {(
+            [
+              { key: "map", icon: <MapIcon className="h-4 w-4" aria-hidden="true" />, label: "Map" },
+              { key: "list", icon: <List className="h-4 w-4" aria-hidden="true" />, label: "List" },
+              { key: "resolved", icon: <CircleCheck className="h-4 w-4" aria-hidden="true" />, label: "Resolved" },
+              { key: "analytics", icon: <BarChart3 className="h-4 w-4" aria-hidden="true" />, label: "Analytics" },
+            ] as const
+          ).map(({ key, icon, label }) => {
+            const active = view === key;
+            return (
+              <button
+                key={key}
+                type="button"
+                onClick={() => setView(key)}
+                aria-pressed={active}
+                className={cx(
+                  "relative flex items-center gap-1.5 rounded-md px-4 py-3 text-sm font-semibold uppercase tracking-wider transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400",
+                  active ? "text-white" : "text-navy-200 hover:text-white"
+                )}
+              >
+                {icon}
+                {label}
+                {active && (
+                  <span aria-hidden="true" className="absolute inset-x-3 bottom-1 h-[3px] rounded-full bg-accent-400" />
+                )}
+              </button>
+            );
+          })}
+        </nav>
+
         <div className="flex items-center gap-2">
           <button
             type="button"
@@ -179,55 +211,25 @@ export default function GovDashboardPage() {
         <div className="gl-container py-3">
           {(() => {
             {/* Sort + view toggles — pinned to the header row so the expanded filter panel never overlaps them */}
-            const controls = (
-              <div className="flex shrink-0 items-center gap-2">
-                {(view === "list" || view === "resolved") && (
-                  <div className="hidden items-center gap-2 sm:flex">
-                    <label htmlFor="sort" className="text-xs font-medium text-ink-muted">
-                      Sort
-                    </label>
-                    <select
-                      id="sort"
-                      value={sort}
-                      onChange={(e) => setSort(e.target.value as SortKey)}
-                      className="rounded-lg border border-navy-200 bg-white px-2.5 py-1.5 text-sm focus:border-accent-400 focus:outline-none focus:ring-2 focus:ring-accent-400/40"
-                    >
-                      <option value="reports"># of reports</option>
-                      <option value="severity">Severity</option>
-                      <option value="date">Date submitted</option>
-                      <option value="category">Category</option>
-                      {view === "list" && <option value="status">Status</option>}
-                    </select>
-                  </div>
-                )}
-                <div className="inline-flex rounded-lg border border-navy-200 bg-navy-50 p-1">
-                  <ViewToggle
-                    active={view === "map"}
-                    onClick={() => setView("map")}
-                    icon={<MapIcon className="h-4 w-4" />}
-                    label="Map"
-                  />
-                  <ViewToggle
-                    active={view === "list"}
-                    onClick={() => setView("list")}
-                    icon={<List className="h-4 w-4" />}
-                    label="List"
-                  />
-                  <ViewToggle
-                    active={view === "resolved"}
-                    onClick={() => setView("resolved")}
-                    icon={<CircleCheck className="h-4 w-4" />}
-                    label="Resolved"
-                  />
-                  <ViewToggle
-                    active={view === "analytics"}
-                    onClick={() => setView("analytics")}
-                    icon={<BarChart3 className="h-4 w-4" />}
-                    label="Analytics"
-                  />
-                </div>
+            const controls = (view === "list" || view === "resolved") ? (
+              <div className="hidden items-center gap-2 sm:flex">
+                <label htmlFor="sort" className="text-xs font-medium text-ink-muted">
+                  Sort
+                </label>
+                <select
+                  id="sort"
+                  value={sort}
+                  onChange={(e) => setSort(e.target.value as SortKey)}
+                  className="rounded-lg border border-navy-200 bg-white px-2.5 py-1.5 text-sm focus:border-accent-400 focus:outline-none focus:ring-2 focus:ring-accent-400/40"
+                >
+                  <option value="reports"># of reports</option>
+                  <option value="severity">Severity</option>
+                  <option value="date">Date submitted</option>
+                  <option value="category">Category</option>
+                  {view === "list" && <option value="status">Status</option>}
+                </select>
               </div>
-            );
+            ) : null;
 
             // Analytics has no filter panel — just show the controls on their own.
             if (view === "analytics") {
@@ -335,32 +337,6 @@ export default function GovDashboardPage() {
   );
 }
 
-function ViewToggle({
-  active,
-  onClick,
-  icon,
-  label,
-}: {
-  active: boolean;
-  onClick: () => void;
-  icon: React.ReactNode;
-  label: string;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-pressed={active}
-      className={cx(
-        "inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-semibold transition-colors",
-        active ? "bg-accent-500 text-white shadow-sm" : "text-ink-soft hover:text-navy-900"
-      )}
-    >
-      {icon}
-      {label}
-    </button>
-  );
-}
 
 function Pagination({
   page,

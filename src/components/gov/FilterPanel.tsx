@@ -1,6 +1,6 @@
 "use client";
 
-import { Search } from "lucide-react";
+import { Search, ArrowUpDown } from "lucide-react";
 import type { ReactNode } from "react";
 import { CollapsibleFilterBar } from "@/components/CollapsibleFilterBar";
 import { MultiSelectDropdown } from "@/components/MultiSelectDropdown";
@@ -21,11 +21,13 @@ export function FilterPanel({
   onChange,
   showStatusFilter = true,
   trailing,
+  sortSlot,
 }: {
   filters: GovFilters;
   onChange: (f: GovFilters) => void;
   showStatusFilter?: boolean;
   trailing?: ReactNode;
+  sortSlot?: ReactNode;
 }) {
   const active = countActiveFilters(filters);
 
@@ -77,7 +79,7 @@ export function FilterPanel({
           <MultiSelectDropdown
             label="Status"
             labelClassName={GOV_FILTER_LABEL}
-            summaryAll="All statuses"
+            summaryAll="All"
             options={OPEN_STATUS_PIPELINE}
             selected={filters.statuses.filter((s) => s !== "resolved")}
             onToggle={toggleStatus}
