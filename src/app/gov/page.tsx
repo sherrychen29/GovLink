@@ -209,42 +209,29 @@ export default function GovDashboardPage() {
       {/* Controls bar: filters (left) + sort + view toggle (right) */}
       <div className="z-20 shrink-0 border-b border-navy-100 bg-white">
         <div className="gl-container py-3">
-          {(() => {
-            {/* Sort + view toggles — pinned to the header row so the expanded filter panel never overlaps them */}
-            const controls = (view === "list" || view === "resolved") ? (
-              <div className="hidden items-center gap-2 sm:flex">
-                <label htmlFor="sort" className="text-xs font-medium text-ink-muted">
-                  Sort
-                </label>
-                <select
-                  id="sort"
-                  value={sort}
-                  onChange={(e) => setSort(e.target.value as SortKey)}
-                  className="rounded-lg border border-navy-200 bg-white px-2.5 py-1.5 text-sm focus:border-accent-400 focus:outline-none focus:ring-2 focus:ring-accent-400/40"
-                >
-                  <option value="reports"># of reports</option>
-                  <option value="severity">Severity</option>
-                  <option value="date">Date submitted</option>
-                  <option value="category">Category</option>
-                  {view === "list" && <option value="status">Status</option>}
-                </select>
-              </div>
-            ) : null;
-
-            // Analytics has no filter panel — just show the controls on their own.
-            if (view === "analytics") {
-              return <div className="flex justify-end">{controls}</div>;
-            }
-
-            return (
-              <FilterPanel
-                filters={filters}
-                onChange={setFilters}
-                showStatusFilter={view !== "resolved"}
-                trailing={controls}
-              />
-            );
-          })()}
+          {view !== "analytics" && (
+            <FilterPanel
+              filters={filters}
+              onChange={setFilters}
+              showStatusFilter={view !== "resolved"}
+              sortSlot={
+                (view === "list" || view === "resolved") ? (
+                  <select
+                    id="sort"
+                    value={sort}
+                    onChange={(e) => setSort(e.target.value as SortKey)}
+                    className="appearance-none bg-transparent text-sm font-semibold text-navy-900 focus:outline-none"
+                  >
+                    <option value="reports"># of reports</option>
+                    <option value="severity">Severity</option>
+                    <option value="date">Date submitted</option>
+                    <option value="category">Category</option>
+                    {view === "list" && <option value="status">Status</option>}
+                  </select>
+                ) : undefined
+              }
+            />
+          )}
         </div>
       </div>
 

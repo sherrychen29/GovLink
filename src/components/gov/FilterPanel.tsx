@@ -113,6 +113,16 @@ export function FilterPanel({
             }
           />
         </fieldset>
+
+        {sortSlot && (
+          <div className="w-full shrink-0 lg:w-auto">
+            <span className={GOV_FILTER_LABEL}>Sort</span>
+            <div className="flex items-center gap-2 rounded-md border border-navy-200 px-3 py-1.5 transition-colors hover:border-navy-400">
+              <ArrowUpDown className="h-4 w-4 shrink-0 text-navy-500" aria-hidden="true" />
+              {sortSlot}
+            </div>
+          </div>
+        )}
       </div>
     </CollapsibleFilterBar>
   );
