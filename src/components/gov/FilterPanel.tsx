@@ -91,7 +91,7 @@ export function FilterPanel({
         <MultiSelectDropdown
           label="Category"
           labelClassName={GOV_FILTER_LABEL}
-          summaryAll="All categories"
+          summaryAll="All"
           options={CATEGORIES}
           selected={filters.categories}
           onToggle={toggleCategory}
