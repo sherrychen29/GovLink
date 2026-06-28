@@ -40,7 +40,7 @@ export function StatusTracker({ report }: { report: Report }) {
                 className={cx(
                   "absolute hidden h-0.5 sm:block",
                   "left-[-50%] right-[50%] top-4",
-                  reached ? "bg-accent-400" : "bg-navy-100"
+                  reached ? "bg-navy-700" : "bg-navy-100"
                 )}
                 aria-hidden="true"
               />
@@ -50,7 +50,7 @@ export function StatusTracker({ report }: { report: Report }) {
               <span
                 className={cx(
                   "absolute left-[15px] top-[-14px] h-[14px] w-0.5 sm:hidden",
-                  reached ? "bg-accent-400" : "bg-navy-100"
+                  reached ? "bg-navy-700" : "bg-navy-100"
                 )}
                 aria-hidden="true"
               />
@@ -62,13 +62,13 @@ export function StatusTracker({ report }: { report: Report }) {
                 tintRejected
                   ? "bg-red-500 text-white"
                   : reached
-                    ? "bg-accent-500 text-white"
+                    ? "bg-navy-900 text-white"
                     : "bg-navy-100 text-navy-400"
               )}
             >
               <Icon
                 name={tintRejected ? "TriangleAlert" : meta.icon}
-                className={cx("h-4 w-4", isCurrent && status === "in_progress" && "motion-safe:animate-spin")}
+                className="h-4 w-4"
               />
             </span>
 

@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import {
-  CheckCircle2,
   XCircle,
   MapPin,
   ChevronLeft,
@@ -11,7 +10,7 @@ import {
   Inbox,
 } from "lucide-react";
 import { SiteShell } from "@/components/SiteShell";
-import { ResolvedFilterPanel } from "@/components/ResolvedFilterPanel";
+import { MultiSelectDropdown } from "@/components/MultiSelectDropdown";
 import { CategoryChip } from "@/components/Chips";
 import { EmptyState } from "@/components/EmptyState";
 import { ListSkeleton } from "@/components/Skeleton";
@@ -20,12 +19,14 @@ import {
   DEFAULT_RESOLVED_FILTERS,
   filterResolvedReports,
   type ResolvedFilters,
+  type ResolvedOutcome,
 } from "@/lib/resolved-filters";
-import { type Report, corroborations } from "@/lib/types";
+import { CATEGORIES, type Category, type Report, corroborations } from "@/lib/types";
 import { formatDate, cx } from "@/lib/utils";
 import { CITY } from "@/lib/seed";
 
-const PAGE_SIZE = 14;
+const PAGE_SIZE = 20;
+const OUTCOMES = ["fixed", "declined"] as const satisfies readonly ResolvedOutcome[];
 
 export default function ResolvedPage() {
   const { reports, hydrated } = useReports();
@@ -49,9 +50,21 @@ export default function ResolvedPage() {
     [resolved, safePage]
   );
 
-  const fixedCount = reports.filter(
-    (r) => r.status === "resolved" && !r.resolution?.rejected
-  ).length;
+  const toggleCategory = (c: Category) =>
+    setFilters((f) => ({
+      ...f,
+      categories: f.categories.includes(c)
+        ? f.categories.filter((x) => x !== c)
+        : [...f.categories, c],
+    }));
+
+  const toggleOutcome = (o: ResolvedOutcome) =>
+    setFilters((f) => ({
+      ...f,
+      outcomes: f.outcomes.includes(o)
+        ? f.outcomes.filter((x) => x !== o)
+        : [...f.outcomes, o],
+    }));
 
   return (
     <SiteShell>
@@ -74,12 +87,12 @@ export default function ResolvedPage() {
           <div className="absolute inset-0 flex items-center">
             <div className="gl-container py-6 lg:py-8">
               <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-                What {CITY.name} has fixed
+                Resolved Issues in {CITY.name}
               </h1>
               <p className="mt-3 max-w-2xl text-white">
-                Every issue the city closes out shows up here. {fixedCount} issue
-                {fixedCount === 1 ? "" : "s"} resolved and counting — see your
-                neighborhood get better, in the open.
+                Every issue the city closes out shows up here. {resolved.length} issue
+                {resolved.length === 1 ? "" : "s"} shown — see your neighborhood
+                get better, in the open.
               </p>
             </div>
           </div>
@@ -87,8 +100,43 @@ export default function ResolvedPage() {
       </section>
 
       <div className="gl-container py-8 lg:py-10">
-        <div className="mb-6">
-          <ResolvedFilterPanel filters={filters} onChange={setFilters} />
+        {/* Inline filters — right-aligned row */}
+        <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+          <p className="text-sm text-ink-muted">
+            {resolved.length} result{resolved.length === 1 ? "" : "s"}
+            {(filters.categories.length > 0 || filters.outcomes.length > 0) && (
+              <>
+                {" · "}
+                <button
+                  type="button"
+                  onClick={() => setFilters({ ...DEFAULT_RESOLVED_FILTERS })}
+                  className="font-semibold text-navy-700 underline underline-offset-2 hover:text-navy-900"
+                >
+                  Clear filters
+                </button>
+              </>
+            )}
+          </p>
+          <div className="flex flex-wrap items-end gap-3">
+            <MultiSelectDropdown
+              label="Category"
+              summaryAll="All categories"
+              options={CATEGORIES}
+              selected={filters.categories}
+              onToggle={toggleCategory}
+              getLabel={(c) => c}
+              className="w-52"
+            />
+            <MultiSelectDropdown
+              label="Outcome"
+              summaryAll="All outcomes"
+              options={OUTCOMES}
+              selected={filters.outcomes}
+              onToggle={toggleOutcome}
+              getLabel={(o) => (o === "fixed" ? "Resolved" : "Declined")}
+              className="w-40"
+            />
+          </div>
         </div>
 
         {!hydrated ? (
@@ -107,11 +155,7 @@ export default function ResolvedPage() {
               ))}
             </div>
             {totalPages > 1 && (
-              <Pagination
-                page={safePage}
-                totalPages={totalPages}
-                onChange={setPage}
-              />
+              <Pagination page={safePage} totalPages={totalPages} onChange={setPage} />
             )}
           </>
         )}
@@ -132,21 +176,12 @@ function ResolvedCard({ report }: { report: Report }) {
     <article className="card flex flex-col p-5">
       <div className="flex items-center justify-between gap-2">
         <CategoryChip category={report.category} size="sm" />
-        <span
-          className={cx(
-            "chip px-2 py-0.5 text-[11px] font-semibold",
-            rejected
-              ? "bg-red-50 text-red-700 ring-1 ring-red-200"
-              : "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200"
-          )}
-        >
-          {rejected ? (
+        {rejected && (
+          <span className="chip bg-red-50 px-2 py-0.5 text-[11px] font-semibold text-red-700 ring-1 ring-red-200">
             <XCircle className="h-3 w-3" aria-hidden="true" />
-          ) : (
-            <CheckCircle2 className="h-3 w-3" aria-hidden="true" />
-          )}
-          {rejected ? "Declined" : "Fixed"}
-        </span>
+            Declined
+          </span>
+        )}
       </div>
 
       <p className="mt-3 line-clamp-2 text-sm font-medium text-navy-900">
@@ -165,9 +200,9 @@ function ResolvedCard({ report }: { report: Report }) {
         {report.resolution!.note}
       </div>
 
-      <div className="mt-auto flex flex-wrap items-center gap-x-3 gap-y-1 pt-4 text-xs text-ink-muted">
+      <div className="mt-auto flex flex-wrap items-center gap-x-3 gap-y-1 pt-4 text-xs text-navy-700">
         <span className="inline-flex items-center gap-1 truncate">
-          <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
+          <MapPin className="h-3.5 w-3.5 text-navy-700" aria-hidden="true" />
           <span className="truncate">{locationText}</span>
         </span>
         <span aria-hidden="true">·</span>
@@ -175,7 +210,7 @@ function ResolvedCard({ report }: { report: Report }) {
         {count >= 2 && (
           <>
             <span aria-hidden="true">·</span>
-            <span>{count} residents reported</span>
+            <span>{count} citizens reported</span>
           </>
         )}
       </div>
@@ -192,69 +227,40 @@ function Pagination({
   totalPages: number;
   onChange: (p: number) => void;
 }) {
-  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
   return (
     <nav
       aria-label="Pagination"
-      className="mt-8 flex flex-wrap items-center justify-center gap-1.5"
+      className="mt-8 flex items-center justify-center gap-4"
     >
-      <PageButton
+      <button
+        type="button"
         onClick={() => onChange(page - 1)}
         disabled={page === 1}
-        ariaLabel="Previous page"
+        aria-label="Previous page"
+        className={cx(
+          "inline-flex items-center gap-1.5 rounded-lg border border-navy-200 bg-white px-4 py-2 text-sm font-semibold text-navy-800 transition-colors hover:bg-navy-50",
+          page === 1 && "cursor-not-allowed opacity-40 hover:bg-white"
+        )}
       >
         <ChevronLeft className="h-4 w-4" aria-hidden="true" />
-      </PageButton>
-      {pages.map((p) => (
-        <PageButton
-          key={p}
-          onClick={() => onChange(p)}
-          active={p === page}
-          ariaLabel={`Page ${p}`}
-        >
-          {p}
-        </PageButton>
-      ))}
-      <PageButton
+        Prev
+      </button>
+      <span className="text-sm text-ink-muted">
+        {page} / {totalPages}
+      </span>
+      <button
+        type="button"
         onClick={() => onChange(page + 1)}
         disabled={page === totalPages}
-        ariaLabel="Next page"
+        aria-label="Next page"
+        className={cx(
+          "inline-flex items-center gap-1.5 rounded-lg border border-navy-200 bg-white px-4 py-2 text-sm font-semibold text-navy-800 transition-colors hover:bg-navy-50",
+          page === totalPages && "cursor-not-allowed opacity-40 hover:bg-white"
+        )}
       >
+        Next
         <ChevronRight className="h-4 w-4" aria-hidden="true" />
-      </PageButton>
+      </button>
     </nav>
-  );
-}
-
-function PageButton({
-  children,
-  onClick,
-  active = false,
-  disabled = false,
-  ariaLabel,
-}: {
-  children: React.ReactNode;
-  onClick: () => void;
-  active?: boolean;
-  disabled?: boolean;
-  ariaLabel: string;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      disabled={disabled}
-      aria-label={ariaLabel}
-      aria-current={active ? "page" : undefined}
-      className={cx(
-        "inline-flex h-9 min-w-9 items-center justify-center rounded-lg border px-3 text-sm font-semibold transition-colors",
-        active
-          ? "border-accent-500 bg-accent-500 text-white"
-          : "border-navy-200 bg-white text-navy-800 hover:bg-navy-50",
-        disabled && "cursor-not-allowed opacity-40 hover:bg-white"
-      )}
-    >
-      {children}
-    </button>
   );
 }

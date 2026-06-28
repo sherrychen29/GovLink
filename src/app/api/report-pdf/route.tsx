@@ -204,10 +204,10 @@ function ReportDocument({ report }: { report: Report }) {
         <Text style={styles.sectionHead}>Reported Issue</Text>
         <Text style={styles.bodyText}>{report.description}</Text>
 
-        <Text style={styles.sectionHead}>Location &amp; Reporting Party</Text>
+        <Text style={styles.sectionHead}>Location &amp; Citizen</Text>
         <View style={styles.grid}>
           <Field label="Location" value={loc} sub={formatCoords(report.location.lat, report.location.lng)} full />
-          <Field label="Reporting party" value={contactValue} />
+          <Field label="Citizen" value={contactValue} />
           <Field label="Corroborating reports" value={count >= 2 ? `${count} residents reported this issue` : "Single report"} />
           {report.media.length > 0 ? (
             <Field label="Attachments on file" value={`${report.media.length} photo/video item(s)`} full />
@@ -246,7 +246,7 @@ function ReportDocument({ report }: { report: Report }) {
           <>
             <Text style={styles.sectionHead}>Internal Staff Notes</Text>
             <Text style={styles.confidential}>
-              Confidential - for municipal staff use only. Not part of the public record released to the reporting party.
+              Confidential - for municipal staff use only. Not part of the public record released to the citizen.
             </Text>
             {report.internalNotes.map((n) => (
               <View key={n.id} style={styles.note}>

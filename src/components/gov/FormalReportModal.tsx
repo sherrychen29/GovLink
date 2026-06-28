@@ -136,7 +136,7 @@ export function FormalReportModal({
           <div className="overflow-hidden rounded-xl border border-navy-200 bg-white shadow-2xl">
             {/* Toolbar */}
             <div className="flex items-center justify-between gap-3 border-b border-navy-100 bg-slate-50 px-4 py-2.5 sm:px-6">
-              <p className="font-mono text-xs font-bold text-navy-800">
+              <p className="font-mono text-xl font-bold text-navy-800">
                 {report.id}
               </p>
               <div className="flex items-center gap-2">

@@ -39,7 +39,7 @@ type IntakePhase = "intake" | "review" | "blocked" | "filed";
 type WidgetKind = "map" | "photos" | "contact" | "review";
 
 type ChatItem =
-  | { id: string; kind: "beacon"; text: string; intent?: BeaconIntent }
+  | { id: string; kind: "beacon"; text: string; intent?: BeaconIntent; missing?: string[] }
   | { id: string; kind: "user"; text: string }
   | { id: string; kind: "widget"; widget: WidgetKind; locked: boolean };
 
@@ -201,6 +201,7 @@ export function BeaconIntake({
         kind: "beacon",
         text: data.reply,
         intent: data.intent,
+        missing: data.missing,
       });
       setLastIntent(data.intent);
 
@@ -260,9 +261,23 @@ export function BeaconIntake({
   }
 
   async function confirmLocation() {
-    if (!location || !draft) return;
+    if (!location) return;
     lockWidget("map");
     const label = locationLabel(location) ?? "pinned location";
+
+    if (!draft) {
+      // Early map: location pinned before intake complete — just acknowledge and continue chat
+      append(
+        { id: `u_loc_${Date.now()}`, kind: "user", text: `Location pinned: ${label}` },
+        {
+          id: `b_loc_early_${Date.now()}`,
+          kind: "beacon",
+          text: `Got it — I've noted your location (${label}). Please continue describing the issue and I'll put the report together.`,
+        }
+      );
+      return;
+    }
+
     try {
       await applyFormalization(
         draft.residentDescription ?? draft.description,
@@ -454,7 +469,37 @@ export function BeaconIntake({
       >
         {items.map((item) => {
           if (item.kind === "beacon") {
-            return <BeaconBubble key={item.id} text={item.text} intent={item.intent} />;
+            const offerMap =
+              item.intent === "clarify" &&
+              Array.isArray(item.missing) &&
+              item.missing.includes("location") &&
+              !widgetsAdded.current.map;
+            return (
+              <div key={item.id}>
+                <BeaconBubble text={item.text} intent={item.intent} />
+                {offerMap && (
+                  <div className="ml-11 mt-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (widgetsAdded.current.map) return;
+                        widgetsAdded.current.map = true;
+                        append({
+                          id: `w_map_${Date.now()}`,
+                          kind: "widget",
+                          widget: "map",
+                          locked: false,
+                        });
+                      }}
+                      className="inline-flex items-center gap-1.5 rounded-lg border border-navy-200 bg-white px-3 py-1.5 text-sm font-semibold text-navy-800 shadow-sm transition-colors hover:bg-navy-50"
+                    >
+                      <MapPin className="h-4 w-4 text-navy-500" aria-hidden="true" />
+                      Show map
+                    </button>
+                  </div>
+                )}
+              </div>
+            );
           }
           if (item.kind === "user") {
             return <UserBubble key={item.id} text={item.text} />;
@@ -768,6 +813,7 @@ function BeaconBubble({ text, intent }: { text: string; intent?: BeaconIntent })
   const emergency = intent === "emergency";
   const spam = intent === "spam";
   const redirect = intent === "redirect";
+  const redirectNeeds911 = redirect && /911/i.test(text);
   return (
     <div className="flex items-start gap-2.5">
       <BeaconMark className="mt-0.5" />
@@ -801,7 +847,7 @@ function BeaconBubble({ text, intent }: { text: string; intent?: BeaconIntent })
           )}
           <p className="whitespace-pre-wrap">{text}</p>
         </div>
-        {emergency && (
+        {(emergency || redirectNeeds911) && (
           <a
             href="tel:911"
             className="mt-2 inline-flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2.5 text-base font-bold text-white shadow-sm transition-colors hover:bg-red-700"

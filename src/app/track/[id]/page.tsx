@@ -21,7 +21,7 @@ export default function TrackDetailPage({
       <div className="gl-container max-w-3xl py-8 lg:py-10">
         <Link
           href="/track"
-          className="mb-5 inline-flex items-center gap-1.5 text-sm font-medium text-ink-soft hover:text-navy-900"
+          className="mb-6 inline-flex items-center gap-2 rounded-lg border border-navy-300 bg-white px-4 py-2.5 text-sm font-semibold text-navy-800 shadow-sm transition-colors hover:bg-navy-50 hover:border-navy-400"
         >
           <ArrowLeft className="h-4 w-4" aria-hidden="true" />
           Back to tracking
