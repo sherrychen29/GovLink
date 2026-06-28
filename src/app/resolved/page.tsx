@@ -9,6 +9,8 @@ import {
   ChevronRight,
   Inbox,
   Users,
+  CheckCircle2,
+  MessageSquare,
 } from "lucide-react";
 import { SiteShell } from "@/components/SiteShell";
 import { MultiSelectDropdown } from "@/components/MultiSelectDropdown";
@@ -32,12 +34,16 @@ const OUTCOMES = ["fixed", "declined"] as const satisfies readonly ResolvedOutco
 export default function ResolvedPage() {
   const { reports, hydrated } = useReports();
   const [filters, setFilters] = useState<ResolvedFilters>({ ...DEFAULT_RESOLVED_FILTERS });
+  const [sortOrder, setSortOrder] = useState<"recent" | "old">("recent");
   const [page, setPage] = useState(1);
 
-  const resolved = useMemo(
-    () => filterResolvedReports(reports, filters),
-    [reports, filters]
-  );
+  const resolved = useMemo(() => {
+    const base = filterResolvedReports(reports, filters);
+    if (sortOrder === "old") {
+      return [...base].reverse();
+    }
+    return base;
+  }, [reports, filters, sortOrder]);
 
   const totalPages = Math.max(1, Math.ceil(resolved.length / PAGE_SIZE));
 
@@ -119,24 +125,50 @@ export default function ResolvedPage() {
               </>
             )}
           </p>
-          <div className="flex flex-wrap items-end gap-3">
+          <div className="flex flex-wrap items-end gap-5">
+            {/* Sort */}
+            <FilterPills
+              label="SORT"
+              options={[
+                { value: "recent", label: "Recent" },
+                { value: "old", label: "Oldest" },
+              ]}
+              value={sortOrder}
+              onChange={(v) => setSortOrder(v as "recent" | "old")}
+            />
+            {/* Category */}
             <MultiSelectDropdown
-              label="Category"
-              summaryAll="All categories"
+              label="CATEGORY"
+              summaryAll="All"
               options={CATEGORIES}
               selected={filters.categories}
               onToggle={toggleCategory}
               getLabel={(c) => c}
               className="w-52"
+              labelClassName="mb-1.5 block text-xs font-bold uppercase tracking-wide text-navy-800"
             />
-            <MultiSelectDropdown
-              label="Outcome"
-              summaryAll="All outcomes"
-              options={OUTCOMES}
-              selected={filters.outcomes}
-              onToggle={toggleOutcome}
-              getLabel={(o) => (o === "fixed" ? "Resolved" : "Declined")}
-              className="w-40"
+            {/* Outcome */}
+            <FilterPills
+              label="OUTCOME"
+              options={[
+                { value: "all", label: "All" },
+                { value: "fixed", label: "Solved" },
+                { value: "declined", label: "Cancelled" },
+              ]}
+              value={
+                filters.outcomes.length === 2 || filters.outcomes.length === 0
+                  ? "all"
+                  : filters.outcomes[0]
+              }
+              onChange={(v) =>
+                setFilters((f) => ({
+                  ...f,
+                  outcomes:
+                    v === "all"
+                      ? [...OUTCOMES]
+                      : [v as ResolvedOutcome],
+                }))
+              }
             />
           </div>
         </div>
@@ -170,18 +202,38 @@ export default function ResolvedPage() {
 function ResolvedCard({ report }: { report: Report }) {
   const rejected = !!report.resolution?.rejected;
   const count = corroborations(report);
-  const locationText =
+
+  // If a specific street exists, strip the city suffix to avoid redundancy
+  const hasStreet = !!(report.location.address || report.location.crossStreet);
+  const rawLocation =
     report.location.address ||
     report.location.crossStreet ||
     `${report.location.lat.toFixed(4)}, ${report.location.lng.toFixed(4)}`;
+  const locationText = hasStreet
+    ? rawLocation.replace(/,\s*San Jose.*$/i, "").replace(/,\s*CA.*$/i, "").trim()
+    : rawLocation;
 
   return (
-    <article className="card flex flex-col rounded-xl p-6">
-      <div className="flex items-center justify-between gap-2">
-        <CategoryChip category={report.category} size="sm" />
-        <div className="flex items-center gap-2">
+    <article className="card flex flex-col rounded-xl border-slate-300/70 p-4">
+      {/* Top row: category + location/date */}
+      <div className="flex items-start justify-between gap-3">
+        <CategoryChip category={report.category} variant="label" />
+        <div className="flex shrink-0 flex-col items-end gap-0.5 text-right">
+          <span className="inline-flex items-center gap-1 text-[11px] font-medium text-navy-600">
+            <MapPin className="h-3 w-3 shrink-0" aria-hidden="true" />
+            <span className="max-w-[160px] truncate">{locationText}</span>
+          </span>
+          <span className="text-[11px] text-ink-muted">
+            Resolved {formatDate(report.resolution!.resolvedAt)}
+          </span>
+        </div>
+      </div>
+
+      {/* Badges */}
+      {(count >= 2 || rejected) && (
+        <div className="mt-1.5 flex items-center gap-2">
           {count >= 2 && (
-            <span className="inline-flex items-center gap-1 rounded-full bg-navy-100 px-2 py-0.5 text-[11px] font-semibold text-navy-700">
+            <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-navy-600">
               <Users className="h-3 w-3" aria-hidden="true" />
               {count} citizens reported
             </span>
@@ -193,31 +245,29 @@ function ResolvedCard({ report }: { report: Report }) {
             </span>
           )}
         </div>
-      </div>
+      )}
 
-      <p className="mt-3 line-clamp-2 text-base font-medium text-navy-900">
+      <p className="mt-2 line-clamp-2 text-sm font-medium text-navy-900">
         {report.description}
       </p>
 
       <div
         className={cx(
-          "mt-3 rounded-lg p-3 text-xs leading-relaxed",
-          rejected ? "bg-red-50/60 text-red-800" : "bg-emerald-50/60 text-emerald-800"
+          "mt-2 flex items-start gap-2 rounded-lg p-2.5 text-xs leading-relaxed",
+          rejected ? "bg-cyan-50/60 text-cyan-800" : "bg-emerald-50/60 text-emerald-800"
         )}
       >
-        <span className="font-semibold">
-          {rejected ? "City response: " : "Resolution: "}
+        {rejected ? (
+          <MessageSquare className="mt-0.5 h-3.5 w-3.5 shrink-0 text-cyan-500" aria-hidden="true" />
+        ) : (
+          <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-500" aria-hidden="true" />
+        )}
+        <span>
+          <span className="font-semibold">
+            {rejected ? "City response: " : "Resolution: "}
+          </span>
+          {report.resolution!.note}
         </span>
-        {report.resolution!.note}
-      </div>
-
-      <div className="mt-auto flex flex-wrap items-center gap-x-3 gap-y-1 pt-4 text-xs font-bold text-navy-900">
-        <span className="inline-flex items-center gap-1 truncate">
-          <MapPin className="h-3.5 w-3.5 text-navy-900" aria-hidden="true" />
-          <span className="truncate">{locationText}</span>
-        </span>
-        <span aria-hidden="true">·</span>
-        <span>Resolved {formatDate(report.resolution!.resolvedAt)}</span>
       </div>
     </article>
   );
@@ -267,5 +317,42 @@ function Pagination({
         <ChevronRight className="h-4 w-4" aria-hidden="true" />
       </button>
     </nav>
+  );
+}
+
+function FilterPills({
+  label,
+  options,
+  value,
+  onChange,
+}: {
+  label: string;
+  options: { value: string; label: string }[];
+  value: string;
+  onChange: (v: string) => void;
+}) {
+  return (
+    <div className="flex flex-col gap-1.5">
+      <span className="mb-1.5 block text-xs font-bold uppercase tracking-wide text-navy-800">
+        {label}
+      </span>
+      <div className="inline-flex items-center gap-1 rounded-lg border border-navy-200 bg-white px-1.5 py-1.5">
+        {options.map((opt) => (
+          <button
+            key={opt.value}
+            type="button"
+            onClick={() => onChange(opt.value)}
+            className={cx(
+              "rounded-lg px-3 py-1.5 text-sm font-medium transition-colors",
+              value === opt.value
+                ? "bg-navy-900 text-white"
+                : "text-navy-700 hover:bg-navy-50"
+            )}
+          >
+            {opt.label}
+          </button>
+        ))}
+      </div>
+    </div>
   );
 }

@@ -7,12 +7,26 @@ import { cx } from "@/lib/utils";
 export function CategoryChip({
   category,
   size = "md",
+  variant = "chip",
   className,
 }: {
   category: Category;
   size?: "sm" | "md";
+  /** "chip" = colored bubble; "label" = no bubble, larger text */
+  variant?: "chip" | "label";
   className?: string;
 }) {
+  if (variant === "label") {
+    // Extract text color from chip string (e.g. "bg-sky-50 text-sky-700 ring-1 ring-sky-200" → "text-sky-700")
+    const textColor = CATEGORY_META[category].chip.split(" ").find((c) => c.startsWith("text-")) ?? "text-navy-700";
+    return (
+      <span className={cx("inline-flex items-center gap-1.5 text-sm font-semibold", textColor, className)}>
+        <CategoryIcon category={category} className="h-4 w-4" />
+        {category}
+      </span>
+    );
+  }
+
   return (
     <span
       className={cx(

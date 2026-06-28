@@ -22,7 +22,8 @@ export default function TrackPage() {
 
   return (
     <SiteShell>
-      <div className="gl-container max-w-3xl py-12 lg:py-16">
+      <div className="flex min-h-[calc(100vh-8rem)] flex-col bg-accent-50">
+        <div className="gl-container max-w-3xl py-12 lg:py-16">
         <div className="text-center">
           <h1 className="text-3xl font-bold tracking-tight text-navy-900 sm:text-4xl">
             Track a report
@@ -115,6 +116,7 @@ export default function TrackPage() {
               </Link>
             </div>
           )}
+        </div>
         </div>
       </div>
     </SiteShell>
