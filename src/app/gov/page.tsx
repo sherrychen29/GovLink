@@ -5,15 +5,13 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import {
-  Map as MapIcon,
-  List,
   CircleCheck,
   Loader2,
   Inbox,
   ChevronLeft,
   ChevronRight,
   ExternalLink,
-  BarChart3,
+  Filter,
 } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { SiteFooter } from "@/components/SiteShell";
@@ -89,6 +87,7 @@ function GovDashboard() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [modalId, setModalId] = useState<string | null>(null);
   const [page, setPage] = useState(1);
+  const [mapFiltersOpen, setMapFiltersOpen] = useState(false);
 
   // Auth gate.
   useEffect(() => {
@@ -174,12 +173,12 @@ function GovDashboard() {
         <nav className="hidden items-center gap-1 md:flex" aria-label="Gov views">
           {(
             [
-              { key: "map", icon: <MapIcon className="h-4 w-4" aria-hidden="true" />, label: "Map View" },
-              { key: "list", icon: <List className="h-4 w-4" aria-hidden="true" />, label: "Issues" },
-              { key: "analytics", icon: <BarChart3 className="h-4 w-4" aria-hidden="true" />, label: "Analytics" },
-              { key: "resolved", icon: <CircleCheck className="h-4 w-4" aria-hidden="true" />, label: "Resolved" },
+              { key: "map", label: "Map View" },
+              { key: "list", label: "Issues" },
+              { key: "analytics", label: "Analytics" },
+              { key: "resolved", label: "Resolved" },
             ] as const
-          ).map(({ key, icon, label }) => {
+          ).map(({ key, label }) => {
             const active = view === key;
             return (
               <button
@@ -192,7 +191,6 @@ function GovDashboard() {
                   active ? "text-white" : "text-navy-200 hover:text-white"
                 )}
               >
-                {icon}
                 {label}
                 {active && (
                   <span aria-hidden="true" className="absolute inset-x-3 bottom-1 h-[3px] rounded-full bg-accent-400" />
@@ -221,9 +219,9 @@ function GovDashboard() {
       </header>
 
       {/* Controls bar: filters (left) + sort + view toggle (right) */}
-      <div className="z-20 shrink-0 border-b border-navy-100 bg-white">
-        <div className="gl-container py-3">
-          {view !== "analytics" && (
+      {view !== "analytics" && view !== "map" && (
+        <div className="z-20 shrink-0 border-b border-navy-100 bg-white">
+          <div className="gl-container py-3">
             <FilterPanel
               filters={filters}
               onChange={setFilters}
@@ -232,9 +230,9 @@ function GovDashboard() {
               sort={sort}
               onSortChange={setSort}
             />
-          )}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Main content */}
       <main className="relative min-h-0 flex-1">
@@ -271,6 +269,28 @@ function GovDashboard() {
                   onSelect={selectReport}
                 />
               </div>
+              {/* Filter button — top-right overlay */}
+              <div className="absolute right-4 top-4 z-[400]">
+                <button
+                  type="button"
+                  onClick={() => setMapFiltersOpen((o) => !o)}
+                  className="flex items-center gap-2 rounded border border-navy-300 bg-white px-3 py-2 text-sm font-semibold text-navy-800 shadow-card transition-colors hover:bg-navy-50"
+                >
+                  <Filter className="h-4 w-4" aria-hidden="true" />
+                  Filters
+                </button>
+                {mapFiltersOpen && (
+                  <div className="absolute right-0 top-full mt-2 w-80 rounded border border-navy-200 bg-white p-3 shadow-card">
+                    <FilterPanel
+                      filters={filters}
+                      onChange={setFilters}
+                      showStatusFilter={false}
+                      showSort={false}
+                    />
+                  </div>
+                )}
+              </div>
+              {/* Severity legend — bottom-left */}
               <div className="pointer-events-none absolute bottom-4 left-4 z-[400] rounded-xl border border-navy-100 bg-white/95 p-4 shadow-card">
                 <p className="mb-2 text-sm font-bold text-navy-900">
                   Severity ({mapReports.length} shown)

@@ -333,25 +333,27 @@ export function AnalyticsPanel({ reports }: { reports: Report[] }) {
         </div>
 
         {/* Year filter */}
-        <div className="mt-6 flex flex-col gap-2 rounded-md border-2 border-accent-300 bg-accent-100 px-4 py-3 shadow-sm sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-xs font-bold uppercase tracking-wider text-accent-800">
-            Calendar-year filter for charts below
-          </p>
-          <label className="flex items-center gap-2 text-sm text-navy-900">
-            <span className="font-semibold">Reporting year</span>
-            <select
-              value={year}
-              onChange={(e) => setYear(Number(e.target.value))}
-              className="rounded border border-navy-300 bg-white px-3 py-1.5 font-sans text-sm text-navy-900 focus:border-navy-500 focus:outline-none focus:ring-1 focus:ring-navy-500"
-            >
-              {data.availableYears.map((y) => (
-                <option key={y} value={y}>
-                  {y}
-                </option>
-              ))}
-            </select>
-          </label>
-        </div>
+        <section className="mt-6 border border-navy-300 bg-white">
+          <h3 className="border-b border-navy-300 bg-navy-50 px-4 py-2 text-sm font-bold uppercase tracking-wide text-navy-900">
+            Calendar-Year Filter for Charts Below
+          </h3>
+          <div className="px-4 py-3">
+            <label className="flex items-center gap-2 text-sm text-navy-900">
+              <span className="font-semibold">Reporting year</span>
+              <select
+                value={year}
+                onChange={(e) => setYear(Number(e.target.value))}
+                className="rounded border border-navy-300 bg-white px-3 py-1.5 font-sans text-sm text-navy-900 focus:border-navy-500 focus:outline-none focus:ring-1 focus:ring-navy-500"
+              >
+                {data.availableYears.map((y) => (
+                  <option key={y} value={y}>
+                    {y}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+        </section>
 
         {/* Monthly Activity + Annual Volume + Severity Distribution */}
         <div className="mt-6 grid gap-6 lg:grid-cols-3">
@@ -501,8 +503,8 @@ export function AnalyticsPanel({ reports }: { reports: Report[] }) {
 
 function PerformanceSummary({ text, loading }: { text?: string; loading: boolean }) {
   return (
-    <section className="border border-navy-300 bg-white">
-      <h3 className="border-b border-navy-300 bg-navy-50 px-4 py-2 text-sm font-bold uppercase tracking-wide text-navy-900">
+    <section className="border border-accent-300 bg-white">
+      <h3 className="border-b border-accent-300 bg-accent-50 px-4 py-2 text-sm font-bold uppercase tracking-wide text-accent-900">
         Performance Summary
       </h3>
       <div className="px-4 py-3">

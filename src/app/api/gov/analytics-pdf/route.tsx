@@ -46,8 +46,6 @@ const RULE_LIGHT = "#dde7f3"; // navy.100
 const INK = "#0b1220";
 const INK_SOFT = "#384256";
 const SLATE = "#64748b";
-const SLATE_LIGHT = "#94a3b8";
-const RESOLVED = "#475569";
 const GRID = "#e2e8f0";
 const CYAN = "#06b6d4"; // solved overlay (matches web)
 const BG_LIGHT = "#f1f5fb"; // navy.50
@@ -432,8 +430,7 @@ function AnalyticsDocument({ d }: { d: AnalyticsPdfPayload }) {
   const sealSrc = path.join(publicDir, "images/san-jose-seal.png");
 
   const monthData = d.monthlyTrend.map((m) => ({ label: m.month, filed: m.filed, resolved: m.resolved }));
-  const yearData = d.yearlyTrend.map((y) => ({ label: y.year, filed: y.filed, resolved: y.resolved, open: y.open }));
-  const sevData = d.severityDistribution.map((s) => ({ label: String(s.severity), count: s.count }));
+const sevData = d.severityDistribution.map((s) => ({ label: String(s.severity), count: s.count }));
   const catData = d.categoryBreakdown.map((c) => ({
     label: c.category,
     total: c.count,
@@ -558,26 +555,6 @@ function AnalyticsDocument({ d }: { d: AnalyticsPdfPayload }) {
               <Legend items={[{ label: "Cases", color: NAVY_MID }]} />
             </View>
           </View>
-        </View>
-
-        <Text style={styles.sectionHead}>Annual Volume</Text>
-        <View style={styles.chartWrap}>
-          <VBarChart
-            data={yearData}
-            series={[
-              { key: "filed", color: NAVY_MID },
-              { key: "resolved", color: RESOLVED },
-              { key: "open", color: SLATE_LIGHT },
-            ]}
-            height={140}
-          />
-          <Legend
-            items={[
-              { label: "Filed", color: NAVY_MID },
-              { label: "Closed", color: RESOLVED },
-              { label: "Open (cohort)", color: SLATE_LIGHT },
-            ]}
-          />
         </View>
 
         {hasResolution ? (
