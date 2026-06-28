@@ -71,9 +71,17 @@ export function BeaconHeroPreview({ className }: { className?: string }) {
               </span>
               Pin the location
             </div>
-            <div className="overflow-hidden rounded-lg border border-navy-200 bg-navy-50">
-              <div className="flex h-24 items-center justify-center bg-[linear-gradient(135deg,#e8eef6_25%,#d4dce8_25%,#d4dce8_50%,#e8eef6_50%,#e8eef6_75%,#d4dce8_75%,#d4dce8)] bg-[length:16px_16px]">
-                <MapPin className="h-6 w-6 text-[#1fc7ef]" aria-hidden="true" />
+            <div className="relative overflow-hidden rounded-lg border border-navy-200">
+              {/* OpenStreetMap tile — San Jose downtown, z14 */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="https://tile.openstreetmap.org/14/2646/6363.png"
+                alt="Map of San Jose"
+                className="h-24 w-full object-cover"
+                style={{ objectPosition: "center 40%" }}
+              />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <MapPin className="h-7 w-7 drop-shadow-md text-[#1fc7ef]" aria-hidden="true" />
               </div>
             </div>
             <p className="mt-2 text-sm text-navy-900">Elm St &amp; 22nd St, San Jose</p>

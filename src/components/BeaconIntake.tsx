@@ -290,9 +290,9 @@ export function BeaconIntake({
     append(
       { id: `u_loc_${Date.now()}`, kind: "user", text: `Location set: ${label}` },
       {
-        id: `b_photos_${Date.now()}`,
+        id: `b_details_${Date.now()}`,
         kind: "beacon",
-        text: "Photos help the city respond faster. Add any below, or skip if you don't have any.",
+        text: "Thanks — location confirmed. Any additional details that would help the city respond? For example: how long has this been going on, how severe it is, any safety concerns, or anything else the crew should know. Type below or skip to photos.",
       }
     );
     if (!widgetsAdded.current.photos) {
@@ -493,7 +493,7 @@ export function BeaconIntake({
                       }}
                       className="inline-flex items-center gap-1.5 rounded-lg border border-navy-200 bg-white px-3 py-1.5 text-sm font-semibold text-navy-800 shadow-sm transition-colors hover:bg-navy-50"
                     >
-                      <MapPin className="h-4 w-4 text-navy-500" aria-hidden="true" />
+                      <MapPin className="h-4 w-4 text-[#1fc7ef]" aria-hidden="true" />
                       Show map
                     </button>
                   </div>
@@ -506,7 +506,7 @@ export function BeaconIntake({
           }
           if (item.widget === "map") {
             return (
-              <WidgetShell key={item.id} title="Pin the location" icon={<MapPin className="h-4 w-4" />}>
+              <WidgetShell key={item.id} title="Pin the location" icon={<MapPin className="h-4 w-4 text-[#1fc7ef]" />}>
                 {item.locked && location ? (
                   <LocationPicker value={location} onChange={() => {}} readOnly compact />
                 ) : (

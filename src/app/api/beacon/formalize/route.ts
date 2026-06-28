@@ -25,7 +25,7 @@ Reply with JSON only (no markdown):
 }
 
 Rules for formalDescription:
-- Use municipal tone: "The reporting party indicates…", "Observed condition…", "Location reference…"
+- Use municipal tone: "The citizen indicates…", "Observed condition…", "Location reference…"
 - Be factual and neutral — do not invent details not in the resident text
 - Include location reference when provided
 - End with priority framing if appropriate

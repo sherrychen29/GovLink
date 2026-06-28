@@ -30,7 +30,7 @@ export function SiteFooter({ compact = false }: { compact?: boolean }) {
             </a>
             <Logo markClassName={compact ? "h-7 w-auto" : "h-12 w-auto sm:h-14"} />
           </div>
-          <p className="max-w-md text-xs text-ink-muted">
+          <p className="max-w-md text-xs text-navy-900">
             GovLink is a civic reporting prototype for the City of {CITY.name}.
             For emergencies, always call 911.
           </p>
@@ -42,7 +42,7 @@ export function SiteFooter({ compact = false }: { compact?: boolean }) {
               href={partner.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-ink-soft underline decoration-navy-200 underline-offset-2 hover:text-navy-900 hover:decoration-navy-400"
+              className="text-navy-700 underline decoration-navy-300 underline-offset-2 hover:text-navy-900 hover:decoration-navy-500"
             >
               {partner.label}
             </a>

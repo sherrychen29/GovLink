@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUpDown, ArrowDown, Users, ImageIcon, AlertCircle, CheckCircle2 } from "lucide-react";
+import { ArrowUpDown, ArrowDown, Users, ImageIcon } from "lucide-react";
 import type { Report } from "@/lib/types";
 import { corroborations } from "@/lib/types";
 import type { SortKey } from "@/lib/filters";
@@ -20,7 +20,6 @@ const COLUMNS: Array<{
   { key: "reports", label: "REPORTS", align: "center" },
   { key: "severity", label: "SEVERITY", align: "center" },
   { key: "status", label: "STATUS" },
-  { key: null, label: "ASSIGNED", className: "hidden xl:table-cell", align: "center" },
   { key: "date", label: "SUBMITTED", className: "hidden md:table-cell" },
 ];
 
@@ -158,16 +157,8 @@ export function IssueTable({
                     />
                   </td>
                 )}
-                <td className="hidden px-4 py-3 text-center xl:table-cell">
-                  <div className="flex justify-center">
-                    {r.assignedTo ? (
-                      <CheckCircle2 className="h-6 w-6 text-emerald-500" aria-label="Assigned" />
-                    ) : (
-                      <AlertCircle className="h-6 w-6 text-amber-500" aria-label="Unassigned" />
-                    )}
-                  </div>
-                </td>
-                <td className="hidden px-4 py-3 text-ink-muted md:table-cell">
+
+                <td className="hidden px-4 py-3 text-navy-700 md:table-cell">
                   {formatDate(r.createdAt)}
                 </td>
               </tr>

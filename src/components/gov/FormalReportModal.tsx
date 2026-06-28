@@ -89,7 +89,7 @@ export function FormalReportModal({
 
   function confirmResolution() {
     updateStatus(report.id, "resolved", {
-      note: noteText.trim() || undefined,
+      note: noteText.trim(),
       rejected: composer === "declined",
     });
     setComposer(null);
@@ -477,37 +477,37 @@ export function FormalReportModal({
                             {composer === "declined" ? (
                               <>Reason for declining <span className="font-bold text-red-600">*</span></>
                             ) : (
-                              "Message to the resident"
+                              <>Resolution note <span className="font-bold text-red-600">*</span></>
                             )}
                           </label>
                           <textarea
                             id="resolution-note"
                             rows={2}
-                            required={composer === "declined"}
+                            required
                             className={cx(
                               "field-input resize-none text-sm",
-                              composer === "declined" && !noteText.trim()
+                              !noteText.trim()
                                 ? "border-red-400 ring-1 ring-red-300 focus:border-red-400 focus:ring-red-300"
                                 : ""
                             )}
                             placeholder={
                               composer === "declined"
                                 ? "Required — the resident will see this reason…"
-                                : "Describe what was done to fix it…"
+                                : "Required — describe what was done to fix it…"
                             }
                             value={noteText}
                             onChange={(e) => setNoteText(e.target.value)}
                           />
-                          {composer === "declined" && !noteText.trim() && (
+                          {!noteText.trim() && (
                             <p className="mt-1 text-[11px] font-medium text-red-600">
-                              A reason is required before declining.
+                              {composer === "declined" ? "A reason is required before declining." : "A resolution note is required."}
                             </p>
                           )}
                           <div className="mt-2 flex gap-2">
                             <button
                               type="button"
                               onClick={confirmResolution}
-                              disabled={composer === "declined" && !noteText.trim()}
+                              disabled={!noteText.trim()}
                               className={cx(
                                 "btn flex-1 text-white text-sm",
                                 composer === "declined" ? "bg-red-600 hover:bg-red-700" : "bg-emerald-600 hover:bg-emerald-700"

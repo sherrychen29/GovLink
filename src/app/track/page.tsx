@@ -99,7 +99,7 @@ export default function TrackPage() {
           {results === null && (
             <div className="rounded-2xl border border-dashed border-navy-200 bg-white/60 p-7">
               <h2 className="text-base font-semibold text-navy-900">
-                Don&apos;t have your ID?
+                Don&apos;t remember tracking ID?
               </h2>
               <p className="mt-2 text-base text-ink-soft">
                 Search with the email or phone number you provided when

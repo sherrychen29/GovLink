@@ -102,7 +102,7 @@ export default function ResolvedPage() {
       <div className="gl-container py-8 lg:py-10">
         {/* Inline filters — right-aligned row */}
         <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-          <p className="text-sm text-ink-muted">
+          <p className="text-base font-semibold text-navy-900">
             {resolved.length} result{resolved.length === 1 ? "" : "s"}
             {(filters.categories.length > 0 || filters.outcomes.length > 0) && (
               <>
@@ -110,7 +110,7 @@ export default function ResolvedPage() {
                 <button
                   type="button"
                   onClick={() => setFilters({ ...DEFAULT_RESOLVED_FILTERS })}
-                  className="font-semibold text-navy-700 underline underline-offset-2 hover:text-navy-900"
+                  className="text-navy-700 underline underline-offset-2 hover:text-navy-900"
                 >
                   Clear filters
                 </button>
@@ -173,7 +173,7 @@ function ResolvedCard({ report }: { report: Report }) {
     `${report.location.lat.toFixed(4)}, ${report.location.lng.toFixed(4)}`;
 
   return (
-    <article className="card flex flex-col p-5">
+    <article className="card flex flex-col rounded-xl p-6">
       <div className="flex items-center justify-between gap-2">
         <CategoryChip category={report.category} size="sm" />
         {rejected && (
@@ -184,7 +184,7 @@ function ResolvedCard({ report }: { report: Report }) {
         )}
       </div>
 
-      <p className="mt-3 line-clamp-2 text-sm font-medium text-navy-900">
+      <p className="mt-3 line-clamp-2 text-base font-medium text-navy-900">
         {report.description}
       </p>
 
@@ -200,9 +200,9 @@ function ResolvedCard({ report }: { report: Report }) {
         {report.resolution!.note}
       </div>
 
-      <div className="mt-auto flex flex-wrap items-center gap-x-3 gap-y-1 pt-4 text-xs text-navy-700">
+      <div className="mt-auto flex flex-wrap items-center gap-x-3 gap-y-1 pt-4 text-xs font-bold text-navy-900">
         <span className="inline-flex items-center gap-1 truncate">
-          <MapPin className="h-3.5 w-3.5 text-navy-700" aria-hidden="true" />
+          <MapPin className="h-3.5 w-3.5 text-navy-900" aria-hidden="true" />
           <span className="truncate">{locationText}</span>
         </span>
         <span aria-hidden="true">·</span>
