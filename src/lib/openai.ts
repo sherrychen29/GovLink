@@ -40,3 +40,41 @@ export async function chatJSON(
     return null;
   }
 }
+
+/**
+ * Multimodal variant of {@link chatJSON}: sends a system prompt plus a single
+ * user turn carrying text and one image (data URL or http URL), expecting a
+ * JSON object back. Returns null on any failure so callers can fall back.
+ */
+export async function visionJSON(
+  systemPrompt: string,
+  userText: string,
+  imageUrl: string,
+  opts: { temperature?: number } = {}
+): Promise<Record<string, unknown> | null> {
+  const openai = getOpenAI();
+  if (!openai) return null;
+  try {
+    const completion = await openai.chat.completions.create({
+      model: MODEL,
+      temperature: opts.temperature ?? 0.2,
+      response_format: { type: "json_object" },
+      messages: [
+        { role: "system", content: systemPrompt },
+        {
+          role: "user",
+          content: [
+            { type: "text", text: userText },
+            { type: "image_url", image_url: { url: imageUrl, detail: "low" } },
+          ],
+        },
+      ],
+    });
+    const text = completion.choices[0]?.message?.content;
+    if (!text) return null;
+    return JSON.parse(text) as Record<string, unknown>;
+  } catch (err) {
+    console.error("[beacon] OpenAI vision call failed:", err);
+    return null;
+  }
+}

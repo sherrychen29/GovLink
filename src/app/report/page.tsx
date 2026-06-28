@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import {
@@ -12,11 +12,13 @@ import {
   PenLine,
   MessageSquareText,
   Loader2,
+  WifiOff,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { SiteShell } from "@/components/SiteShell";
 import { BeaconCapabilities } from "@/components/BeaconIntake";
 import { LocationPicker } from "@/components/map/LocationPickerDynamic";
+import { MediaUpload } from "@/components/MediaUpload";
 import { CategoryChip } from "@/components/Chips";
 import { SeverityBar } from "@/components/Severity";
 import { StatusPill } from "@/components/StatusPill";
@@ -26,6 +28,7 @@ import {
   CATEGORIES,
   type Category,
   type ContactInfo,
+  type MediaItem,
   type ReportLocation,
 } from "@/lib/types";
 import { useCurrentUser } from "@/lib/store";
@@ -76,6 +79,7 @@ function ModeToggleButton({
 
 export default function ReportPage() {
   const { user } = useCurrentUser();
+  const [beaconAvailable, setBeaconAvailable] = useState<boolean | null>(null);
   const [mode, setMode] = useState<ReportMode>("chat");
   const [result, setResult] = useState<FileReportResult | null>(null);
   const [chatEnded, setChatEnded] = useState(false);
@@ -83,7 +87,21 @@ export default function ReportPage() {
   const [category, setCategory] = useState<Category | "">("");
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState<ReportLocation | null>(null);
+  const [media, setMedia] = useState<MediaItem[]>([]);
   const [filing, setFiling] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/beacon/status")
+      .then((r) => r.json())
+      .then((data: { available: boolean }) => {
+        setBeaconAvailable(data.available);
+        if (!data.available) setMode("manual");
+      })
+      .catch(() => {
+        setBeaconAvailable(false);
+        setMode("manual");
+      });
+  }, []);
 
   const contact: ContactInfo =
     user?.role === "citizen"
@@ -105,23 +123,26 @@ export default function ReportPage() {
 
   return (
     <SiteShell>
-      <div className="fixed right-4 top-[7rem] z-[1050] sm:right-6 lg:right-8">
-        {mode === "chat" ? (
-          <ModeToggleButton
-            label="Manual Report Entry"
-            icon={PenLine}
-            onClick={() => setMode("manual")}
-            ariaLabel="Manual report entry"
-          />
-        ) : (
-          <ModeToggleButton
-            label="Chat with Beacon"
-            icon={MessageSquareText}
-            onClick={() => setMode("chat")}
-            ariaLabel="Chat with Beacon"
-          />
-        )}
-      </div>
+      {/* Mode toggle — only shown when Beacon is available */}
+      {beaconAvailable && (
+        <div className="fixed right-4 top-[7rem] z-[1050] sm:right-6 lg:right-8">
+          {mode === "chat" ? (
+            <ModeToggleButton
+              label="Manual Report Entry"
+              icon={PenLine}
+              onClick={() => setMode("manual")}
+              ariaLabel="Manual report entry"
+            />
+          ) : (
+            <ModeToggleButton
+              label="Chat with Beacon"
+              icon={MessageSquareText}
+              onClick={() => setMode("chat")}
+              ariaLabel="Chat with Beacon"
+            />
+          )}
+        </div>
+      )}
 
       <div className="flex min-h-[calc(100vh-8rem)] flex-col bg-accent-50">
         <div className="gl-container pt-8 pb-4 text-center">
@@ -130,10 +151,23 @@ export default function ReportPage() {
           </h1>
           <p className="mt-2 text-base text-ink-soft sm:text-lg">
             {mode === "chat"
-              ? "Chat with Beacon to create a report for the City of San Jose to review"
+              ? "Chat with Beacon to create an official report for the City of San Jose."
               : "Fill out the form directly, the City of San Jose will review it afterwards"}
           </p>
         </div>
+
+        {/* Beacon unavailable banner */}
+        {beaconAvailable === false && (
+          <div className="gl-container mb-2">
+            <div className="mx-auto flex max-w-3xl items-center gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+              <WifiOff className="h-5 w-5 shrink-0 text-amber-600" aria-hidden="true" />
+              <span>
+                <span className="font-semibold">Beacon is unavailable</span> — no API key is
+                configured. You can still submit a report using the form below.
+              </span>
+            </div>
+          </div>
+        )}
 
         <div className="gl-container flex flex-1 flex-col pt-3 pb-6 lg:pb-10">
           {mode === "chat" ? (
@@ -171,30 +205,49 @@ export default function ReportPage() {
               onDescriptionChange={setDescription}
               location={location}
               onLocationChange={setLocation}
+              media={media}
+              onMediaChange={setMedia}
               filing={filing}
+              beaconAvailable={beaconAvailable ?? false}
               onSubmit={async () => {
                 if (!category || !location || !description.trim()) return;
                 setFiling(true);
                 try {
-                  const formal = await formalizeReport({
-                    description: description.trim(),
-                    category: category as Category,
+                  let fileInput;
+                  try {
+                    const formal = await formalizeReport({
+                      description: description.trim(),
+                      category: category as Category,
+                      location,
+                    });
+                    fileInput = {
+                      category: formal.category,
+                      description: formal.formalDescription,
+                      baseSeverity: formal.baseSeverity,
+                      formalTitle: formal.formalTitle,
+                      residentDescription: description.trim(),
+                      servicePriority: formal.servicePriority,
+                    };
+                  } catch {
+                    // Beacon unavailable — file with raw values, no AI polish
+                    fileInput = {
+                      category: category as Category,
+                      description: description.trim(),
+                      baseSeverity: 5,
+                      formalTitle: undefined,
+                      residentDescription: description.trim(),
+                      servicePriority: undefined,
+                    };
+                  }
+                  const filed = await fileReport({
+                    ...fileInput,
                     location,
-                  });
-                  const result = await fileReport({
-                    category: formal.category,
-                    description: formal.formalDescription,
-                    location,
-                    media: [],
+                    media,
                     contact,
-                    baseSeverity: formal.baseSeverity,
                     noticedAt: new Date().toISOString(),
                     reporterId: user?.role === "citizen" ? user.id : undefined,
-                    formalTitle: formal.formalTitle,
-                    residentDescription: description.trim(),
-                    servicePriority: formal.servicePriority,
                   });
-                  setResult(result);
+                  setResult(filed);
                 } finally {
                   setFiling(false);
                 }
@@ -214,7 +267,10 @@ function ManualForm({
   onDescriptionChange,
   location,
   onLocationChange,
+  media,
+  onMediaChange,
   filing,
+  beaconAvailable,
   onSubmit,
 }: {
   category: Category | "";
@@ -223,7 +279,10 @@ function ManualForm({
   onDescriptionChange: (d: string) => void;
   location: ReportLocation | null;
   onLocationChange: (l: ReportLocation | null) => void;
+  media: MediaItem[];
+  onMediaChange: (m: MediaItem[]) => void;
   filing: boolean;
+  beaconAvailable: boolean;
   onSubmit: () => void;
 }) {
   return (
@@ -262,18 +321,29 @@ function ManualForm({
         <span className="field-label text-base">Location</span>
         <LocationPicker value={location} onChange={onLocationChange} />
       </div>
+      <div>
+        <span className="field-label text-base">Photos (optional)</span>
+        <MediaUpload
+          items={media}
+          onChange={onMediaChange}
+          category={category}
+          description={description}
+        />
+      </div>
       <button
         type="button"
         onClick={onSubmit}
         disabled={filing || !category || !description.trim() || !location}
         className="btn-accent w-full py-3.5 text-base"
       >
-        {filing ? "Formatting & submitting…" : "Submit report"}
+        {filing ? "Submitting…" : "Submit report"}
       </button>
-      <p className="mt-2 text-center text-sm text-ink-muted">
-        Beacon will verify the category, assign a priority rating, and format
-        your report for city staff before filing.
-      </p>
+      {beaconAvailable && (
+        <p className="mt-2 text-center text-sm text-ink-muted">
+          Beacon will verify the category, assign a priority rating, and format
+          your report for city staff before filing.
+        </p>
+      )}
     </div>
   );
 }

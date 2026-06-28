@@ -2,8 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { chatJSON, getOpenAI } from "@/lib/openai";
 import {
-  heuristicChat,
-  heuristicReviewChat,
   extractLocationHint,
   clamp,
   type BeaconChatResult,
@@ -12,7 +10,6 @@ import { CATEGORIES, type Category } from "@/lib/types";
 
 export const runtime = "nodejs";
 
-// Keep cost/latency bounded and blunt prompt-injection bloat.
 const MAX_TURNS = 12;
 const MAX_CHARS = 2000;
 
@@ -36,12 +33,6 @@ const RequestSchema = z.object({
     .optional(),
 });
 
-// ---------------------------------------------------------------------------
-// The intelligence lives in this prompt. Beacon is the PRIMARY decision-maker:
-// it reads the whole situation and REASONS about it. Outcomes are defined by the
-// state of the world ("is anyone in danger right now?"), never by vocabulary.
-// Keyword logic exists only as an offline fallback (see beacon-logic.ts).
-// ---------------------------------------------------------------------------
 const INTAKE_PROMPT = `You are Beacon, the intake assistant for GovLink — where residents report NON-EMERGENCY problems to their city government in San Jose.
 
 Your job: through a short, calm, competent conversation, decide what to do with each message and, when appropriate, assemble ONE complete, standardized report. Be concise and warm — never chatty filler. Reason about the whole SITUATION, not individual words.
@@ -131,11 +122,6 @@ function isCategory(value: unknown): value is Category {
   return typeof value === "string" && (CATEGORIES as readonly string[]).includes(value);
 }
 
-/**
- * Trust the model's decision, but never trust its data blindly: coerce the
- * category into the enum, clamp severity into range, and fall back to the safe
- * default ("clarify" — ask, never silently file or reject) if anything is off.
- */
 function normalizeIntake(
   r: z.infer<typeof IntakeResultSchema>,
   userText: string
@@ -172,7 +158,6 @@ function normalizeIntake(
   };
 }
 
-/** Last MAX_TURNS messages, each truncated, for the model context window. */
 function trimHistory(messages: Array<{ role: "user" | "assistant"; content: string }>) {
   return messages.slice(-MAX_TURNS).map((m) => ({
     role: m.role,
@@ -193,6 +178,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
+  if (!getOpenAI()) {
+    return NextResponse.json(
+      { error: "Beacon is unavailable: no OpenAI API key configured." },
+      { status: 503 }
+    );
+  }
+
   const { messages, context } = parsed.data;
   const history = trimHistory(messages);
   const userTurns = messages.filter((m) => m.role === "user").map((m) => m.content);
@@ -207,13 +199,6 @@ export async function POST(req: NextRequest) {
       baseSeverity: clamp(Math.round(context.baseSeverity ?? 5), 1, 10),
     };
 
-    if (!getOpenAI()) {
-      return NextResponse.json({
-        ...heuristicReviewChat(latestUser, draft),
-        source: "heuristic",
-      });
-    }
-
     const raw = await chatJSON(
       [
         { role: "system", content: REVIEW_PROMPT },
@@ -222,12 +207,13 @@ export async function POST(req: NextRequest) {
       { temperature: 0.2 }
     );
 
-    const result = raw ? ReviewResultSchema.safeParse(raw) : null;
-    if (!result?.success) {
-      return NextResponse.json({
-        ...heuristicReviewChat(latestUser, draft),
-        source: "heuristic",
-      });
+    if (!raw) {
+      return NextResponse.json({ error: "Beacon request failed." }, { status: 502 });
+    }
+
+    const result = ReviewResultSchema.safeParse(raw);
+    if (!result.success) {
+      return NextResponse.json({ error: "Beacon returned an unexpected response." }, { status: 502 });
     }
 
     const r = result.data;
@@ -263,23 +249,18 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(payload);
   }
 
-  // --- Intake phase: the LLM is the primary classifier ---------------------
-  // Keywords get NO vote when the model is available; they run only offline.
-  if (!getOpenAI()) {
-    return NextResponse.json({ ...heuristicChat(userTurns), source: "heuristic" });
-  }
-
+  // --- Intake phase --------------------------------------------------------
   const raw = await chatJSON(
     [{ role: "system", content: INTAKE_PROMPT }, ...history],
     { temperature: 0.3 }
   );
   if (!raw) {
-    return NextResponse.json({ ...heuristicChat(userTurns), source: "heuristic" });
+    return NextResponse.json({ error: "Beacon request failed." }, { status: 502 });
   }
 
   const result = IntakeResultSchema.safeParse(raw);
   if (!result.success) {
-    return NextResponse.json({ ...heuristicChat(userTurns), source: "heuristic" });
+    return NextResponse.json({ error: "Beacon returned an unexpected response." }, { status: 502 });
   }
 
   return NextResponse.json({ ...normalizeIntake(result.data, userText), source: "openai" });

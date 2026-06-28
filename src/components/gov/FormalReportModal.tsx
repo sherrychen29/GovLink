@@ -23,6 +23,7 @@ import {
   Send,
   MailOpen,
   Loader2,
+  TriangleAlert,
 } from "lucide-react";
 
 const STATUS_ICON_MAP = {
@@ -363,6 +364,20 @@ export function FormalReportModal({
                           {images.length} photos · click to view all
                         </p>
                       )}
+                      {images[0].caption && (
+                        <p className="mt-2 text-[11px] leading-snug text-ink-soft">
+                          <span className="font-semibold text-navy-600">
+                            AI caption:{" "}
+                          </span>
+                          {images[0].caption}
+                        </p>
+                      )}
+                      {images[0].flagged && (
+                        <p className="mt-1 flex items-center gap-1 text-[11px] font-semibold text-amber-700">
+                          <TriangleAlert className="h-3 w-3" aria-hidden="true" />
+                          Flagged by Beacon at intake
+                        </p>
+                      )}
                     </div>
                   )}
                 </div>
@@ -555,10 +570,18 @@ export function FormalReportModal({
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={images[lightboxIndex].dataUrl}
-            alt={images[lightboxIndex].name || "Attachment"}
+            alt={images[lightboxIndex].caption || images[lightboxIndex].name || "Attachment"}
             className="max-h-[85vh] max-w-[90vw] rounded-lg object-contain shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           />
+          {images[lightboxIndex].caption && (
+            <p
+              className="absolute bottom-6 left-1/2 max-w-[80vw] -translate-x-1/2 rounded-lg bg-black/60 px-4 py-2 text-center text-sm text-white"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {images[lightboxIndex].caption}
+            </p>
+          )}
           {lightboxIndex < images.length - 1 && (
             <button
               type="button"

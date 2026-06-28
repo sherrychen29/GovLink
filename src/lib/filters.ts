@@ -19,14 +19,6 @@ export const DEFAULT_FILTERS: GovFilters = {
   search: "",
 };
 
-export const SORT_LABELS: Record<SortKey, string> = {
-  reports: "# of reports",
-  severity: "severity",
-  date: "date submitted",
-  category: "category",
-  status: "status",
-};
-
 const STATUS_ORDER: Record<ReportStatus, number> = {
   sent: 0,
   opened: 1,

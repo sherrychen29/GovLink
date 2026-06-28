@@ -1,13 +1,12 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import {
   Map as MapIcon,
   List,
-  LogOut,
   CircleCheck,
   Loader2,
   Inbox,
@@ -18,6 +17,7 @@ import {
 } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { SiteFooter } from "@/components/SiteShell";
+import { GovAccountMenu } from "@/components/GovAccountMenu";
 import { FilterPanel } from "@/components/gov/FilterPanel";
 import { IssueTable } from "@/components/gov/IssueTable";
 import { FormalReportModal } from "@/components/gov/FormalReportModal";
@@ -30,7 +30,7 @@ import {
   type GovFilters,
   type SortKey,
 } from "@/lib/filters";
-import { logout, useCurrentUser, useReports } from "@/lib/store";
+import { useCurrentUser, useReports } from "@/lib/store";
 import { SEVERITY_LEGEND } from "@/lib/meta";
 import { cx } from "@/lib/utils";
 
@@ -58,6 +58,14 @@ const AnalyticsPanel = dynamic(
 );
 
 export default function GovDashboardPage() {
+  return (
+    <Suspense fallback={null}>
+      <GovDashboard />
+    </Suspense>
+  );
+}
+
+function GovDashboard() {
   const router = useRouter();
   const { user, hydrated } = useCurrentUser();
   const { reports } = useReports();
@@ -195,14 +203,7 @@ export default function GovDashboardPage() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={() => { logout(); router.push("/"); }}
-            className="btn border-2 border-white/60 font-semibold text-white hover:border-white hover:bg-white hover:text-navy-900"
-          >
-            <LogOut className="h-4 w-4" aria-hidden="true" />
-            <span className="hidden sm:inline">Sign out</span>
-          </button>
+          <GovAccountMenu />
           <Link
             href="/"
             className="btn border-2 border-white bg-white/10 font-semibold text-white hover:bg-white hover:text-navy-900"

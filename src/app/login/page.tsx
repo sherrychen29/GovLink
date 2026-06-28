@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AlertCircle, ArrowLeft, ArrowRight, Building2 } from "lucide-react";
 import { Logo } from "@/components/Logo";
-import { clearAllData, loadBulkSampleReports, loadImported500SampleReports, loadSampleReports, login } from "@/lib/store";
+import { clearAllData, loadGenerated150Reports, login } from "@/lib/store";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -38,14 +38,6 @@ export default function LoginPage() {
       {/* Form panel */}
       <div className="relative flex min-h-screen flex-col justify-center px-6 py-12 sm:px-12">
         <div className="mx-auto w-full max-w-sm">
-          <Link
-            href="/"
-            className="mb-8 flex items-center gap-1.5 text-sm font-medium text-ink-muted transition-colors hover:text-navy-900"
-          >
-            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-            Back to home
-          </Link>
-
           <Link href="/" className="mb-8 flex lg:hidden">
             <Logo />
           </Link>
@@ -57,6 +49,14 @@ export default function LoginPage() {
             </span>
           </div>
 
+          <Link
+            href="/"
+            className="mb-6 flex items-center gap-1.5 text-sm font-medium text-ink-muted transition-colors hover:text-navy-900"
+          >
+            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+            Back to home
+          </Link>
+
           <SignInForm router={router} />
         </div>
 
@@ -67,25 +67,25 @@ export default function LoginPage() {
 }
 
 function DemoTools() {
-  const [loading500, setLoading500] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  async function handleLoad500() {
+  async function handleGenerate150() {
     if (
       !window.confirm(
-        "Load 500 curated sample reports for analytics testing? This replaces all current reports."
+        "Load 150 generated reports? This replaces all current reports."
       )
     ) {
       return;
     }
-    setLoading500(true);
+    setLoading(true);
     try {
-      await loadImported500SampleReports();
+      await loadGenerated150Reports();
     } catch (err) {
       window.alert(
-        err instanceof Error ? err.message : "Failed to load 500 sample reports."
+        err instanceof Error ? err.message : "Failed to load 150 reports."
       );
     } finally {
-      setLoading500(false);
+      setLoading(false);
     }
   }
 
@@ -104,37 +104,11 @@ function DemoTools() {
       </button>
       <button
         type="button"
-        className="pointer-events-auto transition-colors hover:text-navy-800"
-        onClick={() => {
-          if (window.confirm("Load 9 curated sample reports?")) {
-            loadSampleReports();
-          }
-        }}
-      >
-        Generate 9 samples
-      </button>
-      <button
-        type="button"
         className="pointer-events-auto transition-colors hover:text-navy-800 disabled:opacity-50"
-        disabled={loading500}
-        onClick={handleLoad500}
+        disabled={loading}
+        onClick={handleGenerate150}
       >
-        {loading500 ? "Loading 500…" : "Generate 500 samples"}
-      </button>
-      <button
-        type="button"
-        className="pointer-events-auto transition-colors hover:text-navy-800"
-        onClick={() => {
-          if (
-            window.confirm(
-              "Load 1,000 procedural reports for analytics testing? This replaces all current reports."
-            )
-          ) {
-            loadBulkSampleReports(1000);
-          }
-        }}
-      >
-        Generate 1,000 samples
+        {loading ? "Loading 150…" : "Generate 150 cases"}
       </button>
     </div>
   );

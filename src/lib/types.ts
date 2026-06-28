@@ -47,6 +47,11 @@ export interface MediaItem {
   dataUrl: string;
   kind: "image" | "video";
   name?: string;
+  /** AI-generated caption describing the photo in the civic-report context. */
+  caption?: string;
+  /** True when the vision model flagged the image as vague or inappropriate
+   *  but the resident filed it anyway — surfaced to city staff for review. */
+  flagged?: boolean;
 }
 
 export interface ContactInfo {

@@ -1,6 +1,6 @@
 import { CATEGORIES, STATUS_PIPELINE, type Report } from "./types";
 
-const DATA_URL = "/data/govlink-reports-500.json";
+const DATA_URL = "/data/govlink-reports-150.json";
 
 let cached: Report[] | null = null;
 
@@ -20,15 +20,14 @@ function isReport(value: unknown): value is Report {
     Array.isArray(r.submissions) &&
     (r.submissions as unknown[]).length > 0 &&
     Array.isArray(r.media) &&
-    (r.media as unknown[]).length === 0 &&
     Array.isArray(r.statusHistory) &&
     r.location != null &&
     typeof r.location === "object"
   );
 }
 
-/** Fetch the curated 500-report analytics dataset from /public/data. */
-export async function fetchImported500Reports(): Promise<Report[]> {
+/** Fetch the curated 150-report dataset generated via the live Beacon API. */
+export async function fetchGenerated150Reports(): Promise<Report[]> {
   if (cached) return cached;
 
   const res = await fetch(DATA_URL);
@@ -44,10 +43,6 @@ export async function fetchImported500Reports(): Promise<Report[]> {
   const reports = (data as { reports: unknown }).reports;
   if (!Array.isArray(reports)) {
     throw new Error("Sample file reports field must be an array");
-  }
-
-  if (reports.length !== 500) {
-    throw new Error(`Expected 500 reports, got ${reports.length}`);
   }
 
   const invalid = reports.find((r) => !isReport(r));

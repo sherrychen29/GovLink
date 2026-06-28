@@ -3,8 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Menu, X, LogOut, LayoutDashboard } from "lucide-react";
+import { Menu, X, LogOut, LayoutDashboard, ShieldCheck, ChevronDown } from "lucide-react";
 import { Logo } from "./Logo";
+import { GovAccountMenu } from "./GovAccountMenu";
 import { useCurrentUser, logout } from "@/lib/store";
 import { CITY_PARTNERS } from "@/lib/partners";
 import { cx } from "@/lib/utils";
@@ -27,6 +28,7 @@ export function SiteHeader() {
   const router = useRouter();
   const { user, hydrated } = useCurrentUser();
   const [open, setOpen] = useState(false);
+  const [accountOpen, setAccountOpen] = useState(false);
 
   const isActive = (href: string) =>
     href === "/"
@@ -34,6 +36,13 @@ export function SiteHeader() {
       : pathname === href || pathname.startsWith(href + "/");
 
   const isGov = hydrated && user?.role === "government";
+
+  function handleSignOut() {
+    setAccountOpen(false);
+    setOpen(false);
+    logout();
+    router.push("/");
+  }
 
   return (
     <header className="sticky top-0 z-[1100] border-b border-navy-800 bg-navy-900 shadow-md shadow-navy-950/20">
@@ -79,14 +88,7 @@ export function SiteHeader() {
         <div className="hidden items-center gap-2 md:flex">
           {isGov && (
             <>
-              <button
-                type="button"
-                onClick={() => { logout(); router.push("/"); }}
-                className={NAVY_GHOST_BTN}
-              >
-                <LogOut className="h-4 w-4" aria-hidden="true" />
-                Sign out
-              </button>
+              <GovAccountMenu />
               <Link href="/gov" className={NAVY_OUTLINE_BTN}>
                 <LayoutDashboard className="h-4 w-4" aria-hidden="true" />
                 Dashboard
@@ -161,12 +163,30 @@ export function SiteHeader() {
                 <>
                   <button
                     type="button"
-                    className={cx(NAVY_GHOST_BTN, "justify-start")}
-                    onClick={() => { logout(); setOpen(false); router.push("/"); }}
+                    onClick={() => setAccountOpen((v) => !v)}
+                    aria-expanded={accountOpen}
+                    className="inline-flex items-center gap-1.5 self-start rounded-full border border-accent-400/50 bg-accent-500/15 px-3 py-1.5 text-xs font-semibold text-accent-100"
                   >
-                    <LogOut className="h-4 w-4" aria-hidden="true" />
-                    Sign out
+                    <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
+                    Signed in · San Jose Government
+                    <ChevronDown
+                      className={cx(
+                        "h-3.5 w-3.5 transition-transform",
+                        accountOpen && "rotate-180"
+                      )}
+                      aria-hidden="true"
+                    />
                   </button>
+                  {accountOpen && (
+                    <button
+                      type="button"
+                      className={cx(NAVY_GHOST_BTN, "justify-start")}
+                      onClick={handleSignOut}
+                    >
+                      <LogOut className="h-4 w-4" aria-hidden="true" />
+                      Sign out
+                    </button>
+                  )}
                   <Link href="/gov" className={NAVY_OUTLINE_BTN} onClick={() => setOpen(false)}>
                     <LayoutDashboard className="h-4 w-4" aria-hidden="true" />
                     Dashboard

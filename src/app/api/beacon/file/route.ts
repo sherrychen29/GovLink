@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { chatJSON, getOpenAI } from "@/lib/openai";
-import { heuristicDuplicate } from "@/lib/beacon-logic";
 import { haversineMeters } from "@/lib/utils";
 import { CATEGORIES } from "@/lib/types";
 
@@ -48,9 +47,15 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
+  if (!getOpenAI()) {
+    return NextResponse.json(
+      { error: "Beacon is unavailable: no OpenAI API key configured." },
+      { status: 503 }
+    );
+  }
+
   const { draft, candidates } = parsed.data;
 
-  // Pre-filter to nearby candidates to keep the prompt small and grounded.
   const nearby = candidates
     .map((c) => ({
       ...c,
@@ -68,17 +73,6 @@ export async function POST(req: NextRequest) {
       rationale: "No open reports nearby — filing a new ticket.",
       distanceM: null,
       source: "geo",
-    });
-  }
-
-  if (!getOpenAI()) {
-    const h = heuristicDuplicate(draft, nearby);
-    const matched = nearby.find((c) => c.id === h.matchId);
-    return NextResponse.json({
-      matchId: h.matchId,
-      rationale: h.rationale,
-      distanceM: matched?.distanceM ?? null,
-      source: "heuristic",
     });
   }
 
@@ -112,18 +106,10 @@ export async function POST(req: NextRequest) {
   });
   const result = raw ? ResultSchema.safeParse(raw) : null;
 
-  if (!result || !result.success) {
-    const h = heuristicDuplicate(draft, nearby);
-    const matched = nearby.find((c) => c.id === h.matchId);
-    return NextResponse.json({
-      matchId: h.matchId,
-      rationale: h.rationale,
-      distanceM: matched?.distanceM ?? null,
-      source: "heuristic",
-    });
+  if (!result?.success) {
+    return NextResponse.json({ error: "Beacon request failed." }, { status: 502 });
   }
 
-  // Validate the model didn't hallucinate an id.
   const matchId =
     result.data.matchId && nearby.some((c) => c.id === result.data.matchId)
       ? result.data.matchId

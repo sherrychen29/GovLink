@@ -107,13 +107,19 @@ export function CitizenReportView({ report }: { report: Report }) {
         {report.media.length > 0 && (
           <div className="mt-5 flex flex-wrap gap-3">
             {report.media.map((m) => (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                key={m.id}
-                src={m.dataUrl}
-                alt={m.name || "Report attachment"}
-                className="h-28 w-28 rounded-xl border border-navy-100 object-cover"
-              />
+              <figure key={m.id} className="w-28">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={m.dataUrl}
+                  alt={m.caption || m.name || "Report attachment"}
+                  className="h-28 w-28 rounded-xl border border-navy-100 object-cover"
+                />
+                {m.caption && (
+                  <figcaption className="mt-1.5 line-clamp-3 text-[11px] leading-snug text-ink-soft">
+                    {m.caption}
+                  </figcaption>
+                )}
+              </figure>
             ))}
           </div>
         )}

@@ -1,11 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { chatJSON, getOpenAI } from "@/lib/openai";
-import {
-  clamp,
-  heuristicFormalize,
-  priorityFromSeverity,
-} from "@/lib/beacon-logic";
+import { clamp, priorityFromSeverity } from "@/lib/beacon-logic";
 import { CATEGORIES, type FormalizedReport } from "@/lib/types";
 
 export const runtime = "nodejs";
@@ -60,13 +56,14 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const { description, category, locationLabel } = parsed.data;
-  const fallback = () =>
-    heuristicFormalize({ description, category, locationLabel });
-
   if (!getOpenAI()) {
-    return NextResponse.json({ ...fallback(), source: "heuristic" });
+    return NextResponse.json(
+      { error: "Beacon is unavailable: no OpenAI API key configured." },
+      { status: 503 }
+    );
   }
+
+  const { description, category, locationLabel } = parsed.data;
 
   const raw = await chatJSON(
     [
@@ -83,9 +80,13 @@ export async function POST(req: NextRequest) {
     { temperature: 0.2 }
   );
 
-  const result = raw ? ResultSchema.safeParse(raw) : null;
-  if (!result?.success) {
-    return NextResponse.json({ ...fallback(), source: "heuristic" });
+  if (!raw) {
+    return NextResponse.json({ error: "Beacon request failed." }, { status: 502 });
+  }
+
+  const result = ResultSchema.safeParse(raw);
+  if (!result.success) {
+    return NextResponse.json({ error: "Beacon returned an unexpected response." }, { status: 502 });
   }
 
   const r = result.data;

@@ -496,7 +496,12 @@ export function BeaconIntake({
                   </p>
                 ) : (
                   <>
-                    <MediaUpload items={media} onChange={setMedia} />
+                    <MediaUpload
+                      items={media}
+                      onChange={setMedia}
+                      category={draft?.category}
+                      description={draft?.residentDescription ?? draft?.description}
+                    />
                     <div className="mt-3 flex gap-2">
                       <button
                         type="button"
