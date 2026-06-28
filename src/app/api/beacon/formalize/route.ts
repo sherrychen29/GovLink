@@ -19,22 +19,22 @@ Input: informal resident description, optional category hint, optional location 
 Reply with JSON only (no markdown):
 {
   "category": one of ${JSON.stringify(CATEGORIES)},
-  "formalTitle": string,          // concise municipal title, e.g. "Traffic Signal Malfunction — Pine St & Main St"
+  "formalTitle": string,          // concise municipal title, e.g. "Traffic Signal Malfunction; Pine St & Main St"
   "formalDescription": string,    // 2-4 sentences, third-person, professional, no slang; structure like a work order
   "baseSeverity": integer 1-10
 }
 
 Rules for formalDescription:
 - Use municipal tone: "The citizen indicates…", "Observed condition…", "Location reference…"
-- Always refer to the person who submitted the report as "The citizen" — never "the reporting party", "the complainant", "the reporter", or any other term
-- Be factual and neutral — do not invent details not in the resident text
+- Always refer to the person who submitted the report as "The citizen"; never "the reporting party", "the complainant", "the reporter", or any other term
+- Be factual and neutral; do not invent details not in the resident text
 - Include location reference when provided
 - End with priority framing if appropriate
 - No emojis, exclamation marks, or casual language
 
 formalTitle: short, scannable, includes issue type and location when known.
 
-baseSeverity: same rubric as intake — 1-3 minor, 4-6 moderate, 7-8 serious, 9-10 severe non-emergency.
+baseSeverity: same rubric as intake; 1-3 minor, 4-6 moderate, 7-8 serious, 9-10 severe non-emergency.
 If category hint conflicts with content, choose the best fit from the content.`;
 
 const ResultSchema = z.object({

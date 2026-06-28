@@ -38,11 +38,11 @@ export default function LandingPage() {
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block rounded focus-visible:ring-2 focus-visible:ring-accent-400"
-              aria-label="City of San Jose — Capital of Silicon Valley"
+              aria-label="City of San Jose; Capital of Silicon Valley"
             >
               <Image
                 src="/images/san-jose-seal.png"
-                alt="City of San Jose — Capital of Silicon Valley"
+                alt="City of San Jose; Capital of Silicon Valley"
                 width={1752}
                 height={990}
                 className="h-20 w-auto sm:h-24"
@@ -156,7 +156,7 @@ export default function LandingPage() {
 }
 
 /* ====================================================================== */
-/*  How it works — the life of one report, shown end-to-end               */
+/*  How it works; the life of one report, shown end-to-end               */
 /* ====================================================================== */
 
 function HowItWorks() {
@@ -226,7 +226,7 @@ function HowItWorks() {
                 <Users className="h-4 w-4 shrink-0 text-accent-600" aria-hidden="true" />
                 <span>
                   <strong className="font-semibold">3 neighbors</strong> flagged the
-                  same light — ranked higher
+                  same light; ranked higher
                 </span>
               </p>
               <p className="flex items-center gap-2 text-sm text-navy-800">
@@ -298,7 +298,7 @@ function Stage({
   );
 }
 
-/** Chevron between stages — horizontal on desktop, hidden (stacked) on mobile. */
+/** Chevron between stages; horizontal on desktop, hidden (stacked) on mobile. */
 function Connector() {
   return (
     <div className="hidden items-center justify-center md:flex" aria-hidden="true">

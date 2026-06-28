@@ -46,7 +46,7 @@ export function GovAccountMenu() {
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         aria-haspopup="menu"
-        aria-label="Signed in as San Jose Government — open account menu"
+        aria-label="Signed in as San Jose Government ; open account menu"
         title="Signed in as San Jose Government"
         className="btn shrink-0 whitespace-nowrap border-2 border-accent-400 bg-accent-400/15 font-semibold text-accent-200 hover:border-accent-300 hover:bg-accent-400 hover:text-navy-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-400"
       >

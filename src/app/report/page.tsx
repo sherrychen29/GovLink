@@ -13,6 +13,8 @@ import {
   MessageSquareText,
   Loader2,
   WifiOff,
+  MapPin,
+  Tag,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { SiteShell } from "@/components/SiteShell";
@@ -20,8 +22,11 @@ import { BeaconCapabilities } from "@/components/BeaconIntake";
 import { LocationPicker } from "@/components/map/LocationPickerDynamic";
 import { MediaUpload } from "@/components/MediaUpload";
 import { CategoryChip } from "@/components/Chips";
-import { SeverityBar } from "@/components/Severity";
 import { StatusPill } from "@/components/StatusPill";
+import { Icon } from "@/components/CategoryIcon";
+import { STATUS_META } from "@/lib/meta";
+import { CITY } from "@/lib/seed";
+import { formatCoords } from "@/lib/utils";
 import { formalizeReport } from "@/lib/formalize-report";
 import { fileReport, type FileReportResult } from "@/lib/file-report";
 import {
@@ -123,7 +128,7 @@ export default function ReportPage() {
 
   return (
     <SiteShell>
-      {/* Mode toggle — only shown when Beacon is available */}
+      {/* Mode toggle; only shown when Beacon is available */}
       {beaconAvailable && (
         <div className="fixed right-4 top-[7rem] z-[1050] sm:right-6 lg:right-8">
           {mode === "chat" ? (
@@ -162,7 +167,7 @@ export default function ReportPage() {
             <div className="mx-auto flex max-w-3xl items-center gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
               <WifiOff className="h-5 w-5 shrink-0 text-amber-600" aria-hidden="true" />
               <span>
-                <span className="font-semibold">Beacon is unavailable</span> — no API key is
+                <span className="font-semibold">Beacon is unavailable</span>; no API key is
                 configured. You can still submit a report using the form below.
               </span>
             </div>
@@ -229,7 +234,7 @@ export default function ReportPage() {
                       servicePriority: formal.servicePriority,
                     };
                   } catch {
-                    // Beacon unavailable — file with raw values, no AI polish
+                    // Beacon unavailable; file with raw values, no AI polish
                     fileInput = {
                       category: category as Category,
                       description: description.trim(),
@@ -370,7 +375,7 @@ function ConfirmationView({
           </h1>
           <p className="mx-auto mt-2 max-w-md text-sm text-navy-200">
             {merged
-              ? "Thanks — we matched your report to an existing case and added your details."
+              ? "Thanks; we matched your report to an existing case and added your details."
               : "Thanks for helping keep the city running."}
           </p>
         </div>
@@ -419,24 +424,41 @@ function ConfirmationView({
             </div>
           )}
 
-          <dl className="grid gap-x-6 gap-y-4 sm:grid-cols-2">
-            <Detail label="Category">
-              <CategoryChip category={report.category} />
-            </Detail>
-            <Detail label="Status">
-              <StatusPill status={report.status} />
-            </Detail>
-            <Detail label="Severity">
-              <SeverityBar severity={report.severity} />
-            </Detail>
-            <Detail label="Location">
-              <span className="text-sm text-navy-900">
-                {report.location.address ||
-                  report.location.crossStreet ||
-                  `${report.location.lat.toFixed(4)}, ${report.location.lng.toFixed(4)}`}
-              </span>
-            </Detail>
-          </dl>
+          {/* Report; presented exactly as City staff will see it */}
+          <div className="overflow-hidden rounded-xl border border-navy-200 bg-white">
+            <div className="border-b border-navy-100 px-5 py-4">
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-navy-400">
+                City of {CITY.name} · Municipal Service Request
+              </p>
+              <h2 className="mt-1.5 text-lg font-bold leading-snug text-navy-900">
+                {report.formalTitle || "Service Request"}
+              </h2>
+            </div>
+            <div className="space-y-4 px-5 py-4">
+              <div className="rounded bg-slate-100/80 px-3.5 py-3 text-sm leading-relaxed text-ink">
+                {report.description}
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <CompactField icon={<Tag />} label="Category">
+                  <CategoryChip category={report.category} size="sm" />
+                </CompactField>
+                <CompactField
+                  icon={<Icon name={STATUS_META[report.status].icon} />}
+                  label="Status"
+                >
+                  <StatusPill status={report.status} size="sm" />
+                </CompactField>
+                <CompactField icon={<MapPin />} label="Location">
+                  {report.location.address ||
+                    report.location.crossStreet ||
+                    formatCoords(report.location.lat, report.location.lng)}
+                  <span className="mt-0.5 block font-mono text-[11px] text-ink-muted">
+                    {formatCoords(report.location.lat, report.location.lng)}
+                  </span>
+                </CompactField>
+              </div>
+            </div>
+          </div>
 
           <div className="flex flex-col gap-3 border-t border-navy-100 pt-6 sm:flex-row">
             <Link href={`/track/${report.id}`} className="btn-primary flex-1 py-3">
@@ -467,19 +489,26 @@ function ConfirmationView({
   );
 }
 
-function Detail({
+// Mirrors the city staff view (FormalReportModal) so residents see their report
+// in the same format; same icon sizing, label weight/color, and value styling.
+function CompactField({
+  icon,
   label,
   children,
 }: {
+  icon: React.ReactNode;
   label: string;
   children: React.ReactNode;
 }) {
   return (
-    <div>
-      <dt className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
-        {label}
-      </dt>
-      <dd className="mt-1.5">{children}</dd>
+    <div className="flex gap-2.5">
+      <span className="mt-0.5 shrink-0 text-navy-700 [&>svg]:h-4 [&>svg]:w-4 [&>svg]:stroke-[2.5]">
+        {icon}
+      </span>
+      <div className="min-w-0">
+        <dt className="text-xs font-bold uppercase tracking-wide text-navy-600">{label}</dt>
+        <dd className="mt-0.5 text-sm font-medium text-navy-900">{children}</dd>
+      </div>
     </div>
   );
 }

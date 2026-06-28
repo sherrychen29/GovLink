@@ -2,7 +2,7 @@
 // Nine curated demo reports for the login-page "Generate samples" action.
 // Each entry mirrors a full Beacon intake: resident wording, formal summary,
 // location, chat log, and varied filing style (anonymous, logged-in, terse, etc.).
-// Reload with loadSampleReports() from the store — no API calls required.
+// Reload with loadSampleReports() from the store; no API calls required.
 // ---------------------------------------------------------------------------
 
 import type { SeedReportInput } from "./seed";
@@ -14,11 +14,11 @@ const SAMPLE_INPUTS: SeedReportInput[] = [
   {
     id: "GL-SM1-4102",
     category: "Roads & Sidewalks",
-    formalTitle: "Large pothole — Winchester Boulevard near Hamilton Ave",
+    formalTitle: "Large pothole; Winchester Boulevard near Hamilton Ave",
     description:
       "Large pothole in the right travel lane on Winchester Boulevard, approximately 200 feet south of Hamilton Avenue. Approx. 18 inches wide and 4 inches deep; vehicles are swerving to avoid it.",
     residentDescription:
-      "There's a big pothole on Winchester Boulevard near Hamilton — it's huge and cars keep swerving around it.",
+      "There's a big pothole on Winchester Boulevard near Hamilton; it's huge and cars keep swerving around it.",
     servicePriority: "Elevated",
     lat: 37.3234,
     lng: -121.9512,
@@ -40,12 +40,12 @@ const SAMPLE_INPUTS: SeedReportInput[] = [
       { role: "beacon", text: BEACON_GREETING, at: atOffset(daysAgo(5, 9, 22), -2) },
       {
         role: "user",
-        text: "There's a big pothole on Winchester Boulevard near Hamilton — it's huge and cars keep swerving around it.",
+        text: "There's a big pothole on Winchester Boulevard near Hamilton; it's huge and cars keep swerving around it.",
         at: daysAgo(5, 9, 22),
       },
       {
         role: "beacon",
-        text: "Got it — a large pothole on Winchester Blvd near Hamilton affecting traffic. I've categorized this under Roads & Sidewalks. Can you pin the exact spot on the map?",
+        text: "Got it; a large pothole on Winchester Blvd near Hamilton affecting traffic. I've categorized this under Roads & Sidewalks. Can you pin the exact spot on the map?",
         at: atOffset(daysAgo(5, 9, 22), 1),
       },
       {
@@ -55,7 +55,7 @@ const SAMPLE_INPUTS: SeedReportInput[] = [
       },
       {
         role: "beacon",
-        text: "Report submitted — thank you for helping keep San Jose running!",
+        text: "Report submitted; thank you for helping keep San Jose running!",
         at: atOffset(daysAgo(5, 9, 22), 5),
       },
     ],
@@ -63,7 +63,7 @@ const SAMPLE_INPUTS: SeedReportInput[] = [
   {
     id: "GL-SM2-7731",
     category: "Electricity/Power Lines",
-    formalTitle: "Streetlight outage — Elm Street & 22nd Street",
+    formalTitle: "Streetlight outage; Elm Street & 22nd Street",
     description:
       "Streetlight at the northeast corner of Elm Street and 22nd Street has been non-functional for at least seven days. Corner is unlit at night near a residential crosswalk.",
     residentDescription:
@@ -87,7 +87,7 @@ const SAMPLE_INPUTS: SeedReportInput[] = [
       },
       {
         role: "beacon",
-        text: "I'll file this under Electricity / Power Lines. Where exactly is the light — which corner of the intersection?",
+        text: "I'll file this under Electricity / Power Lines. Where exactly is the light; which corner of the intersection?",
         at: atOffset(daysAgo(8, 19, 45), 1),
       },
       {
@@ -97,7 +97,7 @@ const SAMPLE_INPUTS: SeedReportInput[] = [
       },
       {
         role: "beacon",
-        text: "Location set. Report submitted — thank you!",
+        text: "Location set. Report submitted; thank you!",
         at: atOffset(daysAgo(8, 19, 45), 7),
       },
     ],
@@ -132,7 +132,7 @@ const SAMPLE_INPUTS: SeedReportInput[] = [
       },
       {
         role: "beacon",
-        text: "Understood — a downed tree blocking the Guadalupe River Trail. I've categorized this under Parks & Trees. Please drop a pin where the trail is blocked.",
+        text: "Understood; a downed tree blocking the Guadalupe River Trail. I've categorized this under Parks & Trees. Please drop a pin where the trail is blocked.",
         at: atOffset(daysAgo(2, 11, 10), 2),
       },
       {
@@ -142,7 +142,7 @@ const SAMPLE_INPUTS: SeedReportInput[] = [
       },
       {
         role: "beacon",
-        text: "Report submitted — thank you for helping keep San Jose running!",
+        text: "Report submitted; thank you for helping keep San Jose running!",
         at: atOffset(daysAgo(2, 11, 10), 8),
       },
     ],
@@ -150,7 +150,7 @@ const SAMPLE_INPUTS: SeedReportInput[] = [
   {
     id: "GL-SM4-8815",
     category: "Water/Plumbing",
-    formalTitle: "Street water leak — Meridian Avenue",
+    formalTitle: "Street water leak; Meridian Avenue",
     description:
       "Water surfacing through pavement on Meridian Avenue between Hedding Street and Taylor Street, active for approximately 48 hours. Road surface is slick; possible main break.",
     residentDescription:
@@ -179,12 +179,12 @@ const SAMPLE_INPUTS: SeedReportInput[] = [
       },
       {
         role: "user",
-        text: "Done — it's in front of the apartment building with the blue awning.",
+        text: "Done; it's in front of the apartment building with the blue awning.",
         at: atOffset(daysAgo(3, 16, 30), 6),
       },
       {
         role: "beacon",
-        text: "Report submitted — thank you!",
+        text: "Report submitted; thank you!",
         at: atOffset(daysAgo(3, 16, 30), 8),
       },
     ],
@@ -192,7 +192,7 @@ const SAMPLE_INPUTS: SeedReportInput[] = [
   {
     id: "GL-SM5-3344",
     category: "Parks & Trees",
-    formalTitle: "Damaged playground slide — Backesto Park",
+    formalTitle: "Damaged playground slide; Backesto Park",
     description:
       "Primary slide at Backesto Park playground has a sharp, jagged edge at the bottom exit point. Resident reports a child sustained a leg laceration from contact with the damaged edge.",
     residentDescription:
@@ -218,7 +218,7 @@ const SAMPLE_INPUTS: SeedReportInput[] = [
       },
       {
         role: "beacon",
-        text: "I'm sorry to hear that — I'll file this under Parks & Trees as a playground safety hazard. Which slide at Backesto Park (near the main entrance or the back lot)?",
+        text: "I'm sorry to hear that; I'll file this under Parks & Trees as a playground safety hazard. Which slide at Backesto Park (near the main entrance or the back lot)?",
         at: atOffset(hoursAgo(14, 20), 2),
       },
       {
@@ -228,7 +228,7 @@ const SAMPLE_INPUTS: SeedReportInput[] = [
       },
       {
         role: "beacon",
-        text: "Got it. Report submitted — parks maintenance will review this.",
+        text: "Got it. Report submitted; parks maintenance will review this.",
         at: atOffset(hoursAgo(14, 20), 9),
       },
     ],
@@ -236,7 +236,7 @@ const SAMPLE_INPUTS: SeedReportInput[] = [
   {
     id: "GL-SM6-5578",
     category: "Waste & Sanitation",
-    formalTitle: "Overflowing dumpster — South 11th Street alley",
+    formalTitle: "Overflowing dumpster; South 11th Street alley",
     description:
       "Commercial dumpster in the alley behind South 11th Street between East Santa Clara Street and East Saint John Street has been overflowing for multiple days. Trash scattered on ground; strong odor reported.",
     residentDescription:
@@ -279,7 +279,7 @@ const SAMPLE_INPUTS: SeedReportInput[] = [
   {
     id: "GL-SM7-9021",
     category: "Public Safety/Hazards",
-    formalTitle: "Sidewalk sinkhole — Dr. Martin Luther King Jr. Library entrance",
+    formalTitle: "Sidewalk sinkhole; Dr. Martin Luther King Jr. Library entrance",
     description:
       "Sinkhole approximately 3 feet deep opened in the walkway outside the Dr. Martin Luther King Jr. Library main entrance. Pedestrian path partially obstructed; fall hazard.",
     residentDescription:
@@ -306,17 +306,17 @@ const SAMPLE_INPUTS: SeedReportInput[] = [
       },
       {
         role: "beacon",
-        text: "That sounds like a serious hazard — I'll flag this under Public Safety / Hazards with elevated priority. Which library entrance?",
+        text: "That sounds like a serious hazard; I'll flag this under Public Safety / Hazards with elevated priority. Which library entrance?",
         at: atOffset(daysAgo(1, 8, 40), 1),
       },
       {
         role: "user",
-        text: "MLK Library on San Fernando — main doors. I marked it on the map.",
+        text: "MLK Library on San Fernando; main doors. I marked it on the map.",
         at: atOffset(daysAgo(1, 8, 40), 4),
       },
       {
         role: "beacon",
-        text: "Report submitted — thank you for flagging this quickly.",
+        text: "Report submitted; thank you for flagging this quickly.",
         at: atOffset(daysAgo(1, 8, 40), 6),
       },
     ],
@@ -324,7 +324,7 @@ const SAMPLE_INPUTS: SeedReportInput[] = [
   {
     id: "GL-SM8-1167",
     category: "Electricity/Power Lines",
-    formalTitle: "Low-hanging power line — Pine Street sidewalk",
+    formalTitle: "Low-hanging power line; Pine Street sidewalk",
     description:
       "Power or utility line hanging approximately 5–6 feet above the sidewalk on Pine Street, apparently loosened during recent storm activity. Line is sagging over pedestrian path.",
     residentDescription:
@@ -348,7 +348,7 @@ const SAMPLE_INPUTS: SeedReportInput[] = [
       },
       {
         role: "beacon",
-        text: "Low-hanging lines can be dangerous — I've categorized this under Electricity / Power Lines as critical. Please stay clear of the line and pin the location.",
+        text: "Low-hanging lines can be dangerous; I've categorized this under Electricity / Power Lines as critical. Please stay clear of the line and pin the location.",
         at: atOffset(hoursAgo(22, 35), 2),
       },
       {
@@ -366,7 +366,7 @@ const SAMPLE_INPUTS: SeedReportInput[] = [
   {
     id: "GL-SM9-4483",
     category: "Animal/Wildlife",
-    formalTitle: "Injured raccoon — Emma Prusch Farm Park playground",
+    formalTitle: "Injured raccoon; Emma Prusch Farm Park playground",
     description:
       "Injured raccoon observed near the playground fence at Emma Prusch Farm Park for approximately two days. Animal appears to have an injured rear leg and limited mobility.",
     residentDescription:
@@ -390,7 +390,7 @@ const SAMPLE_INPUTS: SeedReportInput[] = [
       },
       {
         role: "beacon",
-        text: "I'll route this to Animal / Wildlife. Please don't approach the animal — can you pin where along the playground fence?",
+        text: "I'll route this to Animal / Wildlife. Please don't approach the animal; can you pin where along the playground fence?",
         at: atOffset(daysAgo(2, 17, 55), 2),
       },
       {
@@ -400,7 +400,7 @@ const SAMPLE_INPUTS: SeedReportInput[] = [
       },
       {
         role: "beacon",
-        text: "Report submitted — animal services will assess.",
+        text: "Report submitted; animal services will assess.",
         at: atOffset(daysAgo(2, 17, 55), 8),
       },
     ],

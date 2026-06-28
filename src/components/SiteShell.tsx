@@ -19,11 +19,11 @@ export function SiteFooter({ compact = false }: { compact?: boolean }) {
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block shrink-0 rounded focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
-              aria-label="City of San Jose — Capital of Silicon Valley"
+              aria-label="City of San Jose; Capital of Silicon Valley"
             >
               <Image
                 src="/images/san-jose-seal.png"
-                alt="City of San Jose — Capital of Silicon Valley"
+                alt="City of San Jose; Capital of Silicon Valley"
                 width={1752}
                 height={990}
                 className={compact ? "h-8 w-auto" : "h-14 w-auto sm:h-16"}

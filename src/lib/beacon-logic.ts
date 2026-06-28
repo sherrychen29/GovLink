@@ -32,6 +32,8 @@ export interface BeaconChatResult {
   missing: string[];
   /** Set when review-phase chat adjusts severity. */
   severityUpdated?: boolean;
+  /** Skip ahead to the photo-upload step when the resident asks to add media. */
+  advanceTo?: "photos" | null;
 }
 
 // --- Severity weighting ----------------------------------------------------

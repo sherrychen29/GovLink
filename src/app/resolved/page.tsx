@@ -92,7 +92,7 @@ export default function ResolvedPage() {
               </h1>
               <p className="mt-3 max-w-2xl text-white">
                 Every issue the city closes out shows up here. {resolved.length} issue
-                {resolved.length === 1 ? "" : "s"} shown — see your neighborhood
+                {resolved.length === 1 ? "" : "s"} shown; see your neighborhood
                 get better, in the open.
               </p>
             </div>
@@ -102,7 +102,7 @@ export default function ResolvedPage() {
 
       <div className="flex-1 bg-accent-50">
       <div className="gl-container py-8 lg:py-10">
-        {/* Inline filters — right-aligned row */}
+        {/* Inline filters; right-aligned row */}
         <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
           <p className="text-base font-semibold text-navy-900">
             {resolved.length} result{resolved.length === 1 ? "" : "s"}

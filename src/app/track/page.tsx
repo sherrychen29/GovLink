@@ -57,7 +57,7 @@ export default function TrackPage() {
 
         {user?.role === "citizen" && (
           <p className="mt-4 text-base text-ink-muted">
-            Signed in as {user.displayName.split(" ")[0]} —{" "}
+            Signed in as {user.displayName.split(" ")[0]};{" "}
             <Link
               href="/account"
               className="font-semibold text-accent-600 hover:text-accent-700"

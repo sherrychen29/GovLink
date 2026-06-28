@@ -209,7 +209,7 @@ export function FormalReportModal({
                 <div className={cx("gap-5", images.length > 0 ? "grid lg:grid-cols-3" : "block")}>
                   {/* Main content */}
                   <div className={cx("space-y-4", images.length > 0 ? "lg:col-span-2" : "")}>
-                    {/* Description — grey box, light rounding */}
+                    {/* Description; grey box, light rounding */}
                     <div className="rounded bg-slate-100/80 px-3.5 py-3 text-sm leading-relaxed text-ink">
                       {report.description}
                     </div>
@@ -291,7 +291,7 @@ export function FormalReportModal({
                       </div>
                     )}
 
-                    {/* Intake chat — at the bottom, prominent button */}
+                    {/* Intake chat; at the bottom, prominent button */}
                     <div className="border-t border-navy-100 pt-3">
                       <button
                         type="button"
@@ -339,7 +339,7 @@ export function FormalReportModal({
                     </div>
                   </div>
 
-                  {/* Attachments — right column */}
+                  {/* Attachments; right column */}
                   {images.length > 0 && (
                     <div className="lg:col-span-1">
                       <p className="mb-2 text-[10px] font-bold uppercase tracking-wider text-navy-500">
@@ -492,8 +492,8 @@ export function FormalReportModal({
                             )}
                             placeholder={
                               composer === "declined"
-                                ? "Required — the resident will see this reason…"
-                                : "Required — describe what was done to fix it…"
+                                ? "Required; the resident will see this reason…"
+                                : "Required; describe what was done to fix it…"
                             }
                             value={noteText}
                             onChange={(e) => setNoteText(e.target.value)}
@@ -526,7 +526,7 @@ export function FormalReportModal({
                     <div className="border-t border-navy-200 pt-3">
                       <h4 className="mb-2 flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wide text-ink-muted">
                         <Lock className="h-3 w-3" aria-hidden="true" />
-                        Internal notes — staff only
+                        Internal notes; staff only
                       </h4>
                       {report.internalNotes.length > 0 && (
                         <ol className="mb-2 space-y-1.5">

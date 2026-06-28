@@ -216,7 +216,7 @@ function shortCat(name: string) {
   return name.length > 16 ? name.slice(0, 15) + "…" : name;
 }
 
-/** SVG text label — fontSize must live in `style` for react-pdf's SVG Text. */
+/** SVG text label; fontSize must live in `style` for react-pdf's SVG Text. */
 function SText({
   x,
   y,
@@ -440,7 +440,7 @@ const sevData = d.severityDistribution.map((s) => ({ label: String(s.severity), 
 
   return (
     <Document
-      title={`GovLink Service Request Analytics — ${d.year}`}
+      title={`GovLink Service Request Analytics; ${d.year}`}
       author={`City of ${CITY.name}`}
       subject="Service Request Analytics Report"
     >

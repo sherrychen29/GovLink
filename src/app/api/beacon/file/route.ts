@@ -70,7 +70,7 @@ export async function POST(req: NextRequest) {
   if (nearby.length === 0) {
     return NextResponse.json({
       matchId: null,
-      rationale: "No open reports nearby — filing a new ticket.",
+      rationale: "No open reports nearby ; filing a new ticket.",
       distanceM: null,
       source: "geo",
     });

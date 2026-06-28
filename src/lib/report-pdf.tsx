@@ -1,4 +1,4 @@
-// Client helper — POSTs the report to the server-side rendering endpoint
+// Client helper ; POSTs the report to the server-side rendering endpoint
 // and triggers a browser download. All font/PDF logic lives in the API route
 // (src/app/api/report-pdf/route.ts) which runs in Node.js where fonts resolve
 // reliably from the filesystem.

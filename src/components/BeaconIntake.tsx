@@ -41,7 +41,7 @@ type IntakePhase = "intake" | "review" | "blocked" | "filed";
 type WidgetKind = "map" | "photos" | "final" | "contact" | "review";
 
 const MAX_MEDIA = 5;
-const MAX_MEDIA_BYTES = 4 * 1024 * 1024; // 4MB — keep localStorage healthy
+const MAX_MEDIA_BYTES = 4 * 1024 * 1024; // 4MB; keep localStorage healthy
 
 type ChatItem =
   | { id: string; kind: "beacon"; text: string; intent?: BeaconIntent; missing?: string[] }
@@ -163,7 +163,7 @@ export function BeaconIntake({
         baseSeverity: draft.baseSeverity,
       };
     } else if (location) {
-      // Location already pinned via the map widget — tell Beacon so it doesn't
+      // Location already pinned via the map widget; tell Beacon so it doesn't
       // ask for it again or reference a map widget that won't appear.
       body.context = {
         phase: "intake",
@@ -256,8 +256,7 @@ export function BeaconIntake({
         );
 
         if (location) {
-          // Location was already pinned earlier — don't ask for the map again;
-          // move straight on to the photos step.
+          // Location was already pinned earlier; move straight to photos.
           showPhotosStep();
         } else if (!widgetsAdded.current.map) {
           widgetsAdded.current.map = true;
@@ -268,6 +267,12 @@ export function BeaconIntake({
             locked: false,
           });
         }
+      } else if (
+        data.advanceTo === "photos" &&
+        location &&
+        !widgetsAdded.current.photos
+      ) {
+        showPhotosStep();
       }
     } catch {
       append({
@@ -287,13 +292,13 @@ export function BeaconIntake({
     const label = locationLabel(location) ?? "pinned location";
 
     if (!draft) {
-      // Early map: location pinned before intake complete — just acknowledge and continue chat
+      // Early map: location pinned before intake complete; just acknowledge and continue chat
       append(
         { id: `u_loc_${Date.now()}`, kind: "user", text: `Location pinned: ${label}` },
         {
           id: `b_loc_early_${Date.now()}`,
           kind: "beacon",
-          text: `Got it — I've noted your location (${label}). Please continue describing the issue and I'll put the report together.`,
+          text: `Got it; I've noted your location (${label}). Please continue describing the issue and I'll put the report together.`,
         }
       );
       return;
@@ -309,7 +314,7 @@ export function BeaconIntake({
       /* keep existing draft if formalize fails */
     }
     append({ id: `u_loc_${Date.now()}`, kind: "user", text: `Location set: ${label}` });
-    showPhotosStep("Thanks — location confirmed. ");
+    showPhotosStep("Thanks; location confirmed. ");
   }
 
   function showPhotosStep(intro = "") {
@@ -351,7 +356,7 @@ export function BeaconIntake({
     append({
       id: `b_final_${Date.now()}`,
       kind: "beacon",
-      text: "Almost done — anything else you'd like to add before I wrap up? For example how long it's been going on, how severe it is, or any safety concerns. Add a note below, or skip to finish.",
+      text: "Almost done; anything else you'd like to add before I wrap up? For example how long it's been going on, how severe it is, or any safety concerns. Add a note below, or skip to finish.",
     });
     if (!widgetsAdded.current.final) {
       widgetsAdded.current.final = true;
@@ -393,7 +398,7 @@ export function BeaconIntake({
       append({
         id: `b_contact_${Date.now()}`,
         kind: "beacon",
-        text: "We already have your email or phone on file — you can look up this report on the Track page even without the tracking ID.",
+        text: "We already have your email or phone on file; you can look up this report on the Track page even without the tracking ID.",
       });
       showReview();
       return;
@@ -463,7 +468,7 @@ export function BeaconIntake({
     append({
       id: `b_review_${Date.now()}`,
       kind: "beacon",
-      text: "Here's your report. Review everything below and hit Submit when it looks right. If something's off — including the severity ranking — tell me here and I'll take another look.",
+      text: "Here's your report. Review everything below and hit Submit when it looks right. If something's off; including the severity ranking; tell me here and I'll take another look.",
     });
     if (!widgetsAdded.current.review) {
       widgetsAdded.current.review = true;
@@ -503,8 +508,8 @@ export function BeaconIntake({
         id: `b_filed_${Date.now()}`,
         kind: "beacon",
         text: merged
-          ? "Report submitted — your details were added to an existing case nearby. Thank you!"
-          : "Report submitted — thank you for helping keep San Jose running!",
+          ? "Report submitted; your details were added to an existing case nearby. Thank you!"
+          : "Report submitted; thank you for helping keep San Jose running!",
       });
       onFiled({ report, merged, distanceM });
     } finally {
@@ -570,8 +575,8 @@ export function BeaconIntake({
         {items.map((item) => {
           if (item.kind === "beacon") {
             // Show the map affordance whenever Beacon's reply asks for / refers
-            // to the map — either via the structured "needs location" signal or
-            // by mentioning the map in the text — so the button never goes
+            // to the map; either via the structured "needs location" signal or
+            // by mentioning the map in the text; so the button never goes
             // missing when the copy promises one. (The "ready" intent appends
             // the full map widget itself, so skip the button there.)
             const wantsLocation =
@@ -727,7 +732,7 @@ export function BeaconIntake({
                 ) : (
                   <>
                     <p className="mb-3 text-base text-ink-soft">
-                      Used only to look up this report on the Track page — the city
+                      Used only to look up this report on the Track page; the city
                       won&apos;t share it publicly.
                     </p>
                     <div className="space-y-3">
@@ -836,7 +841,7 @@ export function BeaconIntake({
                       ? [reportContact.email, reportContact.phone]
                           .filter(Boolean)
                           .join(" · ")
-                      : "Anonymous — save your tracking ID"}
+                      : "Anonymous; save your tracking ID"}
                   </ReviewRow>
                 </dl>
                 {!item.locked && (

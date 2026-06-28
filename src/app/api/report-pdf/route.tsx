@@ -1,4 +1,4 @@
-// Server-side PDF rendering — avoids browser module-splitting font issues.
+// Server-side PDF rendering; avoids browser module-splitting font issues.
 // The client POSTs the report JSON; this route renders and streams the PDF back.
 import { NextRequest } from "next/server";
 import path from "node:path";
@@ -22,7 +22,7 @@ import { formatCoords, formatDateTime } from "@/lib/utils";
 const publicDir = path.join(process.cwd(), "public");
 
 // Register fonts inside the request handler (not at module level) so that
-// Next.js server-side bundling doesn't split the FontStore singleton — the
+// Next.js server-side bundling doesn't split the FontStore singleton; the
 // registration must happen on the exact same instance renderToBuffer uses.
 let fontsReady = false;
 function ensureFonts() {
@@ -161,7 +161,7 @@ function ReportDocument({ report }: { report: Report }) {
 
   return (
     <Document
-      title={`${report.id} — ${CITY.name} Service Request`}
+      title={`${report.id}; ${CITY.name} Service Request`}
       author={`City of ${CITY.name}`}
       subject="Municipal Service Request Record"
     >
@@ -235,7 +235,7 @@ function ReportDocument({ report }: { report: Report }) {
         {report.resolution ? (
           <View style={{ marginTop: 4 }}>
             <Text style={styles.fieldLabel}>
-              {report.resolution.rejected ? "Resolution — declined" : "Resolution — resident notice"}
+              {report.resolution.rejected ? "Resolution; declined" : "Resolution; resident notice"}
             </Text>
             <Text style={styles.bodyText}>{report.resolution.note}</Text>
             <Text style={styles.mono}>Closed {formatDateTime(report.resolution.resolvedAt)}</Text>

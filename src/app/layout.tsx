@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     template: "%s · GovLink",
   },
   description:
-    "GovLink connects city residents with their local government to report and resolve everyday civic issues — potholes, broken streetlights, water leaks and more.",
+    "GovLink connects city residents with their local government to report and resolve everyday civic issues; potholes, broken streetlights, water leaks and more.",
 };
 
 export const viewport: Viewport = {

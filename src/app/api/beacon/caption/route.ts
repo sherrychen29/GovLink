@@ -5,7 +5,7 @@ import { CATEGORIES } from "@/lib/types";
 
 export const runtime = "nodejs";
 
-// Reject oversized payloads early — the client already caps uploads at 4MB,
+// Reject oversized payloads early; the client already caps uploads at 4MB,
 // and a base64 data URL is ~1.34x the raw bytes.
 const MAX_DATA_URL_CHARS = 7_000_000;
 
@@ -43,11 +43,11 @@ You are shown ONE photo, the report category, the resident's text description, a
 
 Decide status by reasoning about the photo in the civic-report context:
 
-- "inappropriate": the photo cannot belong on a civic infrastructure report — it shows people as the subject (selfies, portraits), nudity or sexual content, violence or gore, a meme or screenshot, a document with personal data, advertising, or content that is offensive or clearly unrelated to a public-works issue. Set message asking the resident to choose a photo that actually shows the issue they are reporting. caption: a brief neutral description of what the image is.
+- "inappropriate": the photo cannot belong on a civic infrastructure report; it shows people as the subject (selfies, portraits), nudity or sexual content, violence or gore, a meme or screenshot, a document with personal data, advertising, or content that is offensive or clearly unrelated to a public-works issue. Set message asking the resident to choose a photo that actually shows the issue they are reporting. caption: a brief neutral description of what the image is.
 
-- "vague": the photo plausibly relates to a real issue but you cannot tell what civic problem it depicts — too dark, too blurry, too zoomed in/out, or genuinely ambiguous. Set message asking the resident to either retake/choose a clearer photo of the issue OR clarify in a sentence what the photo shows. caption: your best-guess description, noting the uncertainty.
+- "vague": the photo plausibly relates to a real issue but you cannot tell what civic problem it depicts; too dark, too blurry, too zoomed in/out, or genuinely ambiguous. Set message asking the resident to either retake/choose a clearer photo of the issue OR clarify in a sentence what the photo shows. caption: your best-guess description, noting the uncertainty.
 
-- "ok": the photo reasonably depicts a civic infrastructure issue (or its location/context). Set message to "". caption: ONE factual, specific sentence a city work crew could read at a glance — name the object and its visible condition, e.g. "A large pothole in the right lane with cracked, crumbling asphalt." Do not invent details you cannot see. Do not include the resident's name or any personal info.
+- "ok": the photo reasonably depicts a civic infrastructure issue (or its location/context). Set message to "". caption: ONE factual, specific sentence a city work crew could read at a glance; name the object and its visible condition, e.g. "A large pothole in the right lane with cracked, crumbling asphalt." Do not invent details you cannot see. Do not include the resident's name or any personal info.
 
 Use the resident's description and clarification to interpret an otherwise-ambiguous photo: if their words plausibly explain it, prefer "ok". When genuinely unsure between vague and ok, choose "ok" with a hedged caption rather than nagging the resident. Reserve "inappropriate" for photos that truly do not belong.
 
@@ -98,7 +98,7 @@ export async function POST(req: NextRequest) {
 
   const result = raw ? ResultSchema.safeParse(raw) : null;
 
-  // On any model/parse failure, don't block the resident — let the photo
+  // On any model/parse failure, don't block the resident; let the photo
   // through without a caption.
   if (!result?.success) {
     const payload: CaptionResult = {

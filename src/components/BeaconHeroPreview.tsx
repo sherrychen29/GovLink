@@ -26,7 +26,7 @@ function PreviewUserBubble({ children }: { children: ReactNode }) {
   );
 }
 
-/** Static homepage preview of the Beacon intake chat — matches live report UI. */
+/** Static homepage preview of the Beacon intake chat; matches live report UI. */
 export function BeaconHeroPreview({ className }: { className?: string }) {
   return (
     <div
@@ -56,7 +56,7 @@ export function BeaconHeroPreview({ className }: { className?: string }) {
         </PreviewBeaconBubble>
 
         <PreviewUserBubble>
-          <p>Elm &amp; 22nd — the one on the northeast corner.</p>
+          <p>Elm &amp; 22nd; the one on the northeast corner.</p>
         </PreviewUserBubble>
 
         <div className="flex justify-start">
@@ -68,7 +68,7 @@ export function BeaconHeroPreview({ className }: { className?: string }) {
               Pin the location
             </div>
             <div className="relative overflow-hidden rounded-lg border border-navy-200">
-              {/* OpenStreetMap tile — San Jose downtown, z14 */}
+              {/* OpenStreetMap tile; San Jose downtown, z14 */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="https://tile.openstreetmap.org/14/2646/6363.png"
