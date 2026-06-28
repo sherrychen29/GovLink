@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import { MapPin } from "lucide-react";
 import { BeaconMark } from "./Logo";
-import { severityMeta } from "@/lib/meta";
 import { cx } from "@/lib/utils";
 
 function PreviewBeaconBubble({ children }: { children: ReactNode }) {
@@ -29,9 +28,6 @@ function PreviewUserBubble({ children }: { children: ReactNode }) {
 
 /** Static homepage preview of the Beacon intake chat — matches live report UI. */
 export function BeaconHeroPreview({ className }: { className?: string }) {
-  const severity = 4;
-  const meta = severityMeta(severity);
-
   return (
     <div
       className={cx(
@@ -43,7 +39,7 @@ export function BeaconHeroPreview({ className }: { className?: string }) {
       <header className="flex items-center gap-2.5 border-b border-navy-100 px-4 py-3 sm:px-5">
         <BeaconMark size="md" />
         <div>
-          <p className="text-sm font-semibold text-navy-900">Beacon</p>
+          <p className="text-base font-bold text-navy-900">Beacon</p>
         </div>
       </header>
 
@@ -96,17 +92,9 @@ export function BeaconHeroPreview({ className }: { className?: string }) {
         </PreviewBeaconBubble>
       </div>
 
-      <footer className="mt-auto flex items-center justify-between gap-3 border-t border-navy-100 bg-white px-4 py-3 sm:px-5">
-        <span className="font-mono text-xs font-semibold text-accent-600">
+      <footer className="mt-auto flex items-center border-t border-navy-100 bg-white px-4 py-3 sm:px-5">
+        <span className="font-mono text-sm font-bold text-accent-600">
           GL-7H4N-9B
-        </span>
-        <span
-          className={cx(
-            "rounded-full px-2.5 py-1 text-xs font-semibold ring-1",
-            meta.chip
-          )}
-        >
-          Severity {severity} · {meta.label}
         </span>
       </footer>
     </div>

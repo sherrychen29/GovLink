@@ -29,6 +29,8 @@ const RequestSchema = z.object({
       category: z.enum(CATEGORIES).optional(),
       description: z.string().optional(),
       baseSeverity: z.number().min(1).max(10).optional(),
+      locationConfirmed: z.boolean().optional(),
+      locationLabel: z.string().max(500).optional(),
     })
     .optional(),
 });
@@ -63,7 +65,7 @@ Decide "intent" by reasoning about the state of the world:
 
 - "clarify": plausibly a city issue but you still need ONE key detail (what it is or roughly where). Ask a single targeted question. Prefer this over rejecting a borderline-but-legitimate report. If location is the missing detail, end your reply with "Let me know if you'd like to see a map to help pinpoint it."
 
-- "ready": you have a category + a specific description + a location hint. Produce the draft. Don't over-ask — two exchanges is usually plenty. Tell them to use the map widget below to pin the exact location. Never say "on the right" or mention a form.
+- "ready": you have a category + a specific description + a location hint. Produce the draft. Don't over-ask — two exchanges is usually plenty. If the resident has NOT yet pinned a location, tell them to use the map widget below to pin the exact spot. If a location has ALREADY been pinned (you will be told so in context), do NOT mention the map or ask them to pin anything — simply confirm you have what you need and are putting the report together. Never say "on the right" or mention a form.
 
 Guiding principles:
 - Bias toward "ready" once you reasonably can; bias toward "clarify" over rejection when unsure.
@@ -250,8 +252,12 @@ export async function POST(req: NextRequest) {
   }
 
   // --- Intake phase --------------------------------------------------------
+  const intakeSystem =
+    context?.locationConfirmed && context.locationLabel
+      ? `${INTAKE_PROMPT}\n\nIMPORTANT CONTEXT: The resident has ALREADY pinned the exact location via the map widget: "${context.locationLabel}". Treat the location as fully known — do NOT ask for the location again and do NOT mention the map widget. As soon as you have a clear category and description, return "ready" and simply confirm you have what you need.`
+      : INTAKE_PROMPT;
   const raw = await chatJSON(
-    [{ role: "system", content: INTAKE_PROMPT }, ...history],
+    [{ role: "system", content: intakeSystem }, ...history],
     { temperature: 0.3 }
   );
   if (!raw) {

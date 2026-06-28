@@ -99,7 +99,7 @@ export default function TrackPage() {
           {results === null && (
             <div className="rounded-2xl border border-dashed border-navy-200 bg-white/60 p-7">
               <h2 className="text-base font-semibold text-navy-900">
-                Don&apos;t remember tracking ID?
+                Don&apos;t remember your tracking ID?
               </h2>
               <p className="mt-2 text-base text-ink-soft">
                 Search with the email or phone number you provided when
@@ -108,7 +108,7 @@ export default function TrackPage() {
               </p>
               <Link
                 href="/report"
-                className="mt-5 inline-flex items-center gap-1.5 text-base font-semibold text-accent-600 hover:text-accent-700"
+                className="mt-5 inline-flex items-center gap-1.5 rounded-lg border-2 border-navy-800 px-4 py-2 text-base font-semibold text-navy-900 transition-colors hover:bg-navy-50"
               >
                 File a new report
                 <ArrowRight className="h-5 w-5" aria-hidden="true" />

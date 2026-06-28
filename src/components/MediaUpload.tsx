@@ -14,7 +14,7 @@ import type { Category, MediaItem } from "@/lib/types";
 import { cx, uid } from "@/lib/utils";
 import { captionPhoto } from "@/lib/caption-photo";
 
-const MAX_ITEMS = 3;
+const MAX_ITEMS = 5;
 const MAX_BYTES = 4 * 1024 * 1024; // 4MB — keep localStorage healthy
 
 type ReviewState =

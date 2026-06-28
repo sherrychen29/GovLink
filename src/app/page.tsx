@@ -18,7 +18,6 @@ import { BeaconHeroPreview } from "@/components/BeaconHeroPreview";
 import { BeaconMark } from "@/components/Logo";
 import { CategoryIcon } from "@/components/CategoryIcon";
 import { CATEGORIES } from "@/lib/types";
-import { severityMeta } from "@/lib/meta";
 import { cx } from "@/lib/utils";
 import { CITY } from "@/lib/seed";
 
@@ -72,9 +71,9 @@ export default function LandingPage() {
                 Track an Issue
               </Link>
             </div>
-            <p className="mt-4 text-xs text-ink-muted">
+            <p className="mt-4 text-xs font-medium text-navy-900">
               No account needed. For emergencies, always call{" "}
-              <span className="font-semibold text-navy-800">911</span>.
+              <span className="font-semibold text-navy-900">911</span>.
             </p>
           </div>
 
@@ -160,8 +159,6 @@ export default function LandingPage() {
 /*  How it works — the life of one report, shown end-to-end               */
 /* ====================================================================== */
 
-const sev = severityMeta(4);
-
 function HowItWorks() {
   return (
     <section className="border-b border-navy-100 bg-gradient-to-b from-white to-navy-50/40 py-16 lg:py-24">
@@ -188,18 +185,10 @@ function HowItWorks() {
             </div>
             {/* structured ticket */}
             <div className="rounded-xl border border-navy-100 bg-white p-3.5 shadow-sm">
-              <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-yellow-50 px-2.5 py-1 text-xs font-semibold text-yellow-700 ring-1 ring-yellow-200">
                   <Zap className="h-3.5 w-3.5" aria-hidden="true" />
                   Electricity / Power
-                </span>
-                <span
-                  className={cx(
-                    "rounded-full px-2.5 py-1 text-xs font-semibold ring-1",
-                    sev.chip
-                  )}
-                >
-                  Severity 4 · {sev.label}
                 </span>
               </div>
               <div className="mt-3 flex items-center gap-1.5 text-sm font-medium text-navy-800">
@@ -214,13 +203,18 @@ function HowItWorks() {
           <Stage n={2} kicker="The city connects it" title="One pin on a smarter map">
             {/* mini map */}
             <div className="relative overflow-hidden rounded-xl border border-navy-100">
-              <div className="h-32 bg-[linear-gradient(135deg,#e8eef6_25%,#d4dce8_25%,#d4dce8_50%,#e8eef6_50%,#e8eef6_75%,#d4dce8_75%,#d4dce8)] bg-[length:16px_16px]" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="https://tile.openstreetmap.org/14/2646/6363.png"
+                alt="Map of San Jose"
+                className="h-32 w-full object-cover"
+                style={{ objectPosition: "center 40%" }}
+              />
               {/* corroborating pins */}
               <Pin className="left-[22%] top-[58%]" color="#16a34a" />
               <Pin className="left-[64%] top-[30%]" color="#eab308" />
               {/* the focal pin */}
               <span className="absolute left-[42%] top-[44%] -translate-x-1/2 -translate-y-full">
-                <span className="absolute inset-0 -z-10 animate-ping rounded-full bg-accent-400/40" />
                 <MapPin
                   className="h-7 w-7 fill-accent-500 text-white drop-shadow"
                   aria-hidden="true"
@@ -252,7 +246,7 @@ function HowItWorks() {
               <Step icon={<Check className="h-4 w-4" />} label="Sent" sub="Jun 24 · 9:14 AM" done first />
               <Step icon={<Check className="h-4 w-4" />} label="Opened by city staff" sub="Jun 24 · 2:03 PM" done />
               <Step
-                icon={<Loader2 className="h-4 w-4 motion-safe:animate-spin" />}
+                icon={<Loader2 className="h-4 w-4" />}
                 label="In progress"
                 sub="Crew dispatched"
                 done

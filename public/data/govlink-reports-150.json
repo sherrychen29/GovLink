@@ -5,7 +5,7 @@
     {
       "id": "GL-XJM-T59H",
       "formalTitle": "Streetlight Outage — Tully Rd",
-      "description": "The reporting party indicates that a streetlight on Tully Rd is not functioning. A photo of the pole has been attached for reference. This issue may impact visibility and safety in the area.",
+      "description": "The citizen indicates that a streetlight on Tully Rd is not functioning. A photo of the pole has been attached for reference. This issue may impact visibility and safety in the area.",
       "residentDescription": "Streetlight on Tully Rd is out and I attached a photo of the pole.",
       "servicePriority": "Standard",
       "category": "Electricity/Power Lines",
@@ -159,7 +159,7 @@
     {
       "id": "GL-ENF-L6RW",
       "formalTitle": "Damaged Info Kiosk Screen — Transit Center",
-      "description": "The reporting party indicates that the information kiosk screen at the transit center has been smashed for several weeks. Observed condition may hinder access to transit information for users. This issue should be addressed to restore functionality at the location.",
+      "description": "The citizen indicates that the information kiosk screen at the transit center has been smashed for several weeks. Observed condition may hinder access to transit information for users. This issue should be addressed to restore functionality at the location.",
       "residentDescription": "The info kiosk screen at the transit center has been smashed for weeks.",
       "servicePriority": "Standard",
       "category": "Other",
@@ -294,7 +294,7 @@
     {
       "id": "GL-96L-9XSR",
       "formalTitle": "Damaged Flag and Noisy Halyard — City Hall Plaza",
-      "description": "The reporting party indicates that the flag at City Hall Plaza is shredded and the pole halyard is causing a clanging noise throughout the night. This condition may lead to disturbances in the area and requires attention. Prompt resolution is recommended to restore the flag and mitigate noise issues.",
+      "description": "The citizen indicates that the flag at City Hall Plaza is shredded and the pole halyard is causing a clanging noise throughout the night. This condition may lead to disturbances in the area and requires attention. Prompt resolution is recommended to restore the flag and mitigate noise issues.",
       "residentDescription": "The flag at city hall plaza is shredded and the pole halyard is clanging all night.",
       "servicePriority": "Standard",
       "category": "Other",
@@ -429,7 +429,7 @@
     {
       "id": "GL-HLV-NGA4",
       "formalTitle": "Noise Complaint — Leaf Blower Operation on Naglee",
-      "description": "The reporting party indicates that a city leaf blower crew begins operations at 6 AM on Sundays on Naglee. This timing appears to be in violation of the allowed hours for such activities. The situation may require review to ensure compliance with municipal noise regulations.",
+      "description": "The citizen indicates that a city leaf blower crew begins operations at 6 AM on Sundays on Naglee. This timing appears to be in violation of the allowed hours for such activities. The situation may require review to ensure compliance with municipal noise regulations.",
       "residentDescription": "A city leaf blower crew starts at 6am on Sundays on Naglee, way before allowed hours.",
       "servicePriority": "Standard",
       "category": "Noise Complaints",
@@ -570,7 +570,7 @@
     {
       "id": "GL-3A3-TEM4",
       "formalTitle": "Crosswalk Speaker Malfunction — Hedding St & 1st St",
-      "description": "The reporting party indicates that the crosswalk speaker at the intersection of Hedding St and 1st St is malfunctioning and is stuck chirping loudly throughout the night. This observed condition may cause disturbances to nearby residents. Immediate attention is recommended to resolve the issue.",
+      "description": "The citizen indicates that the crosswalk speaker at the intersection of Hedding St and 1st St is malfunctioning and is stuck chirping loudly throughout the night. This observed condition may cause disturbances to nearby residents. Immediate attention is recommended to resolve the issue.",
       "residentDescription": "The crosswalk speaker at Hedding and 1st is stuck chirping loudly through the night.",
       "servicePriority": "Standard",
       "category": "Public Safety/Hazards",
@@ -711,7 +711,7 @@
     {
       "id": "GL-DQX-X49L",
       "formalTitle": "Aggressive Loose Dog Pack — Roosevelt Community Center",
-      "description": "The reporting party indicates the presence of an aggressive pack of loose dogs near the Roosevelt Community Center. Observed conditions have caused concern among community members, as individuals feel unsafe walking in the area. This situation may require immediate attention to ensure public safety.",
+      "description": "The citizen indicates the presence of an aggressive pack of loose dogs near the Roosevelt Community Center. Observed conditions have caused concern among community members, as individuals feel unsafe walking in the area. This situation may require immediate attention to ensure public safety.",
       "residentDescription": "Aggressive loose dog pack near the Roosevelt Community Center, people are scared to walk.",
       "servicePriority": "Elevated",
       "category": "Animal/Wildlife",
@@ -846,7 +846,7 @@
     {
       "id": "GL-Z73-S5WJ",
       "formalTitle": "Dead Animal Removal — Snell Ave",
-      "description": "The reporting party indicates that there is a dead skunk located on Snell Ave. The observed condition has persisted for a couple of days, resulting in a strong odor in the area. This issue may require prompt attention to mitigate any health hazards.",
+      "description": "The citizen indicates that there is a dead skunk located on Snell Ave. The observed condition has persisted for a couple of days, resulting in a strong odor in the area. This issue may require prompt attention to mitigate any health hazards.",
       "residentDescription": "Dead skunk on Snell Ave that's been there a couple days, the smell is rough.",
       "servicePriority": "Standard",
       "category": "Animal/Wildlife",
@@ -981,7 +981,7 @@
     {
       "id": "GL-HM8-AYZ5",
       "formalTitle": "Hawk Entangled in Netting — N 4th St",
-      "description": "The reporting party indicates that a hawk is tangled in netting on a building ledge on N 4th St. The bird is still alive and in distress. Immediate assistance is requested to safely rescue the animal.",
+      "description": "The citizen indicates that a hawk is tangled in netting on a building ledge on N 4th St. The bird is still alive and in distress. Immediate assistance is requested to safely rescue the animal.",
       "residentDescription": "There's a hawk tangled in netting on a building ledge on N 4th St, still alive.",
       "servicePriority": "Elevated",
       "category": "Animal/Wildlife",
@@ -1116,7 +1116,7 @@
     {
       "id": "GL-95H-JCEG",
       "formalTitle": "Debris Hazard — Bascom Light Rail Platform",
-      "description": "The reporting party indicates that there is a pile of broken glass and a smashed bottle located at the Bascom light rail platform. This observed condition poses a safety hazard to pedestrians and transit users. Immediate attention is recommended to ensure public safety.",
+      "description": "The citizen indicates that there is a pile of broken glass and a smashed bottle located at the Bascom light rail platform. This observed condition poses a safety hazard to pedestrians and transit users. Immediate attention is recommended to ensure public safety.",
       "residentDescription": "Someone left a pile of broken glass and a smashed bottle at the Bascom light rail platform.",
       "servicePriority": "Standard",
       "category": "Public Safety/Hazards",
@@ -1257,7 +1257,7 @@
     {
       "id": "GL-34A-N6YP",
       "formalTitle": "Collapsed Chain-Link Fence — Singleton Rd",
-      "description": "The reporting party indicates that the chain-link fence adjacent to the creek on Singleton Rd has collapsed into the walking path. This poses a potential hazard for pedestrians using the path. Immediate attention is recommended to ensure public safety.",
+      "description": "The citizen indicates that the chain-link fence adjacent to the creek on Singleton Rd has collapsed into the walking path. This poses a potential hazard for pedestrians using the path. Immediate attention is recommended to ensure public safety.",
       "residentDescription": "The chain-link fence by the creek on Singleton Rd collapsed into the walking path.",
       "servicePriority": "Standard",
       "category": "Parks & Trees",
@@ -1398,7 +1398,7 @@
     {
       "id": "GL-3K4-7YTW",
       "formalTitle": "Fire Hydrant Damage — E William St",
-      "description": "The reporting party indicates that a fire hydrant has been sheared off on E William St. An orange hazard cone has been placed at the location; however, no crew has arrived to address the situation. This condition poses a potential safety hazard that requires immediate attention.",
+      "description": "The citizen indicates that a fire hydrant has been sheared off on E William St. An orange hazard cone has been placed at the location; however, no crew has arrived to address the situation. This condition poses a potential safety hazard that requires immediate attention.",
       "residentDescription": "A fire hydrant got sheared off on E William St and there's a hazard cone but no crew.",
       "servicePriority": "Elevated",
       "category": "Public Safety/Hazards",
@@ -1533,7 +1533,7 @@
     {
       "id": "GL-J49-NSM3",
       "formalTitle": "Road Gap Issue — Berryessa Rd",
-      "description": "The reporting party indicates that there is a deep gap between the road and a steel plate on Berryessa Rd. This condition poses a hazard to cyclists, as it nearly caused an accident. Immediate attention is recommended to ensure the safety of road users.",
+      "description": "The citizen indicates that there is a deep gap between the road and a steel plate on Berryessa Rd. This condition poses a hazard to cyclists, as it nearly caused an accident. Immediate attention is recommended to ensure the safety of road users.",
       "residentDescription": "There's a deep gap between the road and a steel plate on Berryessa Rd that nearly threw my bike.",
       "servicePriority": "Standard",
       "category": "Roads & Sidewalks",
@@ -1668,7 +1668,7 @@
     {
       "id": "GL-JR3-5M62",
       "formalTitle": "Traffic Signal Malfunction — Capitol Ave & Aborn Rd",
-      "description": "The reporting party indicates that the traffic signal at the intersection of Capitol Avenue and Aborn Road has been flashing red in all directions since this morning. This condition may pose a safety hazard for vehicles and pedestrians navigating the intersection. Immediate attention is recommended to restore normal traffic signal operation.",
+      "description": "The citizen indicates that the traffic signal at the intersection of Capitol Avenue and Aborn Road has been flashing red in all directions since this morning. This condition may pose a safety hazard for vehicles and pedestrians navigating the intersection. Immediate attention is recommended to restore normal traffic signal operation.",
       "residentDescription": "The traffic signal at Capitol and Aborn is flashing red in all directions since this morning.",
       "servicePriority": "Elevated",
       "category": "Roads & Sidewalks",
@@ -1803,7 +1803,7 @@
     {
       "id": "GL-KE5-NFH5",
       "formalTitle": "Streetlight Outage — Oakland Rd",
-      "description": "The reporting party indicates that all streetlights along Oakland Rd are non-functional. Observed condition creates an unsafe environment for pedestrians along this stretch. Immediate attention is required to restore lighting and enhance safety.",
+      "description": "The citizen indicates that all streetlights along Oakland Rd are non-functional. Observed condition creates an unsafe environment for pedestrians along this stretch. Immediate attention is required to restore lighting and enhance safety.",
       "residentDescription": "Streetlights along Oakland Rd are all dark, makes the whole stretch unsafe to walk.",
       "servicePriority": "Elevated",
       "category": "Public Safety/Hazards",
@@ -1964,7 +1964,7 @@
     {
       "id": "GL-YZ9-52EU",
       "formalTitle": "Charred Power Pole — King Rd",
-      "description": "The reporting party indicates that a power pole on King Rd is charred near the base and emits a burnt smell. This condition poses a potential safety hazard. Immediate attention is recommended to assess and address the situation.",
+      "description": "The citizen indicates that a power pole on King Rd is charred near the base and emits a burnt smell. This condition poses a potential safety hazard. Immediate attention is recommended to assess and address the situation.",
       "residentDescription": "A power pole on King Rd is charred near the base and there's a burnt smell.",
       "servicePriority": "Elevated",
       "category": "Public Safety/Hazards",
@@ -2105,7 +2105,7 @@
     {
       "id": "GL-6NS-CX8A",
       "formalTitle": "Streetlight Malfunction — Branham School Crossing",
-      "description": "The reporting party indicates that the streetlight at the school crossing on Branham is intermittently cutting out during nighttime hours. Observed condition poses a potential safety hazard for pedestrians and students crossing the street. This issue requires prompt attention to ensure adequate visibility in the area.",
+      "description": "The citizen indicates that the streetlight at the school crossing on Branham is intermittently cutting out during nighttime hours. Observed condition poses a potential safety hazard for pedestrians and students crossing the street. This issue requires prompt attention to ensure adequate visibility in the area.",
       "residentDescription": "The streetlight at the school crossing on Branham keeps cutting out at night.",
       "servicePriority": "Standard",
       "category": "Electricity/Power Lines",
@@ -2249,7 +2249,7 @@
     {
       "id": "GL-8SL-ECY9",
       "formalTitle": "Graffiti Vandalism — Almaden Lake Park Picnic Shelter",
-      "description": "The reporting party indicates that there are multiple graffiti tags present on the picnic shelter at Almaden Lake Park. Observed condition includes extensive markings that may detract from the park's aesthetic and usability. This issue requires attention to maintain the cleanliness and appeal of the park.",
+      "description": "The citizen indicates that there are multiple graffiti tags present on the picnic shelter at Almaden Lake Park. Observed condition includes extensive markings that may detract from the park's aesthetic and usability. This issue requires attention to maintain the cleanliness and appeal of the park.",
       "residentDescription": "Graffiti tags all over the picnic shelter at Almaden Lake Park.",
       "servicePriority": "Standard",
       "category": "Parks & Trees",
@@ -2403,7 +2403,7 @@
     {
       "id": "GL-VD2-N5UE",
       "formalTitle": "Irrigation Malfunction — Emma Prusch Park",
-      "description": "The reporting party indicates that the irrigation system at Emma Prusch Park has malfunctioned, resulting in a section of the park being completely flooded. Observed condition may pose a risk to park usability and surrounding areas. Immediate attention is recommended to address the flooding issue.",
+      "description": "The citizen indicates that the irrigation system at Emma Prusch Park has malfunctioned, resulting in a section of the park being completely flooded. Observed condition may pose a risk to park usability and surrounding areas. Immediate attention is recommended to address the flooding issue.",
       "residentDescription": "Irrigation broke at Emma Prusch Park and a section is completely flooded.",
       "servicePriority": "Standard",
       "category": "Parks & Trees",
@@ -2538,7 +2538,7 @@
     {
       "id": "GL-B34-48EY",
       "formalTitle": "Playground Slide Damage — Cataldi Park",
-      "description": "The reporting party indicates that the slide at the Cataldi Park playground is cracked and has a sharp edge. This condition poses a potential safety hazard for children using the playground equipment. Location reference is Cataldi Park in San Jose, CA. Immediate attention is recommended to ensure the safety of park visitors.",
+      "description": "The citizen indicates that the slide at the Cataldi Park playground is cracked and has a sharp edge. This condition poses a potential safety hazard for children using the playground equipment. Location reference is Cataldi Park in San Jose, CA. Immediate attention is recommended to ensure the safety of park visitors.",
       "residentDescription": "The slide at the Cataldi Park playground is cracked with a sharp edge.",
       "servicePriority": "Standard",
       "category": "Parks & Trees",
@@ -2679,7 +2679,7 @@
     {
       "id": "GL-B52-22BY",
       "formalTitle": "Fallen Limb Hazard — Almaden Lake Park",
-      "description": "The reporting party indicates that a large eucalyptus tree has dropped a significant limb across the trail at Almaden Lake Park. This poses a potential hazard for park users. Immediate attention is required to remove the obstruction and ensure safety for visitors.",
+      "description": "The citizen indicates that a large eucalyptus tree has dropped a significant limb across the trail at Almaden Lake Park. This poses a potential hazard for park users. Immediate attention is required to remove the obstruction and ensure safety for visitors.",
       "residentDescription": "Big eucalyptus dropped a huge limb across the trail at Almaden Lake Park.",
       "servicePriority": "Standard",
       "category": "Parks & Trees",
@@ -2839,7 +2839,7 @@
     {
       "id": "GL-NRH-R2L8",
       "formalTitle": "Standing Water Issue — 7th St Overpass",
-      "description": "The reporting party indicates that there is standing water under the overpass on 7th St. This condition has persisted for several weeks and is associated with an unpleasant odor. Immediate attention may be required to address potential sanitation concerns.",
+      "description": "The citizen indicates that there is standing water under the overpass on 7th St. This condition has persisted for several weeks and is associated with an unpleasant odor. Immediate attention may be required to address potential sanitation concerns.",
       "residentDescription": "Standing water under the overpass on 7th St has been there for weeks and smells.",
       "servicePriority": "Standard",
       "category": "Waste & Sanitation",
@@ -2974,7 +2974,7 @@
     {
       "id": "GL-JLA-2WG7",
       "formalTitle": "Irrigation Line Burst — Hellyer Ave Median",
-      "description": "The reporting party indicates that the irrigation line at the Hellyer Ave median has burst, resulting in mud being washed across the road. This condition poses a potential hazard for vehicles and pedestrians. Immediate attention is required to address the issue and prevent further disruption.",
+      "description": "The citizen indicates that the irrigation line at the Hellyer Ave median has burst, resulting in mud being washed across the road. This condition poses a potential hazard for vehicles and pedestrians. Immediate attention is required to address the issue and prevent further disruption.",
       "residentDescription": "The irrigation line at the Hellyer Ave median burst and it's washing mud across the road.",
       "servicePriority": "Standard",
       "category": "Water/Plumbing",
@@ -3109,7 +3109,7 @@
     {
       "id": "GL-3Y7-EW59",
       "formalTitle": "Water Valve Cover Issue — Camden Ave",
-      "description": "The reporting party indicates that a water valve cover on Camden Ave is discharging water in a fountain-like manner whenever a truck passes over it. This observed condition may indicate a malfunction or damage to the valve cover. Immediate attention may be required to prevent further water loss and potential roadway hazards.",
+      "description": "The citizen indicates that a water valve cover on Camden Ave is discharging water in a fountain-like manner whenever a truck passes over it. This observed condition may indicate a malfunction or damage to the valve cover. Immediate attention may be required to prevent further water loss and potential roadway hazards.",
       "residentDescription": "A water valve cover on Camden is shooting a little fountain every time a truck rolls over it.",
       "servicePriority": "Standard",
       "category": "Water/Plumbing",
@@ -3244,7 +3244,7 @@
     {
       "id": "GL-PQ9-E473",
       "formalTitle": "Storm Drain Issue — Foxworthy Ave",
-      "description": "The reporting party indicates that the storm drain on Foxworthy Avenue is gurgling and emitting a sewage odor into the street. Observed condition suggests a potential blockage or malfunction. Location reference is Foxworthy Avenue in San Jose, CA. This issue may require prompt attention to prevent further public health concerns.",
+      "description": "The citizen indicates that the storm drain on Foxworthy Avenue is gurgling and emitting a sewage odor into the street. Observed condition suggests a potential blockage or malfunction. Location reference is Foxworthy Avenue in San Jose, CA. This issue may require prompt attention to prevent further public health concerns.",
       "residentDescription": "Storm drain on Foxworthy is gurgling and backing up sewage smell into the street.",
       "servicePriority": "Standard",
       "category": "Water/Plumbing",
@@ -3385,7 +3385,7 @@
     {
       "id": "GL-JWP-NV4T",
       "formalTitle": "Illegal Dumping — Spencer Ave",
-      "description": "The reporting party indicates that a mattress and box spring have been illegally dumped at the dead end of Spencer Ave. The observed condition has persisted for one week. Location reference is noted as Spencer Ave, San Jose, CA. This issue requires prompt attention to maintain community cleanliness.",
+      "description": "The citizen indicates that a mattress and box spring have been illegally dumped at the dead end of Spencer Ave. The observed condition has persisted for one week. Location reference is noted as Spencer Ave, San Jose, CA. This issue requires prompt attention to maintain community cleanliness.",
       "residentDescription": "Mattress and box spring dumped at the dead end of Spencer Ave, been a week.",
       "servicePriority": "Standard",
       "category": "Waste & Sanitation",
@@ -3526,7 +3526,7 @@
     {
       "id": "GL-P23-PZW6",
       "formalTitle": "Overflowing Trash Enclosure — Roberts Ave Park",
-      "description": "The reporting party indicates that the trash enclosure at the park located on Roberts Ave is overflowing. Observed condition suggests that animals are gaining access to the trash due to the overflow. This situation may pose a sanitation issue and requires prompt attention.",
+      "description": "The citizen indicates that the trash enclosure at the park located on Roberts Ave is overflowing. Observed condition suggests that animals are gaining access to the trash due to the overflow. This situation may pose a sanitation issue and requires prompt attention.",
       "residentDescription": "The trash enclosure at the park on Roberts Ave is overflowing and animals are getting in.",
       "servicePriority": "Standard",
       "category": "Waste & Sanitation",
@@ -3661,7 +3661,7 @@
     {
       "id": "GL-867-JGZ8",
       "formalTitle": "Illegal Dumping — Leigh Ave",
-      "description": "The reporting party indicates that a pile of yard waste and branches has been dumped into the bike lane on Leigh Ave. This observed condition poses a hazard to cyclists and may require prompt removal to ensure public safety. The situation should be addressed as soon as possible.",
+      "description": "The citizen indicates that a pile of yard waste and branches has been dumped into the bike lane on Leigh Ave. This observed condition poses a hazard to cyclists and may require prompt removal to ensure public safety. The situation should be addressed as soon as possible.",
       "residentDescription": "Someone dumped a pile of yard waste and branches into the bike lane on Leigh Ave.",
       "servicePriority": "Standard",
       "category": "Waste & Sanitation",
@@ -3796,7 +3796,7 @@
     {
       "id": "GL-P4G-V3VN",
       "formalTitle": "Missed Recycling Collection — Bird Ave",
-      "description": "The reporting party indicates that recycling collection was not performed on Bird Ave. Observed condition shows that the recycling bins have been left out for several days without pickup. This issue may require urgent attention to ensure proper waste management.",
+      "description": "The citizen indicates that recycling collection was not performed on Bird Ave. Observed condition shows that the recycling bins have been left out for several days without pickup. This issue may require urgent attention to ensure proper waste management.",
       "residentDescription": "Recycling never got picked up on our whole street, Bird Ave, bins out for days.",
       "servicePriority": "Standard",
       "category": "Waste & Sanitation",
@@ -3940,7 +3940,7 @@
     {
       "id": "GL-2NS-CEVW",
       "formalTitle": "Road Surface Deterioration — Quimby Rd",
-      "description": "The reporting party indicates that the entire stretch of Quimby Rd is experiencing alligator cracking and the formation of small potholes. Observed conditions suggest a need for assessment and potential repair to ensure safe travel. Priority attention is recommended to address these roadway issues.",
+      "description": "The citizen indicates that the entire stretch of Quimby Rd is experiencing alligator cracking and the formation of small potholes. Observed conditions suggest a need for assessment and potential repair to ensure safe travel. Priority attention is recommended to address these roadway issues.",
       "residentDescription": "Whole stretch of Quimby Rd has alligator cracking and small potholes forming.",
       "servicePriority": "Standard",
       "category": "Roads & Sidewalks",
@@ -4081,7 +4081,7 @@
     {
       "id": "GL-DPZ-HGW4",
       "formalTitle": "Sidewalk Hazard Due to Tree Roots — Dana Ave",
-      "description": "The reporting party indicates that tree roots have caused the sidewalk to lift, creating a ramp-like condition on Dana Ave. This observed condition poses a safety hazard, particularly for children riding bicycles, as they are experiencing falls. Immediate attention is recommended to address this issue.",
+      "description": "The citizen indicates that tree roots have caused the sidewalk to lift, creating a ramp-like condition on Dana Ave. This observed condition poses a safety hazard, particularly for children riding bicycles, as they are experiencing falls. Immediate attention is recommended to address this issue.",
       "residentDescription": "Tree roots have lifted the sidewalk into a ramp on Dana Ave, kids on bikes keep wiping out.",
       "servicePriority": "Standard",
       "category": "Roads & Sidewalks",
@@ -4230,7 +4230,7 @@
     {
       "id": "GL-UWD-RZSF",
       "formalTitle": "Crosswalk Button Malfunction — White Rd & McKee",
-      "description": "The reporting party indicates that the crosswalk button at the intersection of White Rd and McKee is not functioning. Observed condition shows that the light does not change for pedestrians, potentially creating a safety hazard for individuals attempting to cross the street. This issue requires prompt attention to ensure pedestrian safety.",
+      "description": "The citizen indicates that the crosswalk button at the intersection of White Rd and McKee is not functioning. Observed condition shows that the light does not change for pedestrians, potentially creating a safety hazard for individuals attempting to cross the street. This issue requires prompt attention to ensure pedestrian safety.",
       "residentDescription": "The crosswalk button at White Rd and McKee doesn't work, light never changes for walkers.",
       "servicePriority": "Standard",
       "category": "Public Safety/Hazards",
@@ -4365,7 +4365,7 @@
     {
       "id": "GL-K5B-LRA8",
       "formalTitle": "Pothole Report — Monterey Rd & Senter",
-      "description": "The reporting party indicates that a pothole has developed at the bus stop located at the intersection of Monterey Rd and Senter. This condition may pose a hazard to pedestrians and bus passengers. Prompt attention to this issue is recommended to ensure safety and accessibility.",
+      "description": "The citizen indicates that a pothole has developed at the bus stop located at the intersection of Monterey Rd and Senter. This condition may pose a hazard to pedestrians and bus passengers. Prompt attention to this issue is recommended to ensure safety and accessibility.",
       "residentDescription": "A pothole opened up right at the bus stop on Monterey Rd and Senter.",
       "servicePriority": "Standard",
       "category": "Roads & Sidewalks",
@@ -4517,7 +4517,7 @@
     {
       "id": "GL-2XJ-TPZ6",
       "formalTitle": "Faded School-Zone Markings — Cunningham Ave",
-      "description": "The reporting party indicates that the school-zone markings on Cunningham Ave have significantly faded. As a result, drivers are not slowing down as expected in this area. Location reference is Cunningham Ave, San Jose, CA. This condition may pose a safety risk to pedestrians and school children, warranting prompt attention.",
+      "description": "The citizen indicates that the school-zone markings on Cunningham Ave have significantly faded. As a result, drivers are not slowing down as expected in this area. Location reference is Cunningham Ave, San Jose, CA. This condition may pose a safety risk to pedestrians and school children, warranting prompt attention.",
       "residentDescription": "Faded school-zone markings on Cunningham Ave, drivers don't slow down anymore.",
       "servicePriority": "Standard",
       "category": "Roads & Sidewalks",
@@ -4652,7 +4652,7 @@
     {
       "id": "GL-BVP-QSUJ",
       "formalTitle": "Asphalt Sinkage — Moorpark Ave",
-      "description": "The reporting party indicates that the asphalt is sinking around the trench that was patched on Moorpark Ave, resulting in a noticeable dip in the roadway. This condition may pose a hazard to vehicles and pedestrians. Location reference is Moorpark Ave, San Jose, CA. Immediate attention is recommended to prevent further deterioration.",
+      "description": "The citizen indicates that the asphalt is sinking around the trench that was patched on Moorpark Ave, resulting in a noticeable dip in the roadway. This condition may pose a hazard to vehicles and pedestrians. Location reference is Moorpark Ave, San Jose, CA. Immediate attention is recommended to prevent further deterioration.",
       "residentDescription": "The asphalt is sinking around the trench they patched on Moorpark Ave, it's a dip now.",
       "servicePriority": "Standard",
       "category": "Roads & Sidewalks",
@@ -4793,7 +4793,7 @@
     {
       "id": "GL-UDW-BNTD",
       "formalTitle": "Broken Bench — San Jose Park",
-      "description": "The reporting party indicates that there is a broken bench located at a park in San Jose. Observed condition may pose a risk to park visitors. A prompt inspection and repair are recommended to ensure safety and usability.",
+      "description": "The citizen indicates that there is a broken bench located at a park in San Jose. Observed condition may pose a risk to park visitors. A prompt inspection and repair are recommended to ensure safety and usability.",
       "residentDescription": "Broken bench at the park, photo attached.",
       "servicePriority": "Standard",
       "category": "Parks & Trees",
@@ -4953,7 +4953,7 @@
     {
       "id": "GL-FFT-YDXU",
       "formalTitle": "Illegal Dumping — King St & Story Rd",
-      "description": "The reporting party indicates that trash has been illegally dumped at the corner of King Street and Story Road. Observed condition includes various debris that requires removal. Location reference is provided for prompt attention to this matter.",
+      "description": "The citizen indicates that trash has been illegally dumped at the corner of King Street and Story Road. Observed condition includes various debris that requires removal. Location reference is provided for prompt attention to this matter.",
       "residentDescription": "Trash dumped on the corner of King and Story, see the image.",
       "servicePriority": "Standard",
       "category": "Waste & Sanitation",
@@ -5107,7 +5107,7 @@
     {
       "id": "GL-8PX-2CBK",
       "formalTitle": "Streetlight Outage — Saratoga Ave",
-      "description": "The reporting party indicates that a streetlight is not functioning on Saratoga Ave. A photo has been provided to illustrate the issue. This condition may affect visibility and safety in the area.",
+      "description": "The citizen indicates that a streetlight is not functioning on Saratoga Ave. A photo has been provided to illustrate the issue. This condition may affect visibility and safety in the area.",
       "residentDescription": "A streetlight is out on Saratoga Ave, I added a photo.",
       "servicePriority": "Standard",
       "category": "Electricity/Power Lines",
@@ -5261,7 +5261,7 @@
     {
       "id": "GL-KGY-5ZEG",
       "formalTitle": "Graffiti Report — Park Location in San Jose",
-      "description": "The reporting party indicates that there is graffiti present on the wall at the park. A picture of the graffiti has been attached for reference. This condition may require attention to maintain the cleanliness and appearance of the park.",
+      "description": "The citizen indicates that there is graffiti present on the wall at the park. A picture of the graffiti has been attached for reference. This condition may require attention to maintain the cleanliness and appearance of the park.",
       "residentDescription": "There's graffiti on the wall at the park, attaching a picture of it.",
       "servicePriority": "Standard",
       "category": "Other",
@@ -5415,7 +5415,7 @@
     {
       "id": "GL-WVZ-TCYU",
       "formalTitle": "Pothole Report — Stevens Creek Blvd",
-      "description": "The reporting party indicates that there is a large pothole on Stevens Creek Blvd. Observed condition poses a potential hazard to vehicles and may lead to further road deterioration. Location reference is provided as Stevens Creek Blvd, San Jose, CA. This issue requires prompt attention.",
+      "description": "The citizen indicates that there is a large pothole on Stevens Creek Blvd. Observed condition poses a potential hazard to vehicles and may lead to further road deterioration. Location reference is provided as Stevens Creek Blvd, San Jose, CA. This issue requires prompt attention.",
       "residentDescription": "The pothole on Stevens Creek Blvd is huge, here's a photo.",
       "servicePriority": "Standard",
       "category": "Roads & Sidewalks",
@@ -5575,7 +5575,7 @@
     {
       "id": "GL-MHC-BDKL",
       "formalTitle": "Crumbling Sidewalk Slab — Lincoln Ave",
-      "description": "The reporting party indicates that a sidewalk slab on Lincoln Ave is crumbling and has lifted up, creating a potential hazard for pedestrians. A photo has been provided to illustrate the severity of the condition. This issue may require prompt attention to ensure public safety.",
+      "description": "The citizen indicates that a sidewalk slab on Lincoln Ave is crumbling and has lifted up, creating a potential hazard for pedestrians. A photo has been provided to illustrate the severity of the condition. This issue may require prompt attention to ensure public safety.",
       "residentDescription": "Crumbling sidewalk slab lifted up on Lincoln Ave, photo shows how bad.",
       "servicePriority": "Standard",
       "category": "Roads & Sidewalks",
@@ -5724,7 +5724,7 @@
     {
       "id": "GL-HAF-PEA3",
       "formalTitle": "Broken Streetlight Fixture — Hedding St",
-      "description": "The reporting party indicates that there is a broken and shattered streetlight fixture located on Hedding Street. Observed condition poses a potential safety hazard for pedestrians and vehicles. Immediate attention is recommended to ensure public safety.",
+      "description": "The citizen indicates that there is a broken and shattered streetlight fixture located on Hedding Street. Observed condition poses a potential safety hazard for pedestrians and vehicles. Immediate attention is recommended to ensure public safety.",
       "residentDescription": "Broken and shattered streetlight fixture on Hedding, see attached.",
       "servicePriority": "Standard",
       "category": "Electricity/Power Lines",
@@ -5859,7 +5859,7 @@
     {
       "id": "GL-VWL-Z4GW",
       "formalTitle": "Illegal Dumping Report — Creek Area",
-      "description": "The reporting party indicates that a load of junk has been dumped by the creek. Observed condition includes various debris that may pose environmental hazards. Location reference is in San Jose, CA. This situation requires prompt attention to prevent further pollution.",
+      "description": "The citizen indicates that a load of junk has been dumped by the creek. Observed condition includes various debris that may pose environmental hazards. Location reference is in San Jose, CA. This situation requires prompt attention to prevent further pollution.",
       "residentDescription": "Someone dumped a load of junk by the creek, picture attached.",
       "servicePriority": "Standard",
       "category": "Waste & Sanitation",
@@ -5994,7 +5994,7 @@
     {
       "id": "GL-SLS-R24S",
       "formalTitle": "Dead Animal Report — Monterey Rd",
-      "description": "The reporting party indicates the presence of a dead animal on the shoulder of Monterey Rd. A photo has been provided to assist in identifying the exact location of the issue. This condition requires prompt attention to ensure public safety and sanitation.",
+      "description": "The citizen indicates the presence of a dead animal on the shoulder of Monterey Rd. A photo has been provided to assist in identifying the exact location of the issue. This condition requires prompt attention to ensure public safety and sanitation.",
       "residentDescription": "Dead animal on the shoulder of Monterey Rd, photo so you can see where.",
       "servicePriority": "Standard",
       "category": "Animal/Wildlife",
@@ -6129,7 +6129,7 @@
     {
       "id": "GL-U7Q-QFLW",
       "formalTitle": "Downed Power Line — Coleman Ave",
-      "description": "The reporting party indicates a downed power line on Coleman Ave following a recent storm. A section of the road has been closed off for safety reasons. Immediate attention is required to address this hazardous condition.",
+      "description": "The citizen indicates a downed power line on Coleman Ave following a recent storm. A section of the road has been closed off for safety reasons. Immediate attention is required to address this hazardous condition.",
       "residentDescription": "Downed line and a closed-off section on Coleman Ave after the storm, photo included.",
       "servicePriority": "Elevated",
       "category": "Electricity/Power Lines",
@@ -6289,7 +6289,7 @@
     {
       "id": "GL-7MB-BETA",
       "formalTitle": "Overflowing Trash Bin — Park Location",
-      "description": "The reporting party indicates that the trash bin at the park is overflowing. Observed condition suggests that the bin requires immediate attention to prevent littering and maintain cleanliness in the area. Location reference is noted as a park in San Jose, CA. Prompt action is recommended.",
+      "description": "The citizen indicates that the trash bin at the park is overflowing. Observed condition suggests that the bin requires immediate attention to prevent littering and maintain cleanliness in the area. Location reference is noted as a park in San Jose, CA. Prompt action is recommended.",
       "residentDescription": "Trash overflowing at the park bin again, attaching what it looks like.",
       "servicePriority": "Standard",
       "category": "Waste & Sanitation",
@@ -6430,7 +6430,7 @@
     {
       "id": "GL-LLP-ZJY4",
       "formalTitle": "Downed Tree Across Sidewalk — Newhall St",
-      "description": "The reporting party indicates that a tree has fallen across the sidewalk on Newhall St. Observed condition poses an obstruction to pedestrian traffic. Location reference is provided with an accompanying picture. This issue requires prompt attention to ensure public safety.",
+      "description": "The citizen indicates that a tree has fallen across the sidewalk on Newhall St. Observed condition poses an obstruction to pedestrian traffic. Location reference is provided with an accompanying picture. This issue requires prompt attention to ensure public safety.",
       "residentDescription": "Tree came down across the sidewalk on Newhall St, here's a picture.",
       "servicePriority": "Standard",
       "category": "Parks & Trees",
@@ -6593,7 +6593,7 @@
     {
       "id": "GL-DZ3-DTVH",
       "formalTitle": "Graffiti Report — Sound Wall along I-280 near Bird Ave",
-      "description": "The reporting party indicates that there is graffiti covering the sound wall along Interstate 280 near Bird Avenue. A photo has been provided for reference. This condition may require prompt attention to maintain community standards.",
+      "description": "The citizen indicates that there is graffiti covering the sound wall along Interstate 280 near Bird Avenue. A photo has been provided for reference. This condition may require prompt attention to maintain community standards.",
       "residentDescription": "Graffiti covering the sound wall along 280 near Bird Ave, see photo.",
       "servicePriority": "Standard",
       "category": "Other",
@@ -6747,7 +6747,7 @@
     {
       "id": "GL-W7D-9DRJ",
       "formalTitle": "Sidewalk Damage — Cunningham Ave",
-      "description": "The reporting party indicates that the sidewalk is badly cracked outside the school on Cunningham Ave. Observed condition poses a potential hazard to pedestrians. Priority for repair is recommended.",
+      "description": "The citizen indicates that the sidewalk is badly cracked outside the school on Cunningham Ave. Observed condition poses a potential hazard to pedestrians. Priority for repair is recommended.",
       "residentDescription": "The sidewalk is badly cracked outside the school on Cunningham Ave, photo attached.",
       "servicePriority": "Standard",
       "category": "Roads & Sidewalks",
@@ -6890,7 +6890,7 @@
     {
       "id": "GL-M8B-QX3D",
       "formalTitle": "Pothole Report — Almaden Rd",
-      "description": "The reporting party indicates the presence of a pothole on Almaden Rd that is progressively enlarging. A photo of the observed condition has been taken for reference. This issue may pose a hazard to vehicles and should be addressed promptly.",
+      "description": "The citizen indicates the presence of a pothole on Almaden Rd that is progressively enlarging. A photo of the observed condition has been taken for reference. This issue may pose a hazard to vehicles and should be addressed promptly.",
       "residentDescription": "Pothole on Almaden Rd that keeps getting bigger, I took a photo of it.",
       "servicePriority": "Standard",
       "category": "Roads & Sidewalks",
@@ -7048,7 +7048,7 @@
     {
       "id": "GL-R5E-YSTS",
       "formalTitle": "Leaking Fire Hydrant — W San Carlos St",
-      "description": "The reporting party indicates that a fire hydrant on W San Carlos St is leaking a steady stream of water into the gutter. Observed condition may lead to water waste and potential street flooding. Immediate attention is recommended to address the leak.",
+      "description": "The citizen indicates that a fire hydrant on W San Carlos St is leaking a steady stream of water into the gutter. Observed condition may lead to water waste and potential street flooding. Immediate attention is recommended to address the leak.",
       "residentDescription": "hi there is an issue near me\nA fire hydrant on W San Carlos is leaking a steady stream into the gutter.",
       "servicePriority": "Standard",
       "category": "Water/Plumbing",
@@ -7209,7 +7209,7 @@
     {
       "id": "GL-Y2Y-HXEK",
       "formalTitle": "Illegal Dumping — Tires on Stockton Ave",
-      "description": "The reporting party indicates that a pile of tires has been illegally dumped behind the lot on Stockton Ave. This observed condition poses potential environmental hazards and may attract pests. Immediate attention is requested to address the waste removal.",
+      "description": "The citizen indicates that a pile of tires has been illegally dumped behind the lot on Stockton Ave. This observed condition poses potential environmental hazards and may attract pests. Immediate attention is requested to address the waste removal.",
       "residentDescription": "can you help with something\nYeah someone dumped a pile of tires behind the lot on Stockton Ave.",
       "servicePriority": "Standard",
       "category": "Waste & Sanitation",
@@ -7364,7 +7364,7 @@
     {
       "id": "GL-ED5-JSUG",
       "formalTitle": "Water Fountain Malfunction — Backesto Park",
-      "description": "The reporting party indicates that the water fountain at Backesto Park is broken and causing flooding in the playground area. Observed condition poses a potential hazard to park users, particularly children. Immediate attention is required to address the flooding and repair the fountain.",
+      "description": "The citizen indicates that the water fountain at Backesto Park is broken and causing flooding in the playground area. Observed condition poses a potential hazard to park users, particularly children. Immediate attention is required to address the flooding and repair the fountain.",
       "residentDescription": "there's a problem at the park\nAt Backesto Park the water fountain is broken and flooding the playground area.",
       "servicePriority": "Standard",
       "category": "Parks & Trees",
@@ -7519,7 +7519,7 @@
     {
       "id": "GL-F6S-S7BN",
       "formalTitle": "Streetlight Malfunction — Delmas Ave & Auzerais Ave",
-      "description": "The reporting party indicates that the streetlight at the intersection of Delmas Avenue and Auzerais Avenue is malfunctioning. The observed condition is that the light goes out intermittently every few nights. This issue may pose safety concerns for pedestrians and drivers in the area.",
+      "description": "The citizen indicates that the streetlight at the intersection of Delmas Avenue and Auzerais Avenue is malfunctioning. The observed condition is that the light goes out intermittently every few nights. This issue may pose safety concerns for pedestrians and drivers in the area.",
       "residentDescription": "it's broken again\nThe streetlight at Delmas and Auzerais, it keeps going out every few nights.",
       "servicePriority": "Standard",
       "category": "Electricity/Power Lines",
@@ -7674,7 +7674,7 @@
     {
       "id": "GL-U3N-8D9B",
       "formalTitle": "Pothole Formation — Bird Ave near Coe",
-      "description": "The reporting party indicates that a significant pothole is forming on Bird Ave near Coe. Observed condition suggests that vehicles are frequently hitting the pothole, which may pose a hazard to drivers. This issue requires prompt attention to prevent potential damage to vehicles and ensure road safety.",
+      "description": "The citizen indicates that a significant pothole is forming on Bird Ave near Coe. Observed condition suggests that vehicles are frequently hitting the pothole, which may pose a hazard to drivers. This issue requires prompt attention to prevent potential damage to vehicles and ensure road safety.",
       "residentDescription": "something's wrong on my street\nThere's a big pothole forming on Bird Ave near Coe, cars keep hitting it hard.",
       "servicePriority": "Standard",
       "category": "Roads & Sidewalks",
@@ -7835,7 +7835,7 @@
     {
       "id": "GL-KNC-VR7S",
       "formalTitle": "Public Restroom Access Issue — Transit Center",
-      "description": "The reporting party indicates that the public restroom at the transit center has been locked for several weeks without any notice. This has resulted in inconvenience for transit users. Immediate attention is requested to address this access issue.",
+      "description": "The citizen indicates that the public restroom at the transit center has been locked for several weeks without any notice. This has resulted in inconvenience for transit users. Immediate attention is requested to address this access issue.",
       "residentDescription": "Public restroom at the transit center has been locked for weeks with no notice.",
       "servicePriority": "Standard",
       "category": "Other",
@@ -7976,7 +7976,7 @@
     {
       "id": "GL-42S-964G",
       "formalTitle": "Blocked Wheelchair Ramp — Community Center on Alma Ave",
-      "description": "The reporting party indicates that the wheelchair ramp at the community center located on Alma Ave is obstructed by a broken gate. This condition may impede accessibility for individuals requiring the ramp. Immediate attention is recommended to ensure compliance with accessibility standards.",
+      "description": "The citizen indicates that the wheelchair ramp at the community center located on Alma Ave is obstructed by a broken gate. This condition may impede accessibility for individuals requiring the ramp. Immediate attention is recommended to ensure compliance with accessibility standards.",
       "residentDescription": "The wheelchair ramp at the community center on Alma Ave is blocked by a broken gate.",
       "servicePriority": "Standard",
       "category": "Roads & Sidewalks",
@@ -8111,7 +8111,7 @@
     {
       "id": "GL-59F-Z3GQ",
       "formalTitle": "Shattered Glass Panel — Bus Shelter on Monterey Rd",
-      "description": "The reporting party indicates that a bus shelter located on Monterey Rd has a shattered glass panel. Observed condition includes sharp edges that may pose a safety hazard to the public. Immediate attention is required to address this issue and ensure the safety of individuals using the bus shelter.",
+      "description": "The citizen indicates that a bus shelter located on Monterey Rd has a shattered glass panel. Observed condition includes sharp edges that may pose a safety hazard to the public. Immediate attention is required to address this issue and ensure the safety of individuals using the bus shelter.",
       "residentDescription": "A bus shelter on Monterey Rd has a shattered glass panel, sharp edges everywhere.",
       "servicePriority": "Elevated",
       "category": "Public Safety/Hazards",
@@ -8246,7 +8246,7 @@
     {
       "id": "GL-6CG-N8T7",
       "formalTitle": "Public Clock Malfunction — Downtown Plaza",
-      "description": "The reporting party indicates that the public clock located in the downtown plaza has been non-functional and is displaying a time of 4:15 for several months. This observed condition may affect the public's ability to accurately gauge time while in the area. A timely resolution is requested to restore the clock's functionality.",
+      "description": "The citizen indicates that the public clock located in the downtown plaza has been non-functional and is displaying a time of 4:15 for several months. This observed condition may affect the public's ability to accurately gauge time while in the area. A timely resolution is requested to restore the clock's functionality.",
       "residentDescription": "The public clock in the plaza downtown has been stopped at 4:15 for months.",
       "servicePriority": "Routine",
       "category": "Other",
@@ -8381,7 +8381,7 @@
     {
       "id": "GL-YK5-WWLW",
       "formalTitle": "Noise Complaint — Industrial Fan at Pump Station on Spring St",
-      "description": "The reporting party indicates that a loud industrial fan from the city pump station on Spring St operates throughout the night. This noise disturbance is affecting the surrounding area and may impact residents' quality of life. Immediate attention to this matter is requested to assess and mitigate the noise levels.",
+      "description": "The citizen indicates that a loud industrial fan from the city pump station on Spring St operates throughout the night. This noise disturbance is affecting the surrounding area and may impact residents' quality of life. Immediate attention to this matter is requested to assess and mitigate the noise levels.",
       "residentDescription": "Loud industrial fan from the city pump station on Spring St runs all night.",
       "servicePriority": "Standard",
       "category": "Noise Complaints",
@@ -8522,7 +8522,7 @@
     {
       "id": "GL-V3Q-PEEY",
       "formalTitle": "Crosswalk Audio Signal Malfunction — 2nd St & Santa Clara St",
-      "description": "The reporting party indicates that the crosswalk audio signal at the intersection of 2nd Street and Santa Clara Street is malfunctioning. The signal is reportedly stuck blaring at full volume throughout the night. This condition may pose a disturbance to nearby residents and requires prompt attention.",
+      "description": "The citizen indicates that the crosswalk audio signal at the intersection of 2nd Street and Santa Clara Street is malfunctioning. The signal is reportedly stuck blaring at full volume throughout the night. This condition may pose a disturbance to nearby residents and requires prompt attention.",
       "residentDescription": "The crosswalk audio signal at 2nd and Santa Clara is stuck blaring at full volume all night.",
       "servicePriority": "Standard",
       "category": "Public Safety/Hazards",
@@ -8663,7 +8663,7 @@
     {
       "id": "GL-AMJ-ZHXX",
       "formalTitle": "Ongoing Car Alarm Noise — Reed St",
-      "description": "The reporting party indicates that a car alarm has been sounding continuously for several hours near Reed St. The observed condition is causing a disturbance in the area. Location reference is provided as Reed St, San Jose, CA. This issue may require timely attention to mitigate the noise disturbance.",
+      "description": "The citizen indicates that a car alarm has been sounding continuously for several hours near Reed St. The observed condition is causing a disturbance in the area. Location reference is provided as Reed St, San Jose, CA. This issue may require timely attention to mitigate the noise disturbance.",
       "residentDescription": "There's a car alarm that's been going off nonstop near Reed St for hours.",
       "servicePriority": "Standard",
       "category": "Noise Complaints",
@@ -8798,7 +8798,7 @@
     {
       "id": "GL-4WZ-6DHZ",
       "formalTitle": "Noise Complaint — N 1st St",
-      "description": "The reporting party indicates that a construction crew is using a jackhammer on N 1st St at 5 AM, which is prior to the permitted construction hours. This early morning noise is causing a disturbance in the area. The situation may require investigation to ensure compliance with local noise ordinances.",
+      "description": "The citizen indicates that a construction crew is using a jackhammer on N 1st St at 5 AM, which is prior to the permitted construction hours. This early morning noise is causing a disturbance in the area. The situation may require investigation to ensure compliance with local noise ordinances.",
       "residentDescription": "Construction crew on N 1st St starts jackhammering at 5am, way before the allowed hours.",
       "servicePriority": "Standard",
       "category": "Noise Complaints",
@@ -8933,7 +8933,7 @@
     {
       "id": "GL-V3Z-GUFE",
       "formalTitle": "Rattlesnake Sighting — Communications Hill Walking Path",
-      "description": "The reporting party indicates a large rattlesnake has been observed on the walking path at Communications Hill. This location is frequented by pedestrians, raising concerns for public safety. Immediate attention is recommended to ensure the safety of individuals using the path.",
+      "description": "The citizen indicates a large rattlesnake has been observed on the walking path at Communications Hill. This location is frequented by pedestrians, raising concerns for public safety. Immediate attention is recommended to ensure the safety of individuals using the path.",
       "residentDescription": "Big rattlesnake spotted on the walking path at Communications Hill, lots of people walk there.",
       "servicePriority": "Standard",
       "category": "Animal/Wildlife",
@@ -9068,7 +9068,7 @@
     {
       "id": "GL-JFL-ZNH6",
       "formalTitle": "Rat Colony Report — Stockton Ave",
-      "description": "The reporting party indicates that a colony of rats is nesting in the abandoned lot on Stockton Ave. Observed conditions suggest a potential health hazard due to the presence of these rodents. Location reference is noted for further investigation and appropriate action.",
+      "description": "The citizen indicates that a colony of rats is nesting in the abandoned lot on Stockton Ave. Observed conditions suggest a potential health hazard due to the presence of these rodents. Location reference is noted for further investigation and appropriate action.",
       "residentDescription": "A colony of rats is nesting in the abandoned lot on Stockton Ave.",
       "servicePriority": "Standard",
       "category": "Animal/Wildlife",
@@ -9209,7 +9209,7 @@
     {
       "id": "GL-3WP-85Y4",
       "formalTitle": "Dead Animal Removal — Leigh Ave",
-      "description": "The reporting party indicates that there is a dead cat located on the road on Leigh Ave. Observed condition poses a potential hazard to traffic and public health. Request for removal is necessary to ensure safety and cleanliness in the area.",
+      "description": "The citizen indicates that there is a dead cat located on the road on Leigh Ave. Observed condition poses a potential hazard to traffic and public health. Request for removal is necessary to ensure safety and cleanliness in the area.",
       "residentDescription": "Dead cat on the road on Leigh Ave, someone should remove it.",
       "servicePriority": "Standard",
       "category": "Animal/Wildlife",
@@ -9350,7 +9350,7 @@
     {
       "id": "GL-JFT-7Y7P",
       "formalTitle": "Coyote Activity Near Guadalupe Trail",
-      "description": "The reporting party indicates that coyotes have been accessing trash in the area and that there are pups observed near the Guadalupe Trail. This situation may pose a risk to both wildlife and residents. Immediate attention is recommended to address the issue and ensure public safety.",
+      "description": "The citizen indicates that coyotes have been accessing trash in the area and that there are pups observed near the Guadalupe Trail. This situation may pose a risk to both wildlife and residents. Immediate attention is recommended to address the issue and ensure public safety.",
       "residentDescription": "Coyotes have been getting into trash and there are pups near the Guadalupe trail.",
       "servicePriority": "Standard",
       "category": "Animal/Wildlife",
@@ -9485,7 +9485,7 @@
     {
       "id": "GL-3JW-JLZ2",
       "formalTitle": "Injured Hawk Report — St James Park",
-      "description": "The reporting party indicates that there is an injured hawk on the ground in St James Park. The bird is unable to fly, which raises concerns for its well-being. Immediate attention may be required to assess the situation and provide necessary assistance.",
+      "description": "The citizen indicates that there is an injured hawk on the ground in St James Park. The bird is unable to fly, which raises concerns for its well-being. Immediate attention may be required to assess the situation and provide necessary assistance.",
       "residentDescription": "There's an injured hawk on the ground in St James Park, can't fly.",
       "servicePriority": "Standard",
       "category": "Animal/Wildlife",
@@ -9620,7 +9620,7 @@
     {
       "id": "GL-R5X-6N9N",
       "formalTitle": "Bee Hive Established — Bascom Ave Bus Stop",
-      "description": "The reporting party indicates that a swarm of bees has established a hive in a tree located at the bus stop on Bascom Ave. This condition may pose a risk to pedestrians and bus passengers. Immediate attention is recommended to ensure public safety.",
+      "description": "The citizen indicates that a swarm of bees has established a hive in a tree located at the bus stop on Bascom Ave. This condition may pose a risk to pedestrians and bus passengers. Immediate attention is recommended to ensure public safety.",
       "residentDescription": "A swarm of bees set up a hive in the tree at the bus stop on Bascom Ave.",
       "servicePriority": "Standard",
       "category": "Animal/Wildlife",
@@ -9755,7 +9755,7 @@
     {
       "id": "GL-A6A-VE2X",
       "formalTitle": "Dead Animal Report — Hamilton Ave",
-      "description": "The reporting party indicates the presence of a dead possum located in the gutter on Hamilton Ave near the Pruneyard side. This condition poses a potential health hazard and requires prompt attention for removal. The city staff is requested to address this issue at their earliest convenience.",
+      "description": "The citizen indicates the presence of a dead possum located in the gutter on Hamilton Ave near the Pruneyard side. This condition poses a potential health hazard and requires prompt attention for removal. The city staff is requested to address this issue at their earliest convenience.",
       "residentDescription": "dead animal\nLooks like a possum, on Hamilton Ave near the Pruneyard side, in the gutter.",
       "servicePriority": "Standard",
       "category": "Animal/Wildlife",
@@ -9916,7 +9916,7 @@
     {
       "id": "GL-H5Q-W4AE",
       "formalTitle": "Dead Animal Removal — Curtner Ave",
-      "description": "The reporting party indicates that there is a dead raccoon located in the middle of Curtner Ave. The observed condition is causing the animal to be repeatedly struck by passing vehicles. Location reference is Curtner Ave, San Jose, CA. This situation requires prompt attention to ensure public safety.",
+      "description": "The citizen indicates that there is a dead raccoon located in the middle of Curtner Ave. The observed condition is causing the animal to be repeatedly struck by passing vehicles. Location reference is Curtner Ave, San Jose, CA. This situation requires prompt attention to ensure public safety.",
       "residentDescription": "Dead raccoon in the middle of Curtner Ave, getting hit over and over.",
       "servicePriority": "Standard",
       "category": "Animal/Wildlife",
@@ -10057,7 +10057,7 @@
     {
       "id": "GL-QKZ-VFXG",
       "formalTitle": "Aggressive Stray Dog Report — Spartan Keyes Neighborhood",
-      "description": "The reporting party indicates that an aggressive stray dog has been observed roaming the Spartan Keyes neighborhood. This situation is causing concern among residents, particularly for the safety of children in the area. Immediate attention is requested to address this issue.",
+      "description": "The citizen indicates that an aggressive stray dog has been observed roaming the Spartan Keyes neighborhood. This situation is causing concern among residents, particularly for the safety of children in the area. Immediate attention is requested to address this issue.",
       "residentDescription": "A really aggressive stray dog has been roaming the Spartan Keyes neighborhood scaring kids.",
       "servicePriority": "Standard",
       "category": "Animal/Wildlife",
@@ -10192,7 +10192,7 @@
     {
       "id": "GL-E43-2S58",
       "formalTitle": "Dead Animal Removal — Almaden Expressway",
-      "description": "The reporting party indicates that there is a dead deer located on the side of Almaden Expressway. The observed condition has persisted for several days. Location reference is provided as Almaden Expressway in San Jose, CA. This issue may require prompt attention for public safety and sanitation.",
+      "description": "The citizen indicates that there is a dead deer located on the side of Almaden Expressway. The observed condition has persisted for several days. Location reference is provided as Almaden Expressway in San Jose, CA. This issue may require prompt attention for public safety and sanitation.",
       "residentDescription": "There's a dead deer on the side of Almaden Expressway that's been there for days.",
       "servicePriority": "Standard",
       "category": "Animal/Wildlife",
@@ -10327,7 +10327,7 @@
     {
       "id": "GL-TFE-LTKZ",
       "formalTitle": "Sinkhole Report — Communications Hill Blvd",
-      "description": "The reporting party indicates that a deep sinkhole is opening up at the edge of the road on Communications Hill Blvd. This condition poses a potential hazard to vehicles and pedestrians. Immediate attention is recommended to assess and address the situation.",
+      "description": "The citizen indicates that a deep sinkhole is opening up at the edge of the road on Communications Hill Blvd. This condition poses a potential hazard to vehicles and pedestrians. Immediate attention is recommended to assess and address the situation.",
       "residentDescription": "A deep sinkhole is opening up at the edge of the road on Communications Hill Blvd.",
       "servicePriority": "Elevated",
       "category": "Roads & Sidewalks",
@@ -10471,7 +10471,7 @@
     {
       "id": "GL-DFL-YNVU",
       "formalTitle": "Loose Bricks Hazard — S 1st St",
-      "description": "The reporting party indicates that loose bricks are falling off the old building facade onto the sidewalk on S 1st St. This poses a potential safety hazard for pedestrians in the area. Immediate attention is recommended to prevent any injuries.",
+      "description": "The citizen indicates that loose bricks are falling off the old building facade onto the sidewalk on S 1st St. This poses a potential safety hazard for pedestrians in the area. Immediate attention is recommended to prevent any injuries.",
       "residentDescription": "Loose bricks falling off the old building facade onto the sidewalk on S 1st St.",
       "servicePriority": "Elevated",
       "category": "Public Safety/Hazards",
@@ -10612,7 +10612,7 @@
     {
       "id": "GL-M4E-SJ6N",
       "formalTitle": "Damaged Guardrail — Senter Rd",
-      "description": "The reporting party indicates that the guardrail along Senter Rd has been damaged due to a crash and is protruding into the bike lane. This condition poses a potential hazard to cyclists using the lane. Immediate attention is recommended to ensure the safety of all road users.",
+      "description": "The citizen indicates that the guardrail along Senter Rd has been damaged due to a crash and is protruding into the bike lane. This condition poses a potential hazard to cyclists using the lane. Immediate attention is recommended to ensure the safety of all road users.",
       "residentDescription": "The guardrail along Senter Rd is mangled from a crash and sticking into the bike lane.",
       "servicePriority": "Standard",
       "category": "Public Safety/Hazards",
@@ -10753,7 +10753,7 @@
     {
       "id": "GL-24V-H32B",
       "formalTitle": "Storm Drain Grate Damage — Almaden Rd",
-      "description": "The reporting party indicates that a storm drain grate has been pried open on Almaden Rd, leaving the hole exposed. This condition poses a potential safety hazard for pedestrians and vehicles in the area. Immediate attention is required to address this issue and prevent accidents.",
+      "description": "The citizen indicates that a storm drain grate has been pried open on Almaden Rd, leaving the hole exposed. This condition poses a potential safety hazard for pedestrians and vehicles in the area. Immediate attention is required to address this issue and prevent accidents.",
       "residentDescription": "Someone pried open a storm drain grate on Almaden Rd and left the hole open.",
       "servicePriority": "Elevated",
       "category": "Public Safety/Hazards",
@@ -10888,7 +10888,7 @@
     {
       "id": "GL-EM2-HLX6",
       "formalTitle": "Damaged Street Sign Pole — Keyes St",
-      "description": "The reporting party indicates that a street sign pole has sheared off, leaving jagged metal exposed. Observed condition poses a potential hazard to pedestrians and vehicles. Location reference is Keyes St. This issue requires prompt attention to ensure public safety.",
+      "description": "The citizen indicates that a street sign pole has sheared off, leaving jagged metal exposed. Observed condition poses a potential hazard to pedestrians and vehicles. Location reference is Keyes St. This issue requires prompt attention to ensure public safety.",
       "residentDescription": "A street sign pole sheared off and the jagged metal is sticking up on Keyes St.",
       "servicePriority": "Elevated",
       "category": "Public Safety/Hazards",
@@ -11023,7 +11023,7 @@
     {
       "id": "GL-HWD-KYWR",
       "formalTitle": "Exposed Rebar Hazard — 4th St & William St",
-      "description": "The reporting party indicates that there is exposed rebar protruding from a broken curb at the intersection of 4th Street and William Street. This condition presents a tripping hazard for pedestrians. Immediate attention is recommended to mitigate potential injuries.",
+      "description": "The citizen indicates that there is exposed rebar protruding from a broken curb at the intersection of 4th Street and William Street. This condition presents a tripping hazard for pedestrians. Immediate attention is recommended to mitigate potential injuries.",
       "residentDescription": "Exposed rebar sticking out of a broken curb at the corner of 4th and William, tripping hazard.",
       "servicePriority": "Standard",
       "category": "Roads & Sidewalks",
@@ -11166,7 +11166,7 @@
     {
       "id": "GL-NEK-GNRH",
       "formalTitle": "Abandoned Vehicle — Spencer Ave",
-      "description": "The reporting party indicates that there is an abandoned vehicle on Spencer Ave that has been present for approximately one month. The vehicle has smashed windows, which may pose a safety concern. This issue requires attention to address the abandoned condition of the vehicle.",
+      "description": "The citizen indicates that there is an abandoned vehicle on Spencer Ave that has been present for approximately one month. The vehicle has smashed windows, which may pose a safety concern. This issue requires attention to address the abandoned condition of the vehicle.",
       "residentDescription": "There's an abandoned car that's been on Spencer Ave for a month, windows smashed.",
       "servicePriority": "Standard",
       "category": "Other",
@@ -11307,7 +11307,7 @@
     {
       "id": "GL-YBL-RWSY",
       "formalTitle": "Retaining Wall Collapse — Coyote Creek Path",
-      "description": "The reporting party indicates that a section of the retaining wall along Coyote Creek has collapsed onto the adjacent path. This poses a potential hazard to pedestrians using the path. Immediate attention is required to assess and mitigate any safety risks.",
+      "description": "The citizen indicates that a section of the retaining wall along Coyote Creek has collapsed onto the adjacent path. This poses a potential hazard to pedestrians using the path. Immediate attention is required to assess and mitigate any safety risks.",
       "residentDescription": "A chunk of the retaining wall along Coyote Creek collapsed onto the path.",
       "servicePriority": "Elevated",
       "category": "Public Safety/Hazards",
@@ -11448,7 +11448,7 @@
     {
       "id": "GL-LCV-TU5V",
       "formalTitle": "Debris on Roadway — 10th St & Santa Clara St",
-      "description": "The reporting party indicates that there is broken glass scattered across the intersection of 10th Street and Santa Clara Street. Observed condition poses a potential hazard to vehicles and pedestrians. Immediate attention is recommended to ensure safety in the area.",
+      "description": "The citizen indicates that there is broken glass scattered across the intersection of 10th Street and Santa Clara Street. Observed condition poses a potential hazard to vehicles and pedestrians. Immediate attention is recommended to ensure safety in the area.",
       "residentDescription": "broken glass on the road\nIt's all over the intersection at 10th and Santa Clara, looks like a bottle smashed.",
       "servicePriority": "Standard",
       "category": "Roads & Sidewalks",
@@ -11603,7 +11603,7 @@
     {
       "id": "GL-7RA-6MNZ",
       "formalTitle": "Graffiti Removal Request — Underpass at 87 & Julian",
-      "description": "The reporting party indicates that there is graffiti containing offensive language on the wall of the underpass located at the intersection of Highway 87 and Julian Street. This observed condition may require prompt attention to maintain community standards and public decorum.",
+      "description": "The citizen indicates that there is graffiti containing offensive language on the wall of the underpass located at the intersection of Highway 87 and Julian Street. This observed condition may require prompt attention to maintain community standards and public decorum.",
       "residentDescription": "Graffiti with offensive language on the underpass wall at 87 and Julian.",
       "servicePriority": "Standard",
       "category": "Other",
@@ -11746,7 +11746,7 @@
     {
       "id": "GL-JY5-8JZV",
       "formalTitle": "Open Manhole — Market St",
-      "description": "The reporting party indicates that there is an open manhole on Market St with no cover or cones present. This poses a significant safety hazard as individuals could potentially fall into the manhole. Immediate attention is required to address this dangerous condition.",
+      "description": "The citizen indicates that there is an open manhole on Market St with no cover or cones present. This poses a significant safety hazard as individuals could potentially fall into the manhole. Immediate attention is required to address this dangerous condition.",
       "residentDescription": "An open manhole with no cover or cones on Market St, someone could fall right in.",
       "servicePriority": "Elevated",
       "category": "Public Safety/Hazards",
@@ -11890,7 +11890,7 @@
     {
       "id": "GL-65G-MB43",
       "formalTitle": "Broken Glass in Bike Lane — The Alameda",
-      "description": "The reporting party indicates that there is a significant amount of broken glass scattered across the bike lane on The Alameda. This condition poses a safety hazard for cyclists using the lane. Immediate attention is required to ensure the safety of all road users.",
+      "description": "The citizen indicates that there is a significant amount of broken glass scattered across the bike lane on The Alameda. This condition poses a safety hazard for cyclists using the lane. Immediate attention is required to ensure the safety of all road users.",
       "residentDescription": "There's a ton of broken glass spread across the bike lane on The Alameda.",
       "servicePriority": "Standard",
       "category": "Roads & Sidewalks",
@@ -12031,7 +12031,7 @@
     {
       "id": "GL-PM9-LD8A",
       "formalTitle": "Illegal Dumping — McLaughlin Ave",
-      "description": "The reporting party indicates that old furniture and a refrigerator have been dumped on the curb along McLaughlin Ave. The observed condition has persisted for two weeks. This situation may pose a sanitation issue and requires prompt attention.",
+      "description": "The citizen indicates that old furniture and a refrigerator have been dumped on the curb along McLaughlin Ave. The observed condition has persisted for two weeks. This situation may pose a sanitation issue and requires prompt attention.",
       "residentDescription": "Old furniture and a fridge dumped on the curb on McLaughlin Ave for two weeks now.",
       "servicePriority": "Standard",
       "category": "Waste & Sanitation",
@@ -12181,7 +12181,7 @@
     {
       "id": "GL-M83-WVVY",
       "formalTitle": "Litter Accumulation — Berryessa Flea Market Entrance",
-      "description": "The reporting party indicates that there is a significant amount of litter at the entrance of the Berryessa flea market, including cans and bottles scattered throughout the area. Observed condition suggests a need for immediate cleanup to maintain public cleanliness and safety. Priority for this request is moderate.",
+      "description": "The citizen indicates that there is a significant amount of litter at the entrance of the Berryessa flea market, including cans and bottles scattered throughout the area. Observed condition suggests a need for immediate cleanup to maintain public cleanliness and safety. Priority for this request is moderate.",
       "residentDescription": "Litter everywhere at the Berryessa flea market entrance, cans and bottles all over.",
       "servicePriority": "Standard",
       "category": "Waste & Sanitation",
@@ -12316,7 +12316,7 @@
     {
       "id": "GL-ALH-KKD7",
       "formalTitle": "Illegal Dumping — Auzerais Ave",
-      "description": "The reporting party indicates that paint cans and chemicals have been illegally dumped near the storm drain on Auzerais Ave. Observed condition poses a potential environmental hazard and may affect local water quality. Immediate attention is recommended to address the situation.",
+      "description": "The citizen indicates that paint cans and chemicals have been illegally dumped near the storm drain on Auzerais Ave. Observed condition poses a potential environmental hazard and may affect local water quality. Immediate attention is recommended to address the situation.",
       "residentDescription": "Someone dumped paint cans and chemicals near the storm drain on Auzerais Ave.",
       "servicePriority": "Elevated",
       "category": "Waste & Sanitation",
@@ -12451,7 +12451,7 @@
     {
       "id": "GL-84Y-SQES",
       "formalTitle": "Abandoned Shopping Carts — Guadalupe River Trail",
-      "description": "The reporting party indicates that there are multiple abandoned shopping carts accumulating along the Guadalupe River trail. Observed condition may pose a nuisance and affect the cleanliness of the area. Location reference is noted as the Guadalupe River trail. This issue may require prompt attention to maintain public space standards.",
+      "description": "The citizen indicates that there are multiple abandoned shopping carts accumulating along the Guadalupe River trail. Observed condition may pose a nuisance and affect the cleanliness of the area. Location reference is noted as the Guadalupe River trail. This issue may require prompt attention to maintain public space standards.",
       "residentDescription": "Abandoned shopping carts piling up along the Guadalupe River trail.",
       "servicePriority": "Standard",
       "category": "Waste & Sanitation",
@@ -12586,7 +12586,7 @@
     {
       "id": "GL-SEU-K7M3",
       "formalTitle": "Overflowing Dumpster — Tully Rd Strip Mall",
-      "description": "The reporting party indicates that the dumpster located behind the strip mall on Tully Road is overflowing into the parking lot. Observed condition includes a strong odor emanating from the dumpster area. This situation may pose sanitation concerns and requires prompt attention.",
+      "description": "The citizen indicates that the dumpster located behind the strip mall on Tully Road is overflowing into the parking lot. Observed condition includes a strong odor emanating from the dumpster area. This situation may pose sanitation concerns and requires prompt attention.",
       "residentDescription": "Dumpster behind the strip mall on Tully is overflowing into the parking lot, smells terrible.",
       "servicePriority": "Standard",
       "category": "Waste & Sanitation",
@@ -12727,7 +12727,7 @@
     {
       "id": "GL-SJ5-NSL4",
       "formalTitle": "Trash Cans Knocked Over — Delmas St",
-      "description": "The reporting party indicates that trash cans have been knocked over, resulting in garbage scattered across the street on Delmas. This condition was observed following the scheduled trash pickup. Immediate attention is requested to address the litter and restore cleanliness to the area.",
+      "description": "The citizen indicates that trash cans have been knocked over, resulting in garbage scattered across the street on Delmas. This condition was observed following the scheduled trash pickup. Immediate attention is requested to address the litter and restore cleanliness to the area.",
       "residentDescription": "Trash cans knocked over and garbage all over the street on Delmas after pickup.",
       "servicePriority": "Standard",
       "category": "Waste & Sanitation",
@@ -12868,7 +12868,7 @@
     {
       "id": "GL-U6P-93CC",
       "formalTitle": "Illegal Dumping — Willow St",
-      "description": "The reporting party indicates that a broken television and other electronics have been left on the sidewalk on Willow St. Observed condition includes leaking substances from the discarded items. This situation poses a potential hazard to public health and safety, and prompt attention is required.",
+      "description": "The citizen indicates that a broken television and other electronics have been left on the sidewalk on Willow St. Observed condition includes leaking substances from the discarded items. This situation poses a potential hazard to public health and safety, and prompt attention is required.",
       "residentDescription": "Someone left a broken TV and electronics on the sidewalk on Willow St, leaking something.",
       "servicePriority": "Standard",
       "category": "Waste & Sanitation",
@@ -13003,7 +13003,7 @@
     {
       "id": "GL-49N-LMUJ",
       "formalTitle": "Overflowing Recycling Bins — Hedding St Apartment Complex",
-      "description": "The reporting party indicates that the recycling bins at the apartment complex on Hedding St have been overflowing for a week. Observed condition suggests a need for timely collection to prevent further overflow. This issue may require immediate attention to maintain sanitation standards.",
+      "description": "The citizen indicates that the recycling bins at the apartment complex on Hedding St have been overflowing for a week. Observed condition suggests a need for timely collection to prevent further overflow. This issue may require immediate attention to maintain sanitation standards.",
       "residentDescription": "Recycling bins at the apartment complex on Hedding have been overflowing for a week.",
       "servicePriority": "Standard",
       "category": "Waste & Sanitation",
@@ -13138,7 +13138,7 @@
     {
       "id": "GL-MAV-AETH",
       "formalTitle": "Illegal Dumping — 280 Overpass & Bird Ave",
-      "description": "The reporting party indicates that there are approximately ten bags of garbage and old tires illegally dumped under the 280 overpass at Bird Ave. This observed condition poses a potential hazard to the environment and public health. Immediate attention is recommended to address the waste disposal issue.",
+      "description": "The citizen indicates that there are approximately ten bags of garbage and old tires illegally dumped under the 280 overpass at Bird Ave. This observed condition poses a potential hazard to the environment and public health. Immediate attention is recommended to address the waste disposal issue.",
       "residentDescription": "illegal dumping\nThere are like ten bags of garbage and old tires dumped under the 280 overpass at Bird Ave.",
       "servicePriority": "Standard",
       "category": "Waste & Sanitation",
@@ -13293,7 +13293,7 @@
     {
       "id": "GL-Q9F-NXB9",
       "formalTitle": "Illegal Dumping — Stockton Ave",
-      "description": "The reporting party indicates that there is a pile of construction debris that has been dumped in the empty lot on Stockton Ave. This debris is reportedly growing in size each day. Immediate attention is required to address this issue and prevent further accumulation.",
+      "description": "The citizen indicates that there is a pile of construction debris that has been dumped in the empty lot on Stockton Ave. This debris is reportedly growing in size each day. Immediate attention is required to address this issue and prevent further accumulation.",
       "residentDescription": "Pile of construction debris dumped in the empty lot on Stockton Ave, growing every day.",
       "servicePriority": "Standard",
       "category": "Waste & Sanitation",
@@ -13434,7 +13434,7 @@
     {
       "id": "GL-8M6-XRCE",
       "formalTitle": "Overflowing Trash Can — First St Bus Stop",
-      "description": "The reporting party indicates that the public trash can at the bus stop on First St is overflowing. Observed condition has resulted in trash blowing around the area. This situation may require prompt attention to maintain cleanliness and public health.",
+      "description": "The citizen indicates that the public trash can at the bus stop on First St is overflowing. Observed condition has resulted in trash blowing around the area. This situation may require prompt attention to maintain cleanliness and public health.",
       "residentDescription": "The public trash can at the bus stop on First St is overflowing and trash is blowing everywhere.",
       "servicePriority": "Standard",
       "category": "Waste & Sanitation",
@@ -13584,7 +13584,7 @@
     {
       "id": "GL-SR6-PAUS",
       "formalTitle": "Illegal Dumping — 7th St & Empire St",
-      "description": "The reporting party indicates that a couch and a mattress have been illegally dumped at the corner of 7th Street and Empire Street. Observed condition poses a potential hazard and detracts from the cleanliness of the area. This issue requires prompt attention to ensure proper waste removal.",
+      "description": "The citizen indicates that a couch and a mattress have been illegally dumped at the corner of 7th Street and Empire Street. Observed condition poses a potential hazard and detracts from the cleanliness of the area. This issue requires prompt attention to ensure proper waste removal.",
       "residentDescription": "Someone dumped a whole couch and a mattress on the corner of 7th and Empire.",
       "servicePriority": "Standard",
       "category": "Waste & Sanitation",
@@ -13719,7 +13719,7 @@
     {
       "id": "GL-SDX-C2SS",
       "formalTitle": "Trail Lights Out — Los Gatos Creek Trail",
-      "description": "The reporting party indicates that all trail lights at Los Gatos Creek Trail are non-functional, creating a safety concern for pedestrians, particularly during dusk. Observed condition compromises the ability to walk dogs safely in the area. This issue requires prompt attention to ensure public safety.",
+      "description": "The citizen indicates that all trail lights at Los Gatos Creek Trail are non-functional, creating a safety concern for pedestrians, particularly during dusk. Observed condition compromises the ability to walk dogs safely in the area. This issue requires prompt attention to ensure public safety.",
       "residentDescription": "The trail lights at Los Gatos Creek Trail are all out, can't walk the dog safely at dusk.",
       "servicePriority": "Standard",
       "category": "Electricity/Power Lines",
@@ -13854,7 +13854,7 @@
     {
       "id": "GL-CFR-2Q6X",
       "formalTitle": "Vandalism Report — Ryland Park Play Structure",
-      "description": "The reporting party indicates that the entire play structure at Ryland Park has been spray painted overnight. This observed condition may pose a negative impact on the park's aesthetics and usability. Immediate attention is recommended to address the vandalism.",
+      "description": "The citizen indicates that the entire play structure at Ryland Park has been spray painted overnight. This observed condition may pose a negative impact on the park's aesthetics and usability. Immediate attention is recommended to address the vandalism.",
       "residentDescription": "Someone spray painted the whole play structure at Ryland Park overnight.",
       "servicePriority": "Standard",
       "category": "Parks & Trees",
@@ -14008,7 +14008,7 @@
     {
       "id": "GL-B8J-Z3NW",
       "formalTitle": "Overgrown Vegetation Blocking Walking Trail — Coyote Creek",
-      "description": "The reporting party indicates that overgrown bushes are obstructing the walking trail along Coyote Creek. Observed condition may pose a hazard to pedestrians using the trail. Location reference is Coyote Creek in San Jose, CA. This issue may require prompt attention to ensure safe access for trail users.",
+      "description": "The citizen indicates that overgrown bushes are obstructing the walking trail along Coyote Creek. Observed condition may pose a hazard to pedestrians using the trail. Location reference is Coyote Creek in San Jose, CA. This issue may require prompt attention to ensure safe access for trail users.",
       "residentDescription": "Overgrown bushes are blocking the walking trail along Coyote Creek.",
       "servicePriority": "Standard",
       "category": "Parks & Trees",
@@ -14149,7 +14149,7 @@
     {
       "id": "GL-R46-FFUN",
       "formalTitle": "Hazardous Tree Branch — Cahill Park",
-      "description": "The reporting party indicates that a large branch is precariously hanging over the playground at Cahill Park. This poses a potential safety risk to park users, particularly children. Immediate attention is recommended to assess and address the situation.",
+      "description": "The citizen indicates that a large branch is precariously hanging over the playground at Cahill Park. This poses a potential safety risk to park users, particularly children. Immediate attention is recommended to assess and address the situation.",
       "residentDescription": "A huge branch is hanging by a thread over the playground at Cahill Park.",
       "servicePriority": "Standard",
       "category": "Parks & Trees",
@@ -14309,7 +14309,7 @@
     {
       "id": "GL-ZWY-NNBM",
       "formalTitle": "Irrigation System Malfunction — St James Park",
-      "description": "The reporting party indicates that the sprinklers at St James Park have been operating continuously, resulting in excessive water accumulation on the lawn. Observed condition suggests that the lawn is excessively saturated, creating a swamp-like environment. This issue may require immediate attention to prevent further water waste and potential damage to the park's landscape.",
+      "description": "The citizen indicates that the sprinklers at St James Park have been operating continuously, resulting in excessive water accumulation on the lawn. Observed condition suggests that the lawn is excessively saturated, creating a swamp-like environment. This issue may require immediate attention to prevent further water waste and potential damage to the park's landscape.",
       "residentDescription": "Sprinklers at St James Park have been running 24/7 and the lawn is a swamp.",
       "servicePriority": "Standard",
       "category": "Water/Plumbing",
@@ -14444,7 +14444,7 @@
     {
       "id": "GL-Q8N-9K8Q",
       "formalTitle": "Damaged Park Bench — Guadalupe River Park",
-      "description": "The reporting party indicates that a park bench at Guadalupe River Park is damaged, with splinters present in the area. Observed condition poses a potential safety hazard for park visitors. Immediate attention is recommended to ensure the safety of the public.",
+      "description": "The citizen indicates that a park bench at Guadalupe River Park is damaged, with splinters present in the area. Observed condition poses a potential safety hazard for park visitors. Immediate attention is recommended to ensure the safety of the public.",
       "residentDescription": "The park bench at Guadalupe River Park is smashed, splinters everywhere.",
       "servicePriority": "Standard",
       "category": "Parks & Trees",
@@ -14579,7 +14579,7 @@
     {
       "id": "GL-SU3-6CFQ",
       "formalTitle": "Dead Tree Removal Request — Williams St & 10th St",
-      "description": "The reporting party indicates that there is a dead tree located at the corner of Williams and 10th. The tree has lost all its bark and branches are dropping, posing a potential hazard. This condition requires assessment and action to ensure public safety.",
+      "description": "The citizen indicates that there is a dead tree located at the corner of Williams and 10th. The tree has lost all its bark and branches are dropping, posing a potential hazard. This condition requires assessment and action to ensure public safety.",
       "residentDescription": "Dead tree at the corner of Williams and 10th, all the bark is gone and branches are dropping.",
       "servicePriority": "Standard",
       "category": "Parks & Trees",
@@ -14714,7 +14714,7 @@
     {
       "id": "GL-XTN-Y43Q",
       "formalTitle": "Graffiti Vandalism — Roosevelt Park Restroom Building",
-      "description": "The reporting party indicates that there is graffiti present on the restroom building at Roosevelt Park. The observed graffiti contains vulgar content. This issue may require prompt attention to maintain the cleanliness and safety of the park facilities.",
+      "description": "The citizen indicates that there is graffiti present on the restroom building at Roosevelt Park. The observed graffiti contains vulgar content. This issue may require prompt attention to maintain the cleanliness and safety of the park facilities.",
       "residentDescription": "Graffiti all over the restroom building at Roosevelt Park, pretty vulgar stuff.",
       "servicePriority": "Standard",
       "category": "Other",
@@ -14863,7 +14863,7 @@
     {
       "id": "GL-ABW-U4LZ",
       "formalTitle": "Leaning Tree — Alum Rock Park",
-      "description": "The reporting party indicates that a large oak tree is leaning significantly over the parking lot at Alum Rock Park following recent rainfall. This condition poses a potential hazard to visitors and vehicles in the area. Immediate assessment and action may be required to ensure safety.",
+      "description": "The citizen indicates that a large oak tree is leaning significantly over the parking lot at Alum Rock Park following recent rainfall. This condition poses a potential hazard to visitors and vehicles in the area. Immediate assessment and action may be required to ensure safety.",
       "residentDescription": "tree leaning\nThere's a large oak at Alum Rock Park leaning hard over the parking lot after the rain.",
       "servicePriority": "Standard",
       "category": "Parks & Trees",
@@ -15024,7 +15024,7 @@
     {
       "id": "GL-YR9-NZSF",
       "formalTitle": "Playground Equipment Repair Needed — Kelley Park",
-      "description": "The reporting party indicates that the swing at Kelley Park has a broken chain. This condition poses a potential safety hazard for children using the playground equipment. Immediate attention is recommended to prevent any injuries.",
+      "description": "The citizen indicates that the swing at Kelley Park has a broken chain. This condition poses a potential safety hazard for children using the playground equipment. Immediate attention is recommended to prevent any injuries.",
       "residentDescription": "The playground swing at Kelley Park has a broken chain, a kid could get hurt.",
       "servicePriority": "Standard",
       "category": "Parks & Trees",
@@ -15159,7 +15159,7 @@
     {
       "id": "GL-VGR-UJV9",
       "formalTitle": "Tree Down Blocking Sidewalk — Naglee Ave",
-      "description": "The reporting party indicates that a portion of a tree has fallen on Naglee Ave due to recent windy conditions. The fallen tree is obstructing the sidewalk completely, creating a potential hazard for pedestrians. Immediate attention is required to clear the obstruction and ensure public safety.",
+      "description": "The citizen indicates that a portion of a tree has fallen on Naglee Ave due to recent windy conditions. The fallen tree is obstructing the sidewalk completely, creating a potential hazard for pedestrians. Immediate attention is required to clear the obstruction and ensure public safety.",
       "residentDescription": "Half a tree came down on Naglee Ave during the wind, it's blocking the sidewalk completely.",
       "servicePriority": "Standard",
       "category": "Parks & Trees",
@@ -15322,7 +15322,7 @@
     {
       "id": "GL-KFF-U6AA",
       "formalTitle": "Fallen Tree Branch — Backesto Park",
-      "description": "The reporting party indicates that a large tree branch has fallen across the path at Backesto Park. Observed condition poses a potential hazard for pedestrians using the path. Location reference is Backesto Park in San Jose, CA. This issue requires prompt attention to ensure public safety.",
+      "description": "The citizen indicates that a large tree branch has fallen across the path at Backesto Park. Observed condition poses a potential hazard for pedestrians using the path. Location reference is Backesto Park in San Jose, CA. This issue requires prompt attention to ensure public safety.",
       "residentDescription": "A big tree branch fell across the path at Backesto Park and nobody's moved it.",
       "servicePriority": "Standard",
       "category": "Parks & Trees",
@@ -15476,7 +15476,7 @@
     {
       "id": "GL-2FZ-CEQS",
       "formalTitle": "Drain Backup — Los Gatos Creek Path",
-      "description": "The reporting party indicates that the creek path drain at Los Gatos Creek is backed up and overflowing onto the trail. This condition poses a potential hazard for pedestrians using the trail. Immediate attention is required to address the drainage issue.",
+      "description": "The citizen indicates that the creek path drain at Los Gatos Creek is backed up and overflowing onto the trail. This condition poses a potential hazard for pedestrians using the trail. Immediate attention is required to address the drainage issue.",
       "residentDescription": "The creek path drain at Los Gatos Creek is backed up and overflowing onto the trail.",
       "servicePriority": "Standard",
       "category": "Water/Plumbing",
@@ -15617,7 +15617,7 @@
     {
       "id": "GL-BLM-25FA",
       "formalTitle": "Cracked Water Pipe — University Ave",
-      "description": "The reporting party indicates a cracked water pipe is visible in the gutter on University Ave, resulting in a slow and steady leak. Observed condition may lead to further water loss and potential road damage. Immediate attention is recommended to mitigate any additional issues.",
+      "description": "The citizen indicates a cracked water pipe is visible in the gutter on University Ave, resulting in a slow and steady leak. Observed condition may lead to further water loss and potential road damage. Immediate attention is recommended to mitigate any additional issues.",
       "residentDescription": "Cracked water pipe visible in the gutter on University Ave, slow steady leak.",
       "servicePriority": "Standard",
       "category": "Water/Plumbing",
@@ -15758,7 +15758,7 @@
     {
       "id": "GL-43T-AR2Z",
       "formalTitle": "Standing Water Issue — Taylor St",
-      "description": "The reporting party indicates a significant puddle of standing water on Taylor St, which is observed to be turning green and potentially breeding mosquitoes. This condition poses a public health concern due to the risk of mosquito-borne diseases. Immediate attention is recommended to address the standing water issue.",
+      "description": "The citizen indicates a significant puddle of standing water on Taylor St, which is observed to be turning green and potentially breeding mosquitoes. This condition poses a public health concern due to the risk of mosquito-borne diseases. Immediate attention is recommended to address the standing water issue.",
       "residentDescription": "Big puddle of standing water on Taylor St that's turning green and breeding mosquitoes.",
       "servicePriority": "Standard",
       "category": "Waste & Sanitation",
@@ -15893,7 +15893,7 @@
     {
       "id": "GL-X2N-AEEV",
       "formalTitle": "Discolored Water Issue — Public Restroom at Market St Plaza",
-      "description": "The reporting party indicates that brown water is coming out of the tap in the public restroom located at the plaza on Market St. This observed condition may pose health concerns for users of the facility. Immediate attention is recommended to investigate and resolve the issue.",
+      "description": "The citizen indicates that brown water is coming out of the tap in the public restroom located at the plaza on Market St. This observed condition may pose health concerns for users of the facility. Immediate attention is recommended to investigate and resolve the issue.",
       "residentDescription": "Brown water coming out of the public restroom tap at the plaza on Market St.",
       "servicePriority": "Standard",
       "category": "Water/Plumbing",
@@ -16028,7 +16028,7 @@
     {
       "id": "GL-QQR-HUNU",
       "formalTitle": "Drinking Fountain Malfunction — Hedding St Park",
-      "description": "The reporting party indicates that the drinking fountain at the park on Hedding St is malfunctioning and remains continuously on, causing flooding on the path. Observed condition may pose a hazard to pedestrians. Immediate attention is required to address this issue.",
+      "description": "The citizen indicates that the drinking fountain at the park on Hedding St is malfunctioning and remains continuously on, causing flooding on the path. Observed condition may pose a hazard to pedestrians. Immediate attention is required to address this issue.",
       "residentDescription": "The drinking fountain at the park on Hedding St is stuck on and flooding the path.",
       "servicePriority": "Standard",
       "category": "Parks & Trees",
@@ -16163,7 +16163,7 @@
     {
       "id": "GL-RTQ-WVG8",
       "formalTitle": "Low Water Pressure — Virginia St",
-      "description": "The reporting party indicates that there has been low water pressure affecting the entire street of Virginia St since this morning. Neighbors have also reported similar issues. This condition may require immediate attention to restore normal water service.",
+      "description": "The citizen indicates that there has been low water pressure affecting the entire street of Virginia St since this morning. Neighbors have also reported similar issues. This condition may require immediate attention to restore normal water service.",
       "residentDescription": "Low water pressure on my whole street, Virginia St, and the neighbors too since this morning.",
       "servicePriority": "Standard",
       "category": "Water/Plumbing",
@@ -16313,7 +16313,7 @@
     {
       "id": "GL-23X-B43X",
       "formalTitle": "Sprinkler Malfunction — Santa Teresa Blvd",
-      "description": "The reporting party indicates that a sprinkler located in the median on Santa Teresa Blvd is broken and is spraying water into traffic. This condition poses a potential hazard for vehicles traveling in the area. Immediate attention is recommended to address the malfunction and ensure safety.",
+      "description": "The citizen indicates that a sprinkler located in the median on Santa Teresa Blvd is broken and is spraying water into traffic. This condition poses a potential hazard for vehicles traveling in the area. Immediate attention is recommended to address the malfunction and ensure safety.",
       "residentDescription": "A sprinkler in the median on Santa Teresa Blvd is broken and spraying into traffic.",
       "servicePriority": "Standard",
       "category": "Roads & Sidewalks",
@@ -16454,7 +16454,7 @@
     {
       "id": "GL-HGJ-56FF",
       "formalTitle": "Sewer Odor and Water Pooling — Reed St",
-      "description": "The reporting party indicates a sewer smell and dark water pooling near the manhole on Reed St in downtown San Jose. Observed condition may indicate a potential sewer issue that requires immediate attention. Location reference is provided for prompt investigation.",
+      "description": "The citizen indicates a sewer smell and dark water pooling near the manhole on Reed St in downtown San Jose. Observed condition may indicate a potential sewer issue that requires immediate attention. Location reference is provided for prompt investigation.",
       "residentDescription": "Sewer smell and dark water pooling near the manhole on Reed St downtown.",
       "servicePriority": "Elevated",
       "category": "Water/Plumbing",
@@ -16589,7 +16589,7 @@
     {
       "id": "GL-9DV-R4PT",
       "formalTitle": "Water Leak — Meridian Ave & Willow St",
-      "description": "The reporting party indicates that there is water bubbling up through the asphalt on Meridian Ave near Willow St. The observed condition involves clean water continuously surfacing, which may indicate a potential plumbing issue. This situation requires prompt attention to prevent further damage.",
+      "description": "The citizen indicates that there is water bubbling up through the asphalt on Meridian Ave near Willow St. The observed condition involves clean water continuously surfacing, which may indicate a potential plumbing issue. This situation requires prompt attention to prevent further damage.",
       "residentDescription": "water everywhere\nThere's water bubbling up through the asphalt on Meridian Ave near Willow, clean water, constant.",
       "servicePriority": "Standard",
       "category": "Water/Plumbing",
@@ -16744,7 +16744,7 @@
     {
       "id": "GL-JLK-VSBM",
       "formalTitle": "Clogged Storm Drain — Bascom Ave & Hamilton Ave",
-      "description": "The reporting party indicates that the storm drain located at the intersection of Bascom Avenue and Hamilton Avenue is clogged. Observed condition results in flooding at the corner during rain events. This issue may require urgent attention to prevent further flooding and potential property damage.",
+      "description": "The citizen indicates that the storm drain located at the intersection of Bascom Avenue and Hamilton Avenue is clogged. Observed condition results in flooding at the corner during rain events. This issue may require urgent attention to prevent further flooding and potential property damage.",
       "residentDescription": "The storm drain at Bascom and Hamilton is clogged and the corner floods every rain.",
       "servicePriority": "Standard",
       "category": "Water/Plumbing",
@@ -16888,7 +16888,7 @@
     {
       "id": "GL-6UA-P4QL",
       "formalTitle": "Leaking Fire Hydrant — W San Carlos St",
-      "description": "The reporting party indicates that there is a fire hydrant leaking steadily on W San Carlos St. This condition has been observed for several days. Location reference is provided as W San Carlos St in San Jose, CA. This issue may require prompt attention to prevent water waste.",
+      "description": "The citizen indicates that there is a fire hydrant leaking steadily on W San Carlos St. This condition has been observed for several days. Location reference is provided as W San Carlos St in San Jose, CA. This issue may require prompt attention to prevent water waste.",
       "residentDescription": "There's a fire hydrant leaking steadily on W San Carlos St, been running for days.",
       "servicePriority": "Standard",
       "category": "Water/Plumbing",
@@ -17029,7 +17029,7 @@
     {
       "id": "GL-CA2-KLBM",
       "formalTitle": "Water Main Break — The Alameda",
-      "description": "The reporting party indicates a water main break on The Alameda, with water gushing into the street and flowing toward the storm drain. This observed condition poses a potential hazard and may require immediate attention to prevent further issues. Priority response is recommended.",
+      "description": "The citizen indicates a water main break on The Alameda, with water gushing into the street and flowing toward the storm drain. This observed condition poses a potential hazard and may require immediate attention to prevent further issues. Priority response is recommended.",
       "residentDescription": "Water main break on The Alameda, water is gushing into the street and down toward the storm drain.",
       "servicePriority": "Elevated",
       "category": "Water/Plumbing",
@@ -17190,7 +17190,7 @@
     {
       "id": "GL-2DS-RHHT",
       "formalTitle": "Traffic Signal Power Loss — King Rd & Story Rd",
-      "description": "The reporting party indicates that the traffic signal at the intersection of King Rd and Story Rd has lost power. As a result, the intersection is currently operating without signals, creating a four-way stop condition. This situation may pose a safety hazard for motorists and pedestrians. Immediate attention is recommended.",
+      "description": "The citizen indicates that the traffic signal at the intersection of King Rd and Story Rd has lost power. As a result, the intersection is currently operating without signals, creating a four-way stop condition. This situation may pose a safety hazard for motorists and pedestrians. Immediate attention is recommended.",
       "residentDescription": "The traffic signal lost power at King and Story, it's a 4-way guess right now.",
       "servicePriority": "Elevated",
       "category": "Roads & Sidewalks",
@@ -17325,7 +17325,7 @@
     {
       "id": "GL-HK7-89CZ",
       "formalTitle": "Streetlight Malfunction — Alum Rock Ave",
-      "description": "The reporting party indicates that sparks are coming off a streetlight on Alum Rock Ave when it attempts to turn on. This observed condition poses a potential safety hazard. Immediate attention is recommended to address the malfunction.",
+      "description": "The citizen indicates that sparks are coming off a streetlight on Alum Rock Ave when it attempts to turn on. This observed condition poses a potential safety hazard. Immediate attention is recommended to address the malfunction.",
       "residentDescription": "Sparks coming off a streetlight on Alum Rock Ave when it tries to turn on.",
       "servicePriority": "Elevated",
       "category": "Electricity/Power Lines",
@@ -17460,7 +17460,7 @@
     {
       "id": "GL-LSV-RKXW",
       "formalTitle": "Streetlight Outage — Minnesota Ave",
-      "description": "The reporting party indicates that the entire block of Minnesota Ave has lost its streetlights following the storm that occurred last night. Observed condition poses a safety concern for pedestrians and drivers in the area. Immediate attention is recommended to restore lighting.",
+      "description": "The citizen indicates that the entire block of Minnesota Ave has lost its streetlights following the storm that occurred last night. Observed condition poses a safety concern for pedestrians and drivers in the area. Immediate attention is recommended to restore lighting.",
       "residentDescription": "Whole block of Minnesota Ave lost its streetlights after the storm last night.",
       "servicePriority": "Standard",
       "category": "Electricity/Power Lines",
@@ -17615,7 +17615,7 @@
     {
       "id": "GL-3Y5-6ZKC",
       "formalTitle": "Street Light Outage — Jackson St & Japantown Parking Lot Entrance",
-      "description": "The reporting party indicates that the street light at the entrance of the Japantown parking lot on Jackson St is not functioning. This issue has been observed repeatedly. Location reference is provided for prompt attention to restore visibility in the area.",
+      "description": "The citizen indicates that the street light at the entrance of the Japantown parking lot on Jackson St is not functioning. This issue has been observed repeatedly. Location reference is provided for prompt attention to restore visibility in the area.",
       "residentDescription": "The light at the Japantown parking lot entrance on Jackson St is out again.",
       "servicePriority": "Standard",
       "category": "Electricity/Power Lines",
@@ -17756,7 +17756,7 @@
     {
       "id": "GL-K2X-J3ZP",
       "formalTitle": "Leaning Streetlight Pole — Senter Rd",
-      "description": "The reporting party indicates that a streetlight pole on Senter Rd is leaning over the sidewalk. Observed condition suggests that the pole poses a potential hazard as it appears unstable and could fall. This situation requires prompt attention to ensure public safety.",
+      "description": "The citizen indicates that a streetlight pole on Senter Rd is leaning over the sidewalk. Observed condition suggests that the pole poses a potential hazard as it appears unstable and could fall. This situation requires prompt attention to ensure public safety.",
       "residentDescription": "Streetlight pole on Senter Rd is leaning over the sidewalk, looks like it could fall.",
       "servicePriority": "Elevated",
       "category": "Public Safety/Hazards",
@@ -17897,7 +17897,7 @@
     {
       "id": "GL-THS-8MSW",
       "formalTitle": "Transformer Incident — Park Ave",
-      "description": "The reporting party indicates that a transformer on Park Ave made a loud bang, resulting in the nearby streetlights being non-operational. Observed condition suggests a potential electrical issue that may require immediate attention. Location reference is Park Ave, San Jose, CA.",
+      "description": "The citizen indicates that a transformer on Park Ave made a loud bang, resulting in the nearby streetlights being non-operational. Observed condition suggests a potential electrical issue that may require immediate attention. Location reference is Park Ave, San Jose, CA.",
       "residentDescription": "A transformer on Park Ave made a loud bang and now the streetlights nearby are off.",
       "servicePriority": "Standard",
       "category": "Electricity/Power Lines",
@@ -18032,7 +18032,7 @@
     {
       "id": "GL-UHJ-2PA8",
       "formalTitle": "Pedestrian Crossing Light Malfunction — Julian St & 4th St",
-      "description": "The reporting party indicates that the pedestrian crossing light at the intersection of Julian St and 4th St is not functioning. Observed condition poses a safety risk as pedestrians are crossing without visual signals. This issue requires prompt attention to ensure pedestrian safety.",
+      "description": "The citizen indicates that the pedestrian crossing light at the intersection of Julian St and 4th St is not functioning. Observed condition poses a safety risk as pedestrians are crossing without visual signals. This issue requires prompt attention to ensure pedestrian safety.",
       "residentDescription": "The pedestrian crossing light at Julian and 4th won't turn on, people cross blind.",
       "servicePriority": "Elevated",
       "category": "Public Safety/Hazards",
@@ -18167,7 +18167,7 @@
     {
       "id": "GL-ERA-CY3N",
       "formalTitle": "Utility Box Malfunction — Saratoga Ave",
-      "description": "The reporting party indicates that there is a utility box on Saratoga Ave with the door hanging open, exposing wires. This condition poses a potential safety hazard. Immediate attention is recommended to secure the box and ensure public safety.",
+      "description": "The citizen indicates that there is a utility box on Saratoga Ave with the door hanging open, exposing wires. This condition poses a potential safety hazard. Immediate attention is recommended to secure the box and ensure public safety.",
       "residentDescription": "There's a utility box on Saratoga Ave with the door hanging open and wires showing.",
       "servicePriority": "Standard",
       "category": "Electricity/Power Lines",
@@ -18302,7 +18302,7 @@
     {
       "id": "GL-T4C-VLZ7",
       "formalTitle": "Streetlight Out — Cottle Rd near Train Station",
-      "description": "The reporting party indicates that a streetlight is not functioning on Cottle Rd near the train station. The tall light by the bus stop is reported to be out. This condition may affect visibility and safety in the area.",
+      "description": "The citizen indicates that a streetlight is not functioning on Cottle Rd near the train station. The tall light by the bus stop is reported to be out. This condition may affect visibility and safety in the area.",
       "residentDescription": "streetlight out\nOn Cottle Rd near the train station, the tall light by the bus stop is dead.",
       "servicePriority": "Standard",
       "category": "Electricity/Power Lines",
@@ -18463,7 +18463,7 @@
     {
       "id": "GL-7Z8-XSBG",
       "formalTitle": "Streetlight Malfunction — Blossom Hill Rd",
-      "description": "The reporting party indicates that half of the streetlights on Blossom Hill Rd are flickering on and off throughout the night. Observed condition may pose safety concerns for pedestrians and drivers. Location reference is Blossom Hill Rd, San Jose, CA. This issue should be addressed promptly to ensure adequate street lighting.",
+      "description": "The citizen indicates that half of the streetlights on Blossom Hill Rd are flickering on and off throughout the night. Observed condition may pose safety concerns for pedestrians and drivers. Location reference is Blossom Hill Rd, San Jose, CA. This issue should be addressed promptly to ensure adequate street lighting.",
       "residentDescription": "Half the streetlights on Blossom Hill Rd are flickering on and off all night.",
       "servicePriority": "Standard",
       "category": "Electricity/Power Lines",
@@ -18604,7 +18604,7 @@
     {
       "id": "GL-F2C-SKDW",
       "formalTitle": "Sagging Power Line — Coleman Ave",
-      "description": "The reporting party indicates that a power line is sagging dangerously low over Coleman Ave near the airport. Observed condition poses a potential hazard to vehicles and pedestrians in the area. Immediate attention is recommended to ensure public safety.",
+      "description": "The citizen indicates that a power line is sagging dangerously low over Coleman Ave near the airport. Observed condition poses a potential hazard to vehicles and pedestrians in the area. Immediate attention is recommended to ensure public safety.",
       "residentDescription": "A power line is sagging really low over Coleman Ave near the airport, looks dangerous.",
       "servicePriority": "Elevated",
       "category": "Electricity/Power Lines",
@@ -18758,7 +18758,7 @@
     {
       "id": "GL-ALQ-EFUD",
       "formalTitle": "Streetlight Outage — Delmas Ave",
-      "description": "The reporting party indicates that the streetlight on Delmas Ave has been non-operational for the past two weeks. Observed condition results in inadequate lighting during nighttime hours, creating a safety concern for pedestrians and motorists. This issue requires prompt attention to restore proper illumination.",
+      "description": "The citizen indicates that the streetlight on Delmas Ave has been non-operational for the past two weeks. Observed condition results in inadequate lighting during nighttime hours, creating a safety concern for pedestrians and motorists. This issue requires prompt attention to restore proper illumination.",
       "residentDescription": "The streetlight on Delmas Ave has been out for two weeks and it's pitch black at night.",
       "servicePriority": "Standard",
       "category": "Electricity/Power Lines",
@@ -18902,7 +18902,7 @@
     {
       "id": "GL-9QU-SERZ",
       "formalTitle": "Persistent Flooding — Camden Ave & Branham Ln",
-      "description": "The reporting party indicates a large puddle that does not drain at the intersection of Camden Avenue and Branham Lane. This condition causes flooding at the corner of the intersection, potentially impacting traffic and pedestrian safety. Immediate attention is recommended to address the drainage issue.",
+      "description": "The citizen indicates a large puddle that does not drain at the intersection of Camden Avenue and Branham Lane. This condition causes flooding at the corner of the intersection, potentially impacting traffic and pedestrian safety. Immediate attention is recommended to address the drainage issue.",
       "residentDescription": "Giant puddle that never drains at Camden and Branham, floods the whole intersection corner.",
       "servicePriority": "Standard",
       "category": "Roads & Sidewalks",
@@ -19037,7 +19037,7 @@
     {
       "id": "GL-6K4-NVS5",
       "formalTitle": "Loose Gravel on Bike Lane — Hillsdale Ave",
-      "description": "The reporting party indicates that there is loose gravel covering the bike lane on Hillsdale Ave. This condition has resulted in a slip while riding a bicycle. Location reference is provided as Hillsdale Ave in San Jose, CA. This issue may pose a safety hazard for cyclists and requires prompt attention.",
+      "description": "The citizen indicates that there is loose gravel covering the bike lane on Hillsdale Ave. This condition has resulted in a slip while riding a bicycle. Location reference is provided as Hillsdale Ave in San Jose, CA. This issue may pose a safety hazard for cyclists and requires prompt attention.",
       "residentDescription": "Loose gravel all over the bike lane on Hillsdale Ave, slipped on my bike this morning.",
       "servicePriority": "Standard",
       "category": "Roads & Sidewalks",
@@ -19178,7 +19178,7 @@
     {
       "id": "GL-FLC-4LZK",
       "formalTitle": "Yield Sign Damage — Meridian Ave & Foxworthy",
-      "description": "The reporting party indicates that the yield sign at the intersection of Meridian Ave and Foxworthy is bent almost flat. Observed condition may pose a risk to drivers and pedestrians. This issue requires prompt attention to ensure traffic safety.",
+      "description": "The citizen indicates that the yield sign at the intersection of Meridian Ave and Foxworthy is bent almost flat. Observed condition may pose a risk to drivers and pedestrians. This issue requires prompt attention to ensure traffic safety.",
       "residentDescription": "road sign bent\nIt's the yield sign on Meridian Ave at Foxworthy, bent almost flat.",
       "servicePriority": "Standard",
       "category": "Roads & Sidewalks",
@@ -19339,7 +19339,7 @@
     {
       "id": "GL-DAZ-Z55Z",
       "formalTitle": "Curb Ramp Repair Needed — Hedding St & 1st St",
-      "description": "The reporting party indicates that the curb ramp at the intersection of Hedding St and 1st St is broken, making it difficult for wheelchair users to access the ramp. Observed condition poses a barrier to mobility for individuals with disabilities. This issue requires prompt attention to ensure accessibility compliance.",
+      "description": "The citizen indicates that the curb ramp at the intersection of Hedding St and 1st St is broken, making it difficult for wheelchair users to access the ramp. Observed condition poses a barrier to mobility for individuals with disabilities. This issue requires prompt attention to ensure accessibility compliance.",
       "residentDescription": "The curb ramp at Hedding and 1st is broken so wheelchairs can't get up it.",
       "servicePriority": "Standard",
       "category": "Roads & Sidewalks",
@@ -19474,7 +19474,7 @@
     {
       "id": "GL-TA7-B3JZ",
       "formalTitle": "Pothole Cluster — Story Rd Near King",
-      "description": "The reporting party indicates a cluster of potholes on Story Rd near King. Observed conditions suggest that the potholes are causing damage to vehicle alignments. This issue may pose a hazard to drivers in the area and requires prompt attention.",
+      "description": "The citizen indicates a cluster of potholes on Story Rd near King. Observed conditions suggest that the potholes are causing damage to vehicle alignments. This issue may pose a hazard to drivers in the area and requires prompt attention.",
       "residentDescription": "Pothole cluster on Story Rd near King is wrecking everyone's alignment.",
       "servicePriority": "Standard",
       "category": "Roads & Sidewalks",
@@ -19626,7 +19626,7 @@
     {
       "id": "GL-JTT-G26Z",
       "formalTitle": "Sunken Manhole Cover — Almaden Expressway",
-      "description": "The reporting party indicates that a manhole cover on Almaden Expressway is sunken by a couple of inches and produces a loud clunking noise when vehicles pass over it. This condition poses a potential hazard to motorists and may require immediate attention to prevent further issues. Location reference is Almaden Expressway.",
+      "description": "The citizen indicates that a manhole cover on Almaden Expressway is sunken by a couple of inches and produces a loud clunking noise when vehicles pass over it. This condition poses a potential hazard to motorists and may require immediate attention to prevent further issues. Location reference is Almaden Expressway.",
       "residentDescription": "Manhole cover on Almaden Expressway is sunken a couple inches and clunks loudly.",
       "servicePriority": "Standard",
       "category": "Roads & Sidewalks",
@@ -19761,7 +19761,7 @@
     {
       "id": "GL-BHG-CW5R",
       "formalTitle": "Eroded Speed Bump — Curtner Ave",
-      "description": "The reporting party indicates that the speed bump on Curtner Ave has eroded, resulting in exposed rebar. This condition poses a potential hazard to vehicles and pedestrians. Immediate attention is recommended to ensure safety.",
+      "description": "The citizen indicates that the speed bump on Curtner Ave has eroded, resulting in exposed rebar. This condition poses a potential hazard to vehicles and pedestrians. Immediate attention is recommended to ensure safety.",
       "residentDescription": "The speed bump on Curtner Ave has eroded and there's exposed rebar poking out.",
       "servicePriority": "Standard",
       "category": "Roads & Sidewalks",
@@ -19902,7 +19902,7 @@
     {
       "id": "GL-76Z-6X3S",
       "formalTitle": "Construction Debris and Metal Plate Hazard — McKee Rd",
-      "description": "The reporting party indicates that there is construction debris and a metal plate protruding on McKee Rd. This condition is causing rattling for vehicles passing over it. Location reference is McKee Rd in San Jose, CA. This issue may pose a safety hazard for motorists and should be addressed promptly.",
+      "description": "The citizen indicates that there is construction debris and a metal plate protruding on McKee Rd. This condition is causing rattling for vehicles passing over it. Location reference is McKee Rd in San Jose, CA. This issue may pose a safety hazard for motorists and should be addressed promptly.",
       "residentDescription": "There's construction debris and a metal plate sticking up on McKee Rd, rattles every car.",
       "servicePriority": "Standard",
       "category": "Roads & Sidewalks",
@@ -20043,7 +20043,7 @@
     {
       "id": "GL-JNE-WQNT",
       "formalTitle": "Faded Lane Lines — Capitol Expressway",
-      "description": "The reporting party indicates that the lane lines on Capitol Expressway are faded, which creates confusion for drivers, especially during rainy conditions. Observed condition may pose a safety hazard for motorists navigating the area. This issue requires attention to ensure clear visibility of lane markings.",
+      "description": "The citizen indicates that the lane lines on Capitol Expressway are faded, which creates confusion for drivers, especially during rainy conditions. Observed condition may pose a safety hazard for motorists navigating the area. This issue requires attention to ensure clear visibility of lane markings.",
       "residentDescription": "Faded lane lines on Capitol Expressway make it really confusing during rain.",
       "servicePriority": "Standard",
       "category": "Roads & Sidewalks",
@@ -20178,7 +20178,7 @@
     {
       "id": "GL-ENT-H25B",
       "formalTitle": "Sidewalk Damage — E San Antonio St",
-      "description": "The reporting party indicates that the sidewalk outside the library on E San Antonio St in Naglee Park is in a state of disrepair, with significant crumbling observed. This condition poses a potential hazard to pedestrians. Immediate attention is recommended to ensure public safety.",
+      "description": "The citizen indicates that the sidewalk outside the library on E San Antonio St in Naglee Park is in a state of disrepair, with significant crumbling observed. This condition poses a potential hazard to pedestrians. Immediate attention is recommended to ensure public safety.",
       "residentDescription": "Sidewalk is totally crumbling outside the library on E San Antonio St in Naglee Park.",
       "servicePriority": "Standard",
       "category": "Roads & Sidewalks",
@@ -20321,7 +20321,7 @@
     {
       "id": "GL-V8S-RKGJ",
       "formalTitle": "Road Crack Report — Hamilton Ave near Bascom",
-      "description": "The reporting party indicates that there is a significant crack running across the road on Hamilton Ave near Bascom. The observed condition appears to be worsening, with the crack increasing in width each week. This issue may pose a hazard to vehicles and requires timely attention.",
+      "description": "The citizen indicates that there is a significant crack running across the road on Hamilton Ave near Bascom. The observed condition appears to be worsening, with the crack increasing in width each week. This issue may pose a hazard to vehicles and requires timely attention.",
       "residentDescription": "Big crack running across the road on Hamilton Ave near Bascom, getting wider every week.",
       "servicePriority": "Standard",
       "category": "Roads & Sidewalks",
@@ -20456,7 +20456,7 @@
     {
       "id": "GL-DM4-AFTJ",
       "formalTitle": "Traffic Signal Malfunction — Stevens Creek & Winchester",
-      "description": "The reporting party indicates that the traffic signal at the intersection of Stevens Creek and Winchester is stuck on red for the left turn. Observed condition has led to vehicles running the red light, creating a potential safety hazard. Immediate attention is requested to resolve this issue.",
+      "description": "The citizen indicates that the traffic signal at the intersection of Stevens Creek and Winchester is stuck on red for the left turn. Observed condition has led to vehicles running the red light, creating a potential safety hazard. Immediate attention is requested to resolve this issue.",
       "residentDescription": "The traffic signal at Stevens Creek and Winchester is stuck on red for the left turn, cars are running it.",
       "servicePriority": "Elevated",
       "category": "Roads & Sidewalks",
@@ -20597,7 +20597,7 @@
     {
       "id": "GL-V2P-9TTD",
       "formalTitle": "Pothole Report — Tully Rd",
-      "description": "The reporting party indicates the presence of a pothole on Tully Rd. Observed condition may pose a hazard to vehicles and pedestrians. Location reference is Tully Rd in San Jose, CA. This issue requires timely attention to ensure roadway safety.",
+      "description": "The citizen indicates the presence of a pothole on Tully Rd. Observed condition may pose a hazard to vehicles and pedestrians. Location reference is Tully Rd in San Jose, CA. This issue requires timely attention to ensure roadway safety.",
       "residentDescription": "pothole on tully rd",
       "servicePriority": "Standard",
       "category": "Roads & Sidewalks",
@@ -20738,7 +20738,7 @@
     {
       "id": "GL-KWH-U9FF",
       "formalTitle": "Stop Sign Knocked Down — Naglee Ave & The Alameda",
-      "description": "The reporting party indicates that a stop sign has been knocked down and is currently lying in the bushes at the intersection of Naglee Ave and The Alameda. This poses a potential safety hazard for drivers and pedestrians in the area. Immediate attention is recommended to restore proper traffic control.",
+      "description": "The citizen indicates that a stop sign has been knocked down and is currently lying in the bushes at the intersection of Naglee Ave and The Alameda. This poses a potential safety hazard for drivers and pedestrians in the area. Immediate attention is recommended to restore proper traffic control.",
       "residentDescription": "A stop sign got knocked down at the corner of Naglee Ave and The Alameda. It's just lying in the bushes.",
       "servicePriority": "Standard",
       "category": "Public Safety/Hazards",
@@ -20873,7 +20873,7 @@
     {
       "id": "GL-QUY-DEVB",
       "formalTitle": "Sidewalk Buckling Due to Tree Root — Bird Ave",
-      "description": "The reporting party indicates that the sidewalk on Bird Ave is buckled due to a tree root. This condition has resulted in a trip hazard, as the reporting party's mother tripped on it yesterday. Location reference is Bird Ave, San Jose, CA. This issue requires prompt attention to ensure pedestrian safety.",
+      "description": "The citizen indicates that the sidewalk on Bird Ave is buckled due to a tree root. This condition has resulted in a trip hazard, as the citizen's mother tripped on it yesterday. Location reference is Bird Ave, San Jose, CA. This issue requires prompt attention to ensure pedestrian safety.",
       "residentDescription": "Sidewalk on Bird Ave is buckled from a tree root and my mom tripped on it yesterday.",
       "servicePriority": "Standard",
       "category": "Roads & Sidewalks",
@@ -21016,7 +21016,7 @@
     {
       "id": "GL-CRC-H3HB",
       "formalTitle": "Faded Crosswalk Paint — Santa Clara St & 4th St",
-      "description": "The reporting party indicates that the crosswalk paint at the intersection of Santa Clara St and 4th St is completely faded. Observed condition makes it difficult for pedestrians to see the crosswalk, especially at night. This issue may pose a safety risk for individuals crossing the street. Immediate attention is recommended.",
+      "description": "The citizen indicates that the crosswalk paint at the intersection of Santa Clara St and 4th St is completely faded. Observed condition makes it difficult for pedestrians to see the crosswalk, especially at night. This issue may pose a safety risk for individuals crossing the street. Immediate attention is recommended.",
       "residentDescription": "The crosswalk paint at Santa Clara St and 4th is completely faded, you can barely see it at night.",
       "servicePriority": "Standard",
       "category": "Roads & Sidewalks",
@@ -21151,7 +21151,7 @@
     {
       "id": "GL-FFK-D8KA",
       "formalTitle": "Pothole Report — N 1st St Before Tasman",
-      "description": "The reporting party indicates the presence of a large pothole on N 1st St, just before Tasman. The observed condition is significant enough to potentially cause tire damage. This issue has been present for at least one week. Prompt attention is recommended to prevent further incidents.",
+      "description": "The citizen indicates the presence of a large pothole on N 1st St, just before Tasman. The observed condition is significant enough to potentially cause tire damage. This issue has been present for at least one week. Prompt attention is recommended to prevent further incidents.",
       "residentDescription": "Huge pothole on N 1st St right before Tasman, big enough to blow a tire. Been there at least a week.",
       "servicePriority": "Standard",
       "category": "Roads & Sidewalks",
@@ -21309,7 +21309,7 @@
     {
       "id": "GL-962-C8MT",
       "formalTitle": "Pothole Report — Lincoln Ave near Willow St",
-      "description": "The reporting party indicates the presence of a deep pothole on Lincoln Ave near Willow St in Willow Glen. Observed condition has caused two vehicles to swerve to avoid it. This issue may pose a hazard to drivers and requires prompt attention.",
+      "description": "The citizen indicates the presence of a deep pothole on Lincoln Ave near Willow St in Willow Glen. Observed condition has caused two vehicles to swerve to avoid it. This issue may pose a hazard to drivers and requires prompt attention.",
       "residentDescription": "There's a really deep pothole on Lincoln Ave near Willow St in Willow Glen. I've seen two cars swerve to avoid it.",
       "servicePriority": "Standard",
       "category": "Roads & Sidewalks",

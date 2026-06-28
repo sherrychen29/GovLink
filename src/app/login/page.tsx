@@ -14,9 +14,18 @@ export default function LoginPage() {
     <div className="grid min-h-screen lg:grid-cols-2">
       {/* Brand panel */}
       <div className="relative hidden flex-col justify-between overflow-hidden bg-navy-900 p-12 text-white lg:flex">
+        {/* Background photo */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="https://cdn.kqed.org/wp-content/uploads/sites/10/2023/07/RS36045__M6A0663-KQED.jpg"
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+        />
+        {/* Navy blue overlay */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(50%_40%_at_80%_0%,rgba(176,136,97,0.18),transparent),radial-gradient(40%_40%_at_0%_100%,rgba(176,136,97,0.10),transparent)]"
+          className="pointer-events-none absolute inset-0 bg-navy-900/75"
         />
         <Link href="/" className="relative inline-flex">
           <Logo markClassName="h-9 brightness-0 invert" />
@@ -42,16 +51,9 @@ export default function LoginPage() {
             <Logo />
           </Link>
 
-          <div className="mb-6 flex items-center gap-3 rounded-xl border border-accent-200 bg-accent-50 px-4 py-3">
-            <Building2 className="h-8 w-8 text-accent-500" aria-hidden="true" />
-            <span className="text-xl font-bold tracking-tight text-navy-900">
-              Government Login
-            </span>
-          </div>
-
           <Link
             href="/"
-            className="mb-6 flex items-center gap-1.5 text-sm font-medium text-ink-muted transition-colors hover:text-navy-900"
+            className="mb-6 inline-flex items-center gap-1.5 rounded-lg border-2 border-navy-800 px-4 py-2 text-sm font-semibold text-navy-900 transition-colors hover:bg-navy-50"
           >
             <ArrowLeft className="h-4 w-4" aria-hidden="true" />
             Back to home
@@ -135,10 +137,10 @@ function SignInForm({ router }: { router: ReturnType<typeof useRouter> }) {
 
   return (
     <>
-      <h2 className="text-2xl font-bold tracking-tight text-navy-900">
+      <h2 className="text-3xl font-bold tracking-tight text-navy-900">
         Staff credentials
       </h2>
-      <p className="mt-1 text-sm text-ink-soft">
+      <p className="mt-1 text-base text-ink-soft">
         Sign in with your city-issued account.
       </p>
 
@@ -180,7 +182,7 @@ function SignInForm({ router }: { router: ReturnType<typeof useRouter> }) {
           </p>
         )}
 
-        <button type="submit" className="btn-primary w-full py-3" disabled={busy}>
+        <button type="submit" className="btn-primary w-full py-4 text-base" disabled={busy}>
           Sign in
           <ArrowRight className="h-4 w-4" aria-hidden="true" />
         </button>

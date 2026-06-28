@@ -214,7 +214,7 @@ function GovDashboard() {
         </div>
         </div>
         <div className="border-t border-navy-800 bg-navy-950">
-          <p className="gl-container py-1.5 text-[11px] text-navy-400 sm:text-xs">
+          <p className="gl-container py-1.5 text-xs text-navy-400 sm:text-sm">
             San Jose City Operations · Staff portal
           </p>
         </div>

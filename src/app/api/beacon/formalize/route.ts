@@ -26,6 +26,7 @@ Reply with JSON only (no markdown):
 
 Rules for formalDescription:
 - Use municipal tone: "The citizen indicates…", "Observed condition…", "Location reference…"
+- Always refer to the person who submitted the report as "The citizen" — never "the reporting party", "the complainant", "the reporter", or any other term
 - Be factual and neutral — do not invent details not in the resident text
 - Include location reference when provided
 - End with priority framing if appropriate

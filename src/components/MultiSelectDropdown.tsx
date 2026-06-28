@@ -38,7 +38,7 @@ export function MultiSelectDropdown<T extends string>({
   }, [open]);
 
   const summary =
-    selected.length === 0
+    selected.length === 0 || selected.length === options.length
       ? summaryAll
       : selected.length <= 2
         ? selected.map(getLabel).join(", ")

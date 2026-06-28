@@ -8,6 +8,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Inbox,
+  Users,
 } from "lucide-react";
 import { SiteShell } from "@/components/SiteShell";
 import { MultiSelectDropdown } from "@/components/MultiSelectDropdown";
@@ -99,6 +100,7 @@ export default function ResolvedPage() {
         </div>
       </section>
 
+      <div className="flex-1 bg-accent-50">
       <div className="gl-container py-8 lg:py-10">
         {/* Inline filters — right-aligned row */}
         <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
@@ -160,6 +162,7 @@ export default function ResolvedPage() {
           </>
         )}
       </div>
+      </div>
     </SiteShell>
   );
 }
@@ -176,12 +179,20 @@ function ResolvedCard({ report }: { report: Report }) {
     <article className="card flex flex-col rounded-xl p-6">
       <div className="flex items-center justify-between gap-2">
         <CategoryChip category={report.category} size="sm" />
-        {rejected && (
-          <span className="chip bg-red-50 px-2 py-0.5 text-[11px] font-semibold text-red-700 ring-1 ring-red-200">
-            <XCircle className="h-3 w-3" aria-hidden="true" />
-            Declined
-          </span>
-        )}
+        <div className="flex items-center gap-2">
+          {count >= 2 && (
+            <span className="inline-flex items-center gap-1 rounded-full bg-navy-100 px-2 py-0.5 text-[11px] font-semibold text-navy-700">
+              <Users className="h-3 w-3" aria-hidden="true" />
+              {count} citizens reported
+            </span>
+          )}
+          {rejected && (
+            <span className="chip bg-red-50 px-2 py-0.5 text-[11px] font-semibold text-red-700 ring-1 ring-red-200">
+              <XCircle className="h-3 w-3" aria-hidden="true" />
+              Declined
+            </span>
+          )}
+        </div>
       </div>
 
       <p className="mt-3 line-clamp-2 text-base font-medium text-navy-900">
@@ -207,12 +218,6 @@ function ResolvedCard({ report }: { report: Report }) {
         </span>
         <span aria-hidden="true">·</span>
         <span>Resolved {formatDate(report.resolution!.resolvedAt)}</span>
-        {count >= 2 && (
-          <>
-            <span aria-hidden="true">·</span>
-            <span>{count} citizens reported</span>
-          </>
-        )}
       </div>
     </article>
   );

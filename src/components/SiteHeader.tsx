@@ -53,7 +53,7 @@ export function SiteHeader() {
           aria-label="GovLink home"
         >
           <Logo markClassName="h-8 w-auto brightness-0 invert" />
-          <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-accent-200/90 sm:text-xs">
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-accent-200/90 sm:text-[13px]">
             CITY OF SAN JOSE
           </span>
         </Link>
@@ -116,7 +116,7 @@ export function SiteHeader() {
       </div>
 
       <div className="border-t border-navy-800 bg-navy-950">
-        <p className="gl-container py-1.5 text-[11px] leading-snug text-navy-300 sm:text-xs">
+        <p className="gl-container py-1.5 text-xs leading-snug text-navy-300 sm:text-sm">
           An official digital service used by the City of San Jose. In partnership with{" "}
           {CITY_PARTNERS.map((partner, i) => (
             <span key={partner.href}>

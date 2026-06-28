@@ -14,12 +14,14 @@ import {
   MapPin,
   Camera,
   Mail,
+  ImagePlus,
+  MessageSquare,
 } from "lucide-react";
 import { BeaconMark } from "./Logo";
 import { MediaUpload } from "./MediaUpload";
 import { CategoryChip } from "./Chips";
 import { LocationPicker } from "./map/LocationPickerDynamic";
-import { cx } from "@/lib/utils";
+import { cx, uid } from "@/lib/utils";
 import { extractLocationHint, type BeaconIntent } from "@/lib/beacon-logic";
 import type { Category, ContactInfo, ChatLogEntry, MediaItem, ReportLocation, ServicePriority } from "@/lib/types";
 import { formalizeReport, locationLabel } from "@/lib/formalize-report";
@@ -36,7 +38,10 @@ interface BeaconDraftReady {
 }
 
 type IntakePhase = "intake" | "review" | "blocked" | "filed";
-type WidgetKind = "map" | "photos" | "contact" | "review";
+type WidgetKind = "map" | "photos" | "final" | "contact" | "review";
+
+const MAX_MEDIA = 5;
+const MAX_MEDIA_BYTES = 4 * 1024 * 1024; // 4MB — keep localStorage healthy
 
 type ChatItem =
   | { id: string; kind: "beacon"; text: string; intent?: BeaconIntent; missing?: string[] }
@@ -99,12 +104,14 @@ export function BeaconIntake({
   const [contactEmail, setContactEmail] = useState(contact.email ?? "");
   const [contactPhone, setContactPhone] = useState(contact.phone ?? "");
   const [contactError, setContactError] = useState<string | null>(null);
+  const [finalNote, setFinalNote] = useState("");
 
   const accountHasContact = !contact.anonymous && hasTrackableContact(contact);
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
-  const widgetsAdded = useRef({ map: false, photos: false, contact: false, review: false });
+  const inlineFileRef = useRef<HTMLInputElement>(null);
+  const widgetsAdded = useRef({ map: false, photos: false, final: false, contact: false, review: false });
 
   useEffect(() => {
     scrollRef.current?.scrollTo({
@@ -154,6 +161,14 @@ export function BeaconIntake({
         category: draft.category,
         description: draft.residentDescription ?? draft.description,
         baseSeverity: draft.baseSeverity,
+      };
+    } else if (location) {
+      // Location already pinned via the map widget — tell Beacon so it doesn't
+      // ask for it again or reference a map widget that won't appear.
+      body.context = {
+        phase: "intake",
+        locationConfirmed: true,
+        locationLabel: locationLabel(location) ?? undefined,
       };
     }
 
@@ -225,6 +240,7 @@ export function BeaconIntake({
       if (data.intent === "ready" && data.draft) {
         const residentLines = items
           .filter((i) => i.kind === "user")
+          .filter((i) => !i.id.startsWith("u_loc")) // drop synthetic "Location pinned" bubbles
           .map((i) => i.text);
         residentLines.push(text);
         const hint =
@@ -236,9 +252,14 @@ export function BeaconIntake({
         await applyFormalization(
           residentLines.join("\n"),
           data.draft.category,
-          null
+          location
         );
-        if (!widgetsAdded.current.map) {
+
+        if (location) {
+          // Location was already pinned earlier — don't ask for the map again;
+          // move straight on to the photos step.
+          showPhotosStep();
+        } else if (!widgetsAdded.current.map) {
           widgetsAdded.current.map = true;
           append({
             id: `w_map_${Date.now()}`,
@@ -287,14 +308,16 @@ export function BeaconIntake({
     } catch {
       /* keep existing draft if formalize fails */
     }
-    append(
-      { id: `u_loc_${Date.now()}`, kind: "user", text: `Location set: ${label}` },
-      {
-        id: `b_details_${Date.now()}`,
-        kind: "beacon",
-        text: "Thanks — location confirmed. Any additional details that would help the city respond? For example: how long has this been going on, how severe it is, any safety concerns, or anything else the crew should know. Type below or skip to photos.",
-      }
-    );
+    append({ id: `u_loc_${Date.now()}`, kind: "user", text: `Location set: ${label}` });
+    showPhotosStep("Thanks — location confirmed. ");
+  }
+
+  function showPhotosStep(intro = "") {
+    append({
+      id: `b_photos_${Date.now()}`,
+      kind: "beacon",
+      text: `${intro}Do you have any photos or videos of the issue you can upload? Visuals help the city assess and respond faster. Add them below, or skip if you don't have any.`,
+    });
     if (!widgetsAdded.current.photos) {
       widgetsAdded.current.photos = true;
       append({
@@ -318,8 +341,49 @@ export function BeaconIntake({
       append({
         id: `u_photos_${Date.now()}`,
         kind: "user",
-        text: `Added ${media.length} photo${media.length === 1 ? "" : "s"}`,
+        text: `Added ${media.length} file${media.length === 1 ? "" : "s"}`,
       });
+    }
+    showFinalStep();
+  }
+
+  function showFinalStep() {
+    append({
+      id: `b_final_${Date.now()}`,
+      kind: "beacon",
+      text: "Almost done — anything else you'd like to add before I wrap up? For example how long it's been going on, how severe it is, or any safety concerns. Add a note below, or skip to finish.",
+    });
+    if (!widgetsAdded.current.final) {
+      widgetsAdded.current.final = true;
+      append({
+        id: `w_final_${Date.now()}`,
+        kind: "widget",
+        widget: "final",
+        locked: false,
+      });
+    }
+  }
+
+  async function finishFinal(skipped: boolean) {
+    lockWidget("final");
+    const note = finalNote.trim();
+    if (skipped || !note) {
+      append({
+        id: `u_final_skip_${Date.now()}`,
+        kind: "user",
+        text: "Nothing else to add",
+      });
+      showContactStep();
+      return;
+    }
+    append({ id: `u_final_${Date.now()}`, kind: "user", text: note });
+    if (draft) {
+      const combined = `${draft.residentDescription ?? draft.description}\n${note}`;
+      try {
+        await applyFormalization(combined, draft.category, location);
+      } catch {
+        /* keep existing draft if formalize fails */
+      }
     }
     showContactStep();
   }
@@ -448,6 +512,42 @@ export function BeaconIntake({
     }
   }
 
+  function handleInlineFiles(files: FileList | null) {
+    if (!files) return;
+    const remaining = MAX_MEDIA - media.length;
+    if (remaining <= 0) return;
+    const selected = Array.from(files).slice(0, remaining);
+    const accepted: MediaItem[] = [];
+    let pending = selected.length;
+    if (pending === 0) return;
+
+    selected.forEach((file) => {
+      const isImage = file.type.startsWith("image/");
+      const isVideo = file.type.startsWith("video/");
+      if ((!isImage && !isVideo) || file.size > MAX_MEDIA_BYTES) {
+        pending--;
+        if (pending === 0 && accepted.length) setMedia([...media, ...accepted]);
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = () => {
+        accepted.push({
+          id: uid("media"),
+          dataUrl: String(reader.result),
+          kind: isVideo ? "video" : "image",
+          name: file.name,
+        });
+        pending--;
+        if (pending === 0) setMedia([...media, ...accepted]);
+      };
+      reader.onerror = () => {
+        pending--;
+        if (pending === 0 && accepted.length) setMedia([...media, ...accepted]);
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
   function onKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -469,11 +569,19 @@ export function BeaconIntake({
       >
         {items.map((item) => {
           if (item.kind === "beacon") {
-            const offerMap =
+            // Show the map affordance whenever Beacon's reply asks for / refers
+            // to the map — either via the structured "needs location" signal or
+            // by mentioning the map in the text — so the button never goes
+            // missing when the copy promises one. (The "ready" intent appends
+            // the full map widget itself, so skip the button there.)
+            const wantsLocation =
               item.intent === "clarify" &&
               Array.isArray(item.missing) &&
-              item.missing.includes("location") &&
-              !widgetsAdded.current.map;
+              item.missing.includes("location");
+            const mentionsMap =
+              item.intent !== "ready" && /\bmap\b/i.test(item.text);
+            const offerMap =
+              !widgetsAdded.current.map && (wantsLocation || mentionsMap);
             return (
               <div key={item.id}>
                 <BeaconBubble text={item.text} intent={item.intent} />
@@ -532,12 +640,12 @@ export function BeaconIntake({
           }
           if (item.widget === "photos") {
             return (
-              <WidgetShell key={item.id} title="Add photos" icon={<Camera className="h-4 w-4" />}>
+              <WidgetShell key={item.id} title="Add photos or videos" icon={<Camera className="h-4 w-4" />}>
                 {item.locked ? (
                   <p className="text-base text-ink-soft">
                     {media.length
-                      ? `${media.length} photo${media.length === 1 ? "" : "s"} attached`
-                      : "No photos added"}
+                      ? `${media.length} file${media.length === 1 ? "" : "s"} attached`
+                      : "No photos or videos added"}
                   </p>
                 ) : (
                   <>
@@ -558,6 +666,44 @@ export function BeaconIntake({
                       <button
                         type="button"
                         onClick={() => finishPhotos(true)}
+                        className="btn-outline flex-1"
+                      >
+                        <SkipForward className="h-4 w-4" aria-hidden="true" />
+                        Skip
+                      </button>
+                    </div>
+                  </>
+                )}
+              </WidgetShell>
+            );
+          }
+          if (item.widget === "final") {
+            return (
+              <WidgetShell key={item.id} title="Anything else?" icon={<MessageSquare className="h-4 w-4" />}>
+                {item.locked ? (
+                  <p className="text-base text-ink-soft">
+                    {finalNote.trim() ? finalNote.trim() : "Nothing else added"}
+                  </p>
+                ) : (
+                  <>
+                    <textarea
+                      rows={3}
+                      value={finalNote}
+                      onChange={(e) => setFinalNote(e.target.value)}
+                      placeholder="How long it's been going on, safety concerns, anything else the crew should know…"
+                      className="field-input w-full resize-none text-base"
+                    />
+                    <div className="mt-3 flex gap-2">
+                      <button
+                        type="button"
+                        onClick={() => finishFinal(false)}
+                        className="btn-accent flex-1"
+                      >
+                        Continue
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => finishFinal(true)}
                         className="btn-outline flex-1"
                       >
                         <SkipForward className="h-4 w-4" aria-hidden="true" />
@@ -733,6 +879,37 @@ export function BeaconIntake({
           <label htmlFor="beacon-input" className="sr-only">
             Message Beacon
           </label>
+          <input
+            ref={inlineFileRef}
+            type="file"
+            accept="image/*,video/*"
+            multiple
+            className="sr-only"
+            onChange={(e) => {
+              handleInlineFiles(e.target.files);
+              e.target.value = "";
+            }}
+            aria-label="Attach photos or videos"
+          />
+          <button
+            type="button"
+            onClick={() => inlineFileRef.current?.click()}
+            className="relative grid h-11 w-11 shrink-0 place-items-center rounded-lg border border-navy-200 bg-white text-navy-600 transition-colors hover:bg-navy-50 disabled:cursor-not-allowed disabled:opacity-40"
+            disabled={busy || chatDisabled || media.length >= MAX_MEDIA}
+            aria-label="Attach photos or videos"
+            title={
+              media.length >= MAX_MEDIA
+                ? `You can attach up to ${MAX_MEDIA} files`
+                : "Attach photos or videos"
+            }
+          >
+            <ImagePlus className="h-5 w-5" aria-hidden="true" />
+            {media.length > 0 && (
+              <span className="absolute -right-1 -top-1 grid h-4 min-w-4 place-items-center rounded-full bg-accent-500 px-1 text-[10px] font-bold text-white">
+                {media.length}
+              </span>
+            )}
+          </button>
           <textarea
             id="beacon-input"
             ref={inputRef}

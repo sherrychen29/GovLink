@@ -46,6 +46,20 @@ let state: GovLinkState = EMPTY_STATE;
 let initialized = false;
 const listeners = new Set<() => void>();
 
+function migrateReports(reports: Report[]): { reports: Report[]; dirty: boolean } {
+  let dirty = false;
+  const migrated = reports.map((r) => {
+    const fixed = r.description
+      ?.replace(/\b[Tt]he reporting party\b/g, "The citizen")
+      // Heal the earlier migration that left a lowercase "the citizen" at the
+      // start of a description or sentence.
+      .replace(/(^|[.!?]\s+)the citizen\b/g, "$1The citizen");
+    if (fixed !== r.description) { dirty = true; return { ...r, description: fixed }; }
+    return r;
+  });
+  return { reports: migrated, dirty };
+}
+
 function persist() {
   if (typeof window === "undefined") return;
   try {
@@ -80,8 +94,10 @@ function ensureLoaded() {
     loaded = null;
   }
   if (loaded && Array.isArray(loaded.reports) && loaded.reports.length) {
+    const { reports: migratedReports, dirty } = migrateReports(loaded.reports);
+    if (dirty) loaded.reports = migratedReports;
     state = {
-      reports: loaded.reports,
+      reports: migratedReports,
       accounts:
         loaded.accounts && loaded.accounts.length
           ? loaded.accounts
@@ -89,6 +105,7 @@ function ensureLoaded() {
       currentUserId: loaded.currentUserId ?? null,
       hydrated: true,
     };
+    if (dirty) persist();
   } else {
     state = {
       reports: buildSampleReports(),

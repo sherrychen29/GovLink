@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Logo } from "./Logo";
 import { SiteHeader } from "./SiteHeader";
 import { CITY_PARTNERS } from "@/lib/partners";
@@ -47,6 +48,12 @@ export function SiteFooter({ compact = false }: { compact?: boolean }) {
               {partner.label}
             </a>
           ))}
+          <Link
+            href="/terms"
+            className="text-navy-700 underline decoration-navy-300 underline-offset-2 hover:text-navy-900 hover:decoration-navy-500"
+          >
+            Terms and Conditions
+          </Link>
         </nav>
       </div>
     </footer>
