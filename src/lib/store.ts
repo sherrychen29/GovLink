@@ -46,16 +46,38 @@ let state: GovLinkState = EMPTY_STATE;
 let initialized = false;
 const listeners = new Set<() => void>();
 
+/** Strip em dashes, normalizing " — " to "; " and any bare "—" to ";". */
+function stripEmDashes(text: string): string {
+  return text.replace(/\s*—\s*/g, "; ");
+}
+
 function migrateReports(reports: Report[]): { reports: Report[]; dirty: boolean } {
   let dirty = false;
   const migrated = reports.map((r) => {
-    const fixed = r.description
+    let next = r;
+
+    const fixedDesc = r.description
       ?.replace(/\b[Tt]he reporting party\b/g, "The citizen")
       // Heal the earlier migration that left a lowercase "the citizen" at the
       // start of a description or sentence.
       .replace(/(^|[.!?]\s+)the citizen\b/g, "$1The citizen");
-    if (fixed !== r.description) { dirty = true; return { ...r, description: fixed }; }
-    return r;
+    if (fixedDesc !== r.description) {
+      dirty = true;
+      next = { ...next, description: fixedDesc };
+    }
+
+    // Remove em dashes from internal staff notes.
+    if (r.internalNotes?.some((n) => n.text.includes("—"))) {
+      dirty = true;
+      next = {
+        ...next,
+        internalNotes: r.internalNotes.map((n) =>
+          n.text.includes("—") ? { ...n, text: stripEmDashes(n.text) } : n
+        ),
+      };
+    }
+
+    return next;
   });
   return { reports: migrated, dirty };
 }

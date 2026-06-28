@@ -64,14 +64,6 @@ export default function ResolvedPage() {
         : [...f.categories, c],
     }));
 
-  const toggleOutcome = (o: ResolvedOutcome) =>
-    setFilters((f) => ({
-      ...f,
-      outcomes: f.outcomes.includes(o)
-        ? f.outcomes.filter((x) => x !== o)
-        : [...f.outcomes, o],
-    }));
-
   return (
     <SiteShell>
       {/* Header band */}

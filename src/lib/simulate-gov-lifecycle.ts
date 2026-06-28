@@ -143,11 +143,11 @@ const DECLINE_NOTES: Array<{ test: (ctx: SimContext) => boolean; note: string }>
 
 const STUCK_NOTES = [
   "Awaiting PG&E coordination for energized line work.",
-  "Asphalt vendor backlog — repair queued for next paving cycle.",
+  "Asphalt vendor backlog; repair queued for next paving cycle.",
   "Permit hold for tree work near protected root zone.",
   "Parts on order for signal controller module.",
   "Crew assigned; weather delay on scheduled patch.",
-  "Escalated to contractor — scope larger than initial assessment.",
+  "Escalated to contractor; scope larger than initial assessment.",
 ];
 
 interface SimContext {
@@ -248,7 +248,7 @@ function declinedReport(
       {
         id: `note_${report.id}_0`,
         text: ctx.flaggedMedia
-          ? "Photo flagged at intake — field verification attempted."
+          ? "Photo flagged at intake; field verification attempted."
           : "Supervisor signed off on closure without repair.",
         author: "San Jose City Operations",
         createdAt: addMs(resolvedAt, -3600000),
@@ -275,7 +275,7 @@ function activeReport(
         ? pick(STUCK_NOTES, report.id, 35)
         : pick(
             [
-              "Crew en route — ETA within 24 hours.",
+              "Crew en route; ETA within 24 hours.",
               "Materials staged; work scheduled this week.",
               "Inspection complete; repair order submitted.",
             ],
@@ -322,7 +322,7 @@ function resolvedFixedReport(
       id: `note_${report.id}_0`,
       text:
         ctx.corroCount > 1
-          ? `Corroborated by ${ctx.corroCount} residents — priority bumped.`
+          ? `Corroborated by ${ctx.corroCount} residents; priority bumped.`
           : "Dispatched to field crew.",
       author: pick(STAFF, report.id, 40),
       createdAt: history[1]?.at ?? filedAt,

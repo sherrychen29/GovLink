@@ -544,10 +544,16 @@ export function BeaconIntake({
               item.intent === "clarify" &&
               Array.isArray(item.missing) &&
               item.missing.includes("location");
+            // Safety net: if Beacon ever still asks where the issue is, surface
+            // the map so the user is never stuck without a way to pin it.
+            const asksLocation =
+              item.intent === "clarify" &&
+              /\b(where|located|location)\b/i.test(item.text);
             const mentionsMap =
               item.intent !== "ready" && /\bmap\b/i.test(item.text);
             const offerMap =
-              !widgetsAdded.current.map && (wantsLocation || mentionsMap);
+              !widgetsAdded.current.map &&
+              (wantsLocation || asksLocation || mentionsMap);
             return (
               <div key={item.id}>
                 <BeaconBubble text={item.text} intent={item.intent} />
