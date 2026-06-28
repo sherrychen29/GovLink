@@ -14,12 +14,13 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { ClipboardList, CheckCircle2, Gauge, Users, FileCheck2, Loader2 } from "lucide-react";
+import { ClipboardList, CheckCircle2, Gauge, Users, FileCheck2, Loader2, Download } from "lucide-react";
 import { computeGovAnalytics, shortCategory } from "@/lib/gov-analytics";
 import { severityMeta } from "@/lib/meta";
 import { CITY } from "@/lib/seed";
 import type { Report } from "@/lib/types";
 import { formatDateTime } from "@/lib/utils";
+import { SiteFooter } from "@/components/SiteShell";
 
 /** Restrained palette — navy/slate only, suitable for municipal publications. */
 const CHART = {
@@ -68,6 +69,62 @@ export function AnalyticsPanel({ reports }: { reports: Report[] }) {
 
   const [ai, setAi] = useState<{ performanceSummary: string; closedCasesSummary: string } | null>(null);
   const [aiLoading, setAiLoading] = useState(true);
+  const [pdfLoading, setPdfLoading] = useState(false);
+
+  async function exportPdf() {
+    setPdfLoading(true);
+    try {
+      const payload = {
+        year,
+        generatedAt,
+        totalRecords: summary.total,
+        availableYearsRange:
+          data.availableYears.length > 1
+            ? `${data.availableYears[0]}–${data.availableYears[data.availableYears.length - 1]}`
+            : String(year),
+        summary: {
+          total: summary.total,
+          open: summary.open,
+          resolved: summary.resolved,
+          criticalOpen: summary.criticalOpen,
+          resolutionRate: summary.resolutionRate,
+          declinedRate: summary.declinedRate,
+          avgOpenSeverity: summary.avgOpenSeverity,
+          avgResolutionDays: summary.avgResolutionDays,
+          corroboratedCount: summary.corroboratedCount,
+          corroborationRate: summary.corroborationRate,
+        },
+        categoryBreakdown: data.categoryBreakdown.map((c) => ({
+          category: c.category,
+          count: c.count,
+          open: c.open,
+        })),
+        monthlyTrend: data.monthlyTrend,
+        yearlyTrend: data.yearlyTrend,
+        severityDistribution: data.severityDistribution,
+        resolutionTrend: data.resolutionTrend,
+        performanceSummary: ai?.performanceSummary,
+        closedCasesSummary: ai?.closedCasesSummary,
+      };
+      const res = await fetch("/api/gov/analytics-pdf", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error("PDF generation failed");
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `govlink-analytics-${year}.pdf`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("[exportPdf]", err);
+    } finally {
+      setPdfLoading(false);
+    }
+  }
 
   useEffect(() => {
     const controller = new AbortController();
@@ -165,8 +222,8 @@ export function AnalyticsPanel({ reports }: { reports: Report[] }) {
   const yearClosed = data.monthlyTrend.reduce((n, m) => n + m.resolved, 0);
 
   return (
-    <div className="h-full overflow-y-auto border-t border-navy-200 bg-white">
-      <div className="gl-container max-w-6xl py-8 sm:py-10">
+    <div className="h-full overflow-y-auto border-t border-navy-200 bg-white flex flex-col">
+      <div className="gl-container max-w-6xl py-8 sm:py-10 flex-1">
         {/* Document masthead */}
         <header className="border-b-2 border-navy-900 pb-6 text-center">
           <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-navy-500">
@@ -183,6 +240,21 @@ export function AnalyticsPanel({ reports }: { reports: Report[] }) {
             in dataset · fiscal years {data.availableYears[0]}–
             {data.availableYears[data.availableYears.length - 1]}
           </p>
+          <div className="mt-4">
+            <button
+              type="button"
+              onClick={exportPdf}
+              disabled={pdfLoading}
+              className="inline-flex items-center gap-2 rounded border border-navy-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-wider text-navy-800 shadow-sm transition-colors hover:bg-navy-50 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {pdfLoading ? (
+                <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden="true" />
+              ) : (
+                <Download className="h-3.5 w-3.5" aria-hidden="true" />
+              )}
+              {pdfLoading ? "Generating…" : "Export Report (PDF)"}
+            </button>
+          </div>
         </header>
 
         {/* Performance summary — top */}
@@ -190,19 +262,19 @@ export function AnalyticsPanel({ reports }: { reports: Report[] }) {
           <PerformanceSummary text={ai?.performanceSummary} loading={aiLoading} />
         </div>
 
-        {/* Top row: 2026 Summary + Submissions by Category */}
+        {/* Top row: Summary + Submissions by Category */}
         <div className="mt-8 grid gap-6 lg:grid-cols-2 lg:items-start">
           <section>
             <SectionHeading
-              title="2026 Summary"
-              note="Key metrics for reports filed in 2026."
+              title={`Summary (${year})`}
+              note={`Key metrics for reports filed in ${year}.`}
             />
-            <Summary2026 reports={reports} />
+            <SummaryByYear reports={reports} year={year} />
 
             <div className="mt-4">
               <AiSummaryBlock
                 icon={<FileCheck2 className="h-4 w-4" />}
-                title="Closed Cases & Why"
+                title="Closed Issues"
                 text={ai?.closedCasesSummary}
                 loading={aiLoading}
               />
@@ -261,8 +333,8 @@ export function AnalyticsPanel({ reports }: { reports: Report[] }) {
         </div>
 
         {/* Year filter */}
-        <div className="mt-6 flex flex-col gap-2 border border-navy-200 bg-navy-50/40 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-xs uppercase tracking-wider text-navy-600">
+        <div className="mt-6 flex flex-col gap-2 rounded-md border-2 border-accent-300 bg-accent-100 px-4 py-3 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-xs font-bold uppercase tracking-wider text-accent-800">
             Calendar-year filter for charts below
           </p>
           <label className="flex items-center gap-2 text-sm text-navy-900">
@@ -281,11 +353,11 @@ export function AnalyticsPanel({ reports }: { reports: Report[] }) {
           </label>
         </div>
 
-        {/* Monthly Activity + Annual Volume + Resolution Timeliness */}
+        {/* Monthly Activity + Annual Volume + Severity Distribution */}
         <div className="mt-6 grid gap-6 lg:grid-cols-3">
           <section>
             <SectionHeading
-              title={`${year} Monthly Activity`}
+              title="Monthly Activity"
               note={`${yearFilings.toLocaleString()} filed · ${yearClosed.toLocaleString()} closed.`}
             />
             <ChartFrame>
@@ -346,11 +418,45 @@ export function AnalyticsPanel({ reports }: { reports: Report[] }) {
 
           <section>
             <SectionHeading
-              title={`${year} Resolution Timeliness`}
-              note="Mean calendar days from filing to closure (non-declined cases)."
+              title="Severity Distribution"
+              note="Final assigned severity (scale 1–10) across all records."
             />
             <ChartFrame>
               <ResponsiveContainer width="100%" height={240}>
+                <BarChart
+                  data={data.severityDistribution}
+                  margin={{ top: 12, right: 8, left: 4, bottom: 4 }}
+                >
+                  <CartesianGrid stroke={CHART.grid} vertical={false} />
+                  <XAxis
+                    dataKey="severity"
+                    tick={{ fontSize: 10, fill: CHART.slate, fontFamily: "system-ui" }}
+                    axisLine={{ stroke: CHART.border }}
+                    tickLine={false}
+                  />
+                  <YAxis
+                    tick={{ fontSize: 10, fill: CHART.slate, fontFamily: "system-ui" }}
+                    axisLine={false}
+                    tickLine={false}
+                    allowDecimals={false}
+                  />
+                  <Tooltip {...TOOLTIP_STYLE} />
+                  <Bar dataKey="count" name="Cases" fill={CHART.navyMid} barSize={20} />
+                </BarChart>
+              </ResponsiveContainer>
+            </ChartFrame>
+          </section>
+        </div>
+
+        {/* Resolution Timeliness — full width at bottom */}
+        <div className="mt-6">
+          <section>
+            <SectionHeading
+              title={`Resolution Timeliness (${year})`}
+              note="Mean calendar days from filing to closure (non-declined cases)."
+            />
+            <ChartFrame>
+              <ResponsiveContainer width="100%" height={260}>
                 <LineChart
                   data={data.resolutionTrend}
                   margin={{ top: 12, right: 8, left: 4, bottom: 4 }}
@@ -387,51 +493,8 @@ export function AnalyticsPanel({ reports }: { reports: Report[] }) {
           </section>
         </div>
 
-        {/* Severity Distribution */}
-        <div className="mt-6">
-          <section>
-            <SectionHeading
-              title="Severity Distribution"
-              note="Final assigned severity (scale 1–10) across all records."
-            />
-            <ChartFrame>
-              <ResponsiveContainer width="100%" height={260}>
-                <BarChart
-                  data={data.severityDistribution}
-                  margin={{ top: 12, right: 8, left: 4, bottom: 4 }}
-                >
-                  <CartesianGrid stroke={CHART.grid} vertical={false} />
-                  <XAxis
-                    dataKey="severity"
-                    tick={{ fontSize: 10, fill: CHART.slate, fontFamily: "system-ui" }}
-                    axisLine={{ stroke: CHART.border }}
-                    tickLine={false}
-                  />
-                  <YAxis
-                    tick={{ fontSize: 10, fill: CHART.slate, fontFamily: "system-ui" }}
-                    axisLine={false}
-                    tickLine={false}
-                    allowDecimals={false}
-                  />
-                  <Tooltip {...TOOLTIP_STYLE} />
-                  <Bar dataKey="count" name="Cases" fill={CHART.navyMid} barSize={28} />
-                </BarChart>
-              </ResponsiveContainer>
-            </ChartFrame>
-          </section>
-        </div>
-
-        <footer className="mt-10 border-t border-navy-200 pt-4 text-center text-[11px] leading-relaxed text-ink-muted">
-          <p>
-            City of {CITY.name} · GovLink Service Operations · Statistical summary for
-            internal use
-          </p>
-          <p className="mt-1 font-sans">
-            Data reflects local system records as of {generatedAt}. Not for public
-            release without review.
-          </p>
-        </footer>
       </div>
+      <SiteFooter compact />
     </div>
   );
 }
@@ -470,7 +533,7 @@ function AiSummaryBlock({
   loading: boolean;
 }) {
   return (
-    <div className="rounded-md border-[3px] border-dashed border-navy-700 bg-white p-5">
+    <div className="border border-navy-200 bg-navy-50/40 p-4">
       <div className="flex items-center gap-2 border-b border-navy-200 pb-2 text-navy-800">
         <span className="text-navy-700">{icon}</span>
         <span className="text-sm font-bold uppercase tracking-[0.12em]">{title}</span>
@@ -501,19 +564,19 @@ function SectionHeading({ title, note }: { title: string; note: string }) {
   );
 }
 
-function Summary2026({ reports }: { reports: Report[] }) {
-  const r2026 = reports.filter((r) => new Date(r.createdAt).getFullYear() === 2026);
-  const resolved2026 = r2026.filter((r) => r.status === "resolved");
-  const fixed2026 = resolved2026.filter((r) => r.resolution && !r.resolution.rejected);
-  const corroborated2026 = r2026.filter((r) => r.submissions.length >= 2);
-  const severities = r2026.map((r) => r.severity).filter((s) => s != null);
+function SummaryByYear({ reports, year }: { reports: Report[]; year: number }) {
+  const rYear = reports.filter((r) => new Date(r.createdAt).getFullYear() === year);
+  const resolvedYear = rYear.filter((r) => r.status === "resolved");
+  const fixedYear = resolvedYear.filter((r) => r.resolution && !r.resolution.rejected);
+  const corroboratedYear = rYear.filter((r) => r.submissions.length >= 2);
+  const severities = rYear.map((r) => r.severity).filter((s) => s != null);
   const avgSeverity =
     severities.length > 0
       ? parseFloat((severities.reduce((a, b) => a + b, 0) / severities.length).toFixed(1))
       : null;
-  const fixRate = r2026.length > 0 ? Math.round((fixed2026.length / r2026.length) * 100) : 0;
+  const fixRate = rYear.length > 0 ? Math.round((fixedYear.length / rYear.length) * 100) : 0;
   const corrobRate =
-    r2026.length > 0 ? Math.round((corroborated2026.length / r2026.length) * 100) : 0;
+    rYear.length > 0 ? Math.round((corroboratedYear.length / rYear.length) * 100) : 0;
   const sevColor = avgSeverity != null ? severityMeta(Math.round(avgSeverity)).hex : undefined;
 
   return (
@@ -521,8 +584,8 @@ function Summary2026({ reports }: { reports: Report[] }) {
       <Kpi
         icon={<ClipboardList className="h-3.5 w-3.5" />}
         label="Issues"
-        value={r2026.length.toLocaleString()}
-        sub="filed in 2026"
+        value={rYear.length.toLocaleString()}
+        sub={`filed in ${year}`}
       />
       <Kpi
         icon={<CheckCircle2 className="h-3.5 w-3.5" />}
@@ -543,7 +606,7 @@ function Summary2026({ reports }: { reports: Report[] }) {
       <Kpi
         icon={<Users className="h-3.5 w-3.5" />}
         label="Corroborated"
-        value={corroborated2026.length.toLocaleString()}
+        value={corroboratedYear.length.toLocaleString()}
         sub={`${corrobRate}% of issues`}
       />
     </div>

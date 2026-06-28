@@ -132,7 +132,7 @@ export function FormalReportModal({
           <div className="overflow-hidden rounded-xl border border-navy-200 bg-white shadow-2xl">
             {/* Toolbar */}
             <div className="flex items-center justify-between gap-3 border-b border-navy-100 bg-slate-50 px-4 py-2.5 sm:px-6">
-              <p className="font-mono text-xs font-semibold text-ink-muted">
+              <p className="font-mono text-xs font-bold text-navy-800">
                 {report.id}
               </p>
               <div className="flex items-center gap-2">
@@ -140,7 +140,7 @@ export function FormalReportModal({
                   <button
                     type="button"
                     onClick={onShowOnMap}
-                    className="btn-outline !py-1 text-xs"
+                    className="btn-primary !py-1 text-xs"
                   >
                     <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
                     Map
@@ -150,7 +150,7 @@ export function FormalReportModal({
                   type="button"
                   onClick={handleDownloadPdf}
                   disabled={pdfBusy}
-                  className="btn-outline !py-1 text-xs"
+                  className="btn-accent !py-1 text-xs"
                 >
                   <Download className="h-3.5 w-3.5" aria-hidden="true" />
                   {pdfBusy ? "Generating…" : "PDF"}

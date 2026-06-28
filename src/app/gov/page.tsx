@@ -262,28 +262,33 @@ function GovDashboard() {
             />
           </div>
         ) : view === "map" ? (
-          <div className="absolute inset-0">
-            <ReportMap
-              reports={mapReports}
-              selectedId={selectedId}
-              onSelect={selectReport}
-            />
-            <div className="pointer-events-none absolute bottom-4 left-4 z-[400] rounded-xl border border-navy-100 bg-white/95 p-4 shadow-card">
-              <p className="mb-2 text-sm font-bold text-navy-900">
-                Severity ({mapReports.length} shown)
-              </p>
-              <div className="flex flex-col gap-1.5">
-                {SEVERITY_LEGEND.map((x) => (
-                  <span key={x.label} className="flex items-center gap-2.5 text-sm font-medium text-ink-soft">
-                    <span
-                      className="h-3.5 w-3.5 rounded-full"
-                      style={{ backgroundColor: x.hex }}
-                    />
-                    {x.label}
-                  </span>
-                ))}
+          <div className="flex h-full flex-col">
+            <div className="relative flex-1">
+              <div className="absolute inset-0">
+                <ReportMap
+                  reports={mapReports}
+                  selectedId={selectedId}
+                  onSelect={selectReport}
+                />
+              </div>
+              <div className="pointer-events-none absolute bottom-4 left-4 z-[400] rounded-xl border border-navy-100 bg-white/95 p-4 shadow-card">
+                <p className="mb-2 text-sm font-bold text-navy-900">
+                  Severity ({mapReports.length} shown)
+                </p>
+                <div className="flex flex-col gap-1.5">
+                  {SEVERITY_LEGEND.map((x) => (
+                    <span key={x.label} className="flex items-center gap-2.5 text-sm font-medium text-ink-soft">
+                      <span
+                        className="h-3.5 w-3.5 rounded-full"
+                        style={{ backgroundColor: x.hex }}
+                      />
+                      {x.label}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
+            <SiteFooter compact />
           </div>
         ) : view === "resolved" || view === "list" ? (
           <div className="h-full overflow-y-auto">

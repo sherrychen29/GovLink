@@ -28,100 +28,106 @@ let fontsReady = false;
 function ensureFonts() {
   if (fontsReady) return;
   Font.register({
-    family: "Noto Serif",
+    family: "Noto Sans",
     fonts: [
-      { src: path.join(publicDir, "fonts/NotoSerifOriya-400.ttf"), fontWeight: 400 },
-      { src: path.join(publicDir, "fonts/NotoSerifOriya-600.ttf"), fontWeight: 600 },
-      { src: path.join(publicDir, "fonts/NotoSerifOriya-700.ttf"), fontWeight: 700 },
+      { src: path.join(publicDir, "fonts/NotoSans-400.ttf"), fontWeight: 400 },
+      { src: path.join(publicDir, "fonts/NotoSans-500.ttf"), fontWeight: 500 },
+      { src: path.join(publicDir, "fonts/NotoSans-600.ttf"), fontWeight: 600 },
+      { src: path.join(publicDir, "fonts/NotoSans-700.ttf"), fontWeight: 700 },
     ],
   });
   Font.registerHyphenationCallback((word) => [word]);
   fontsReady = true;
 }
 
-const NAVY = "#1e2a44";
-const NAVY_MUTED = "#5b6478";
-const RULE = "#c7cdd9";
-const RULE_LIGHT = "#e4e8f0";
-const INK = "#1f2433";
+// Palette mirrors the web app (tailwind.config.ts) so the PDF matches the
+// on-screen issue display exactly.
+const NAVY = "#0b2447"; // navy.900
+const NAVY_700 = "#1f3a6a";
+const NAVY_MUTED = "#6b7689"; // ink.muted
+const RULE = "#bccfe7"; // navy.200
+const RULE_LIGHT = "#dde7f3"; // navy.100
+const INK = "#0b1220"; // ink.DEFAULT
+const INK_SOFT = "#384256"; // ink.soft
 
 const styles = StyleSheet.create({
   page: {
-    fontFamily: "Noto Serif",
-    fontSize: 9.5,
+    fontFamily: "Noto Sans",
+    fontSize: 9,
     color: INK,
-    paddingTop: 42,
-    paddingBottom: 56,
-    paddingHorizontal: 48,
-    lineHeight: 1.5,
+    paddingTop: 32,
+    paddingBottom: 40,
+    paddingHorizontal: 40,
+    lineHeight: 1.4,
   },
   masthead: {
     flexDirection: "row",
     alignItems: "center",
     borderBottomWidth: 2,
     borderBottomColor: NAVY,
-    paddingBottom: 12,
+    paddingBottom: 9,
   },
-  seal: { width: 48, height: 48, marginRight: 14 },
+  // 1752×990 source → keep aspect ratio (no horizontal squish).
+  seal: { width: 62, height: 35, marginRight: 12, objectFit: "contain" },
   mastheadText: { flexGrow: 1 },
-  cityName: { fontSize: 15, fontWeight: 700, color: NAVY, letterSpacing: 0.3 },
+  cityName: { fontSize: 14, fontWeight: 700, color: NAVY, letterSpacing: 0.2 },
   cityDept: {
-    fontSize: 8,
+    fontSize: 7.5,
     fontWeight: 600,
     color: NAVY_MUTED,
     textTransform: "uppercase",
-    letterSpacing: 1.4,
-    marginTop: 2,
+    letterSpacing: 1.2,
+    marginTop: 1,
   },
   docRef: { textAlign: "right" },
-  docRefLabel: { fontSize: 7, color: NAVY_MUTED, textTransform: "uppercase", letterSpacing: 1 },
+  docRefLabel: { fontSize: 6.5, color: NAVY_MUTED, textTransform: "uppercase", letterSpacing: 0.8 },
   docRefValue: { fontSize: 11, fontWeight: 700, color: NAVY },
-  title: { fontSize: 17, fontWeight: 700, color: NAVY, textAlign: "center", marginTop: 18 },
-  subtitle: { fontSize: 8.5, color: NAVY_MUTED, textAlign: "center", marginTop: 3 },
+  title: { fontSize: 15, fontWeight: 700, color: NAVY, textAlign: "center", marginTop: 12 },
+  subtitle: { fontSize: 8, color: NAVY_MUTED, textAlign: "center", marginTop: 2 },
   sectionHead: {
-    fontSize: 8.5,
+    fontSize: 8,
     fontWeight: 700,
     color: NAVY,
     textTransform: "uppercase",
-    letterSpacing: 1.2,
+    letterSpacing: 1,
     borderBottomWidth: 1,
     borderBottomColor: RULE,
-    paddingBottom: 3,
-    marginTop: 18,
-    marginBottom: 8,
+    paddingBottom: 2.5,
+    marginTop: 12,
+    marginBottom: 6,
   },
   grid: { flexDirection: "row", flexWrap: "wrap" },
-  cell: { width: "50%", paddingRight: 14, marginBottom: 8 },
-  cellFull: { width: "100%", marginBottom: 8 },
+  cell: { width: "50%", paddingRight: 12, marginBottom: 5 },
+  cellFull: { width: "100%", marginBottom: 5 },
   fieldLabel: {
-    fontSize: 7,
+    fontSize: 6.5,
     fontWeight: 600,
     color: NAVY_MUTED,
     textTransform: "uppercase",
-    letterSpacing: 0.8,
-    marginBottom: 1,
+    letterSpacing: 0.6,
+    marginBottom: 0.5,
   },
-  fieldValue: { fontSize: 10, color: INK },
-  mono: { fontSize: 8, color: NAVY_MUTED },
-  bodyText: { fontSize: 10, color: INK },
-  event: { flexDirection: "row", marginBottom: 9 },
+  fieldValue: { fontSize: 9.5, color: INK },
+  mono: { fontSize: 7.5, color: NAVY_MUTED },
+  bodyText: { fontSize: 9.5, color: INK_SOFT },
+  event: { flexDirection: "row", marginBottom: 6 },
   eventMarker: {
-    width: 7, height: 7, borderRadius: 3.5,
-    backgroundColor: NAVY, marginTop: 3, marginRight: 10,
+    width: 6, height: 6, borderRadius: 3,
+    backgroundColor: NAVY_700, marginTop: 3, marginRight: 8,
   },
   eventBody: { flexGrow: 1 },
   eventTop: { flexDirection: "row", justifyContent: "space-between" },
-  eventLabel: { fontSize: 9.5, fontWeight: 700, color: NAVY },
-  eventTime: { fontSize: 8, color: NAVY_MUTED },
-  eventNote: { fontSize: 9, color: INK, marginTop: 1 },
-  note: { borderLeftWidth: 2, borderLeftColor: RULE, paddingLeft: 8, marginBottom: 8 },
-  noteMeta: { fontSize: 7.5, fontWeight: 600, color: NAVY_MUTED, marginTop: 2 },
-  confidential: { marginTop: 4, marginBottom: 2, fontSize: 7.5, color: "#9aa1b2" },
+  eventLabel: { fontSize: 9, fontWeight: 700, color: NAVY },
+  eventTime: { fontSize: 7.5, color: NAVY_MUTED },
+  eventNote: { fontSize: 9, color: INK_SOFT, marginTop: 0.5 },
+  note: { borderLeftWidth: 2, borderLeftColor: RULE, paddingLeft: 7, marginBottom: 5 },
+  noteMeta: { fontSize: 7, fontWeight: 600, color: NAVY_MUTED, marginTop: 1 },
+  confidential: { marginTop: 2, marginBottom: 1, fontSize: 7, color: NAVY_MUTED },
   footer: {
     position: "absolute",
-    bottom: 28, left: 48, right: 48,
+    bottom: 22, left: 40, right: 40,
     borderTopWidth: 1, borderTopColor: RULE_LIGHT,
-    paddingTop: 6,
+    paddingTop: 5,
     flexDirection: "row",
     justifyContent: "space-between",
     fontSize: 7,
