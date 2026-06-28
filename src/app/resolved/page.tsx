@@ -10,10 +10,12 @@ import {
   Users,
   CheckCircle2,
   MessageSquare,
+  X,
 } from "lucide-react";
 import { SiteShell } from "@/components/SiteShell";
 import { MultiSelectDropdown } from "@/components/MultiSelectDropdown";
 import { CategoryChip } from "@/components/Chips";
+import { CitizenReportView } from "@/components/CitizenReportView";
 import { EmptyState } from "@/components/EmptyState";
 import { ListSkeleton } from "@/components/Skeleton";
 import { useReports } from "@/lib/store";
@@ -35,6 +37,7 @@ export default function ResolvedPage() {
   const [filters, setFilters] = useState<ResolvedFilters>({ ...DEFAULT_RESOLVED_FILTERS });
   const [sortOrder, setSortOrder] = useState<"recent" | "old">("recent");
   const [page, setPage] = useState(1);
+  const [selectedReport, setSelectedReport] = useState<Report | null>(null);
 
   const resolved = useMemo(() => {
     const base = filterResolvedReports(reports, filters);
@@ -176,7 +179,7 @@ export default function ResolvedPage() {
           <>
             <div className="grid gap-4 md:grid-cols-2">
               {pageReports.map((r) => (
-                <ResolvedCard key={r.id} report={r} />
+                <ResolvedCard key={r.id} report={r} onClick={() => setSelectedReport(r)} />
               ))}
             </div>
             {totalPages > 1 && (
@@ -186,11 +189,37 @@ export default function ResolvedPage() {
         )}
       </div>
       </div>
+
+      {/* Report detail modal */}
+      {selectedReport && (
+        <div
+          className="fixed inset-0 z-[600] overflow-y-auto bg-black/60"
+          onClick={() => setSelectedReport(null)}
+        >
+          <div className="flex min-h-full items-start justify-center px-4 pb-10 pt-28">
+            <div
+              className="relative w-full max-w-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                type="button"
+                onClick={() => setSelectedReport(null)}
+                className="absolute -top-9 right-0 flex items-center gap-1.5 text-sm font-semibold text-white/80 hover:text-white"
+                aria-label="Close"
+              >
+                <X className="h-4 w-4" />
+                Close
+              </button>
+              <CitizenReportView report={selectedReport} hideThankYou />
+            </div>
+          </div>
+        </div>
+      )}
     </SiteShell>
   );
 }
 
-function ResolvedCard({ report }: { report: Report }) {
+function ResolvedCard({ report, onClick }: { report: Report; onClick: () => void }) {
   const rejected = !!report.resolution?.rejected;
   const count = corroborations(report);
 
@@ -205,7 +234,13 @@ function ResolvedCard({ report }: { report: Report }) {
     : rawLocation;
 
   return (
-    <article className="card flex flex-col rounded-xl border-slate-300/70 p-4">
+    <article
+      className="card flex cursor-pointer flex-col rounded-xl border-slate-300/70 p-4 transition-shadow hover:shadow-card-hover"
+      onClick={onClick}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => e.key === "Enter" && onClick()}
+    >
       {/* Top row: category + location/date */}
       <div className="flex items-start justify-between gap-3">
         <CategoryChip category={report.category} variant="label" />

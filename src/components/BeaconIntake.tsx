@@ -612,7 +612,7 @@ export function BeaconIntake({
           }
           if (item.widget === "photos") {
             return (
-              <WidgetShell key={item.id} title="Add photos or videos" icon={<Camera className="h-4 w-4" />}>
+              <WidgetShell key={item.id} title="Add photos or videos" icon={<Camera className="h-4 w-4 text-[#1fc7ef]" />}>
                 {item.locked ? (
                   <p className="text-base text-ink-soft">
                     {media.length
@@ -651,7 +651,7 @@ export function BeaconIntake({
           }
           if (item.widget === "final") {
             return (
-              <WidgetShell key={item.id} title="Anything else?" icon={<MessageSquare className="h-4 w-4" />}>
+              <WidgetShell key={item.id} title="Anything else?" icon={<MessageSquare className="h-4 w-4 text-[#1fc7ef]" />}>
                 {item.locked ? (
                   <p className="text-base text-ink-soft">
                     {finalNote.trim() ? finalNote.trim() : "Nothing else added"}
@@ -689,7 +689,7 @@ export function BeaconIntake({
           }
           if (item.widget === "contact") {
             return (
-              <WidgetShell key={item.id} title="Contact info (optional)" icon={<Mail className="h-4 w-4" />}>
+              <WidgetShell key={item.id} title="Contact info (optional)" icon={<Mail className="h-4 w-4 text-[#1fc7ef]" />}>
                 {item.locked ? (
                   <p className="text-base text-ink-soft">
                     {hasTrackableContact(reportContact)
