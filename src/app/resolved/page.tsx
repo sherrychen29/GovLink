@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import {
-  XCircle,
   MapPin,
   ChevronLeft,
   ChevronRight,
@@ -218,32 +217,27 @@ function ResolvedCard({ report }: { report: Report }) {
       {/* Top row: category + location/date */}
       <div className="flex items-start justify-between gap-3">
         <CategoryChip category={report.category} variant="label" />
-        <div className="flex shrink-0 flex-col items-end gap-0.5 text-right">
+        <div className="flex shrink-0 flex-wrap items-center justify-end gap-x-2 gap-y-0.5 text-right">
+          <span className="text-[11px] font-medium text-navy-900">
+            Resolved {formatDate(report.resolution!.resolvedAt)}
+          </span>
+          <span aria-hidden="true" className="text-[11px] text-navy-300">
+            ·
+          </span>
           <span className="inline-flex items-center gap-1 text-[11px] font-medium text-navy-600">
             <MapPin className="h-3 w-3 shrink-0" aria-hidden="true" />
             <span className="max-w-[160px] truncate">{locationText}</span>
-          </span>
-          <span className="text-[11px] text-ink-muted">
-            Resolved {formatDate(report.resolution!.resolvedAt)}
           </span>
         </div>
       </div>
 
       {/* Badges */}
-      {(count >= 2 || rejected) && (
+      {count >= 2 && (
         <div className="mt-1.5 flex items-center gap-2">
-          {count >= 2 && (
-            <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-navy-600">
-              <Users className="h-3 w-3" aria-hidden="true" />
-              {count} citizens reported
-            </span>
-          )}
-          {rejected && (
-            <span className="chip bg-red-50 px-2 py-0.5 text-[11px] font-semibold text-red-700 ring-1 ring-red-200">
-              <XCircle className="h-3 w-3" aria-hidden="true" />
-              Declined
-            </span>
-          )}
+          <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-navy-600">
+            <Users className="h-3 w-3" aria-hidden="true" />
+            {count} citizens reported
+          </span>
         </div>
       )}
 
