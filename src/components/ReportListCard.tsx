@@ -4,7 +4,6 @@ import type { Report } from "@/lib/types";
 import { corroborations } from "@/lib/types";
 import { CategoryChip } from "./Chips";
 import { StatusPill } from "./StatusPill";
-import { SeverityDot } from "./Severity";
 import { timeAgo } from "@/lib/utils";
 
 export function ReportListCard({
@@ -22,7 +21,6 @@ export function ReportListCard({
 
   const content = (
     <article className="card flex items-start gap-4 p-5 transition-shadow hover:shadow-card-hover">
-      <SeverityDot severity={report.severity} className="mt-0.5" />
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-center gap-2">
           <CategoryChip category={report.category} size="sm" />
@@ -41,15 +39,15 @@ export function ReportListCard({
         <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-ink">
           {report.description}
         </p>
-        <div className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-ink-muted">
-          <span className="inline-flex items-center gap-1 truncate">
+        <div className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
+          <span className="inline-flex items-center gap-1 truncate font-medium text-navy-700">
             <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
             <span className="truncate">{locationText}</span>
           </span>
-          <span aria-hidden="true">·</span>
-          <span className="font-mono">{report.id}</span>
-          <span aria-hidden="true">·</span>
-          <span>{timeAgo(report.createdAt)}</span>
+          <span aria-hidden="true" className="text-ink-muted">·</span>
+          <span className="font-mono font-semibold text-navy-700">{report.id}</span>
+          <span aria-hidden="true" className="text-ink-muted">·</span>
+          <span className="text-ink-muted">{timeAgo(report.createdAt)}</span>
         </div>
       </div>
       {href && (

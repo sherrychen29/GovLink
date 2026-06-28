@@ -18,6 +18,7 @@ export default function TrackDetailPage({
 
   return (
     <SiteShell>
+      <div className="flex-1 bg-accent-50">
       <div className="gl-container max-w-3xl py-8 lg:py-10">
         <Link
           href="/track"
@@ -43,6 +44,7 @@ export default function TrackDetailPage({
             }
           />
         )}
+      </div>
       </div>
     </SiteShell>
   );

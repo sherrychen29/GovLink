@@ -364,6 +364,7 @@ function ConfirmationView({
   const [copied, setCopied] = useState(false);
 
   return (
+    <div className="flex-1 bg-accent-50">
     <div className="gl-container max-w-2xl py-12 lg:py-16">
       <div className="card animate-scale-in overflow-hidden">
         <div className="bg-navy-900 px-6 py-8 text-center text-white sm:px-10">
@@ -485,6 +486,7 @@ function ConfirmationView({
           )}
         </div>
       </div>
+    </div>
     </div>
   );
 }

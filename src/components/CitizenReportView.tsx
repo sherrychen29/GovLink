@@ -22,10 +22,18 @@ import { StatusTracker } from "./StatusTracker";
 import { cx, formatCoords, formatDate, formatDateTime } from "@/lib/utils";
 import { CITY } from "@/lib/seed";
 
-export function CitizenReportView({ report }: { report: Report }) {
+export function CitizenReportView({
+  report,
+  hideThankYou = false,
+}: {
+  report: Report;
+  hideThankYou?: boolean;
+}) {
   const rejected = !!report.resolution?.rejected;
   const count = corroborations(report);
-  const images = report.media.filter((m) => m.kind === "image");
+  // In popup mode, skip flagged images entirely
+  const allImages = report.media.filter((m) => m.kind === "image");
+  const images = hideThankYou ? allImages.filter((m) => !m.flagged) : allImages;
   const chatSections = reportChatSections(report);
   const chatCount = allReportChatEntries(report).length;
 
@@ -92,9 +100,11 @@ export function CitizenReportView({ report }: { report: Report }) {
           )}
 
           {/* Thank-you note */}
-          <div className="mt-5 rounded-lg border border-navy-100 bg-navy-50 px-4 py-3 text-sm leading-relaxed text-navy-700">
-            Thank you for reporting this issue to the City of {CITY.name}. GovLink works with city government to address all citizen-submitted reports and keep our community safe and well-maintained. We appreciate your contribution.
-          </div>
+          {!hideThankYou && (
+            <div className="mt-5 rounded-lg border border-navy-100 bg-navy-50 px-4 py-3 text-sm leading-relaxed text-navy-700">
+              Thank you for reporting this issue to the City of {CITY.name}. GovLink works with city government to address all citizen-submitted reports and keep our community safe and well-maintained. We appreciate your contribution.
+            </div>
+          )}
 
           {/* Two-column: description + image */}
           <div className={cx("mt-6 gap-5", images.length > 0 ? "grid lg:grid-cols-3" : "block")}>
