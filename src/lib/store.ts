@@ -102,7 +102,9 @@ function ensureLoaded() {
         loaded.accounts && loaded.accounts.length
           ? loaded.accounts
           : SEED_ACCOUNTS,
-      currentUserId: loaded.currentUserId ?? null,
+      // Always start signed out on a fresh page load; a stored session is not
+      // restored, so every visit/reload begins logged out.
+      currentUserId: null,
       hydrated: true,
     };
     if (dirty) persist();

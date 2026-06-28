@@ -20,10 +20,10 @@ export default function TermsPage() {
           <section>
             <h2 className="text-xl font-bold text-navy-900">1. Acceptance of Terms</h2>
             <p className="mt-3 leading-relaxed">
-              By accessing or using the GovLink civic reporting service ("Service"), you agree to be
+              By accessing or using the GovLink civic reporting service (&quot;Service&quot;), you agree to be
               bound by these Terms and Conditions. If you do not agree to these terms, you must
               discontinue use of the Service immediately. These terms constitute a legally binding
-              agreement between you and the City of San Jose ("City").
+              agreement between you and the City of San Jose (&quot;City&quot;).
             </p>
           </section>
 
@@ -142,7 +142,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-xl font-bold text-navy-900">10. Disclaimer of Warranties</h2>
             <p className="mt-3 leading-relaxed">
-              The Service is provided on an "as is" and "as available" basis without warranties of
+              The Service is provided on an &quot;as is&quot; and &quot;as available&quot; basis without warranties of
               any kind, either express or implied. The City does not warrant that the Service will
               be uninterrupted, error-free, or free from technical defects. The City may suspend,
               modify, or discontinue the Service at any time without prior notice.
