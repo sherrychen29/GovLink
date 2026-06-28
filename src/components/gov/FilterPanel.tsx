@@ -3,16 +3,15 @@
 import { useEffect, useRef, useState } from "react";
 import { Search, ArrowUpDown, ChevronDown, X } from "lucide-react";
 import type { ReactNode } from "react";
-import { CollapsibleFilterBar } from "@/components/CollapsibleFilterBar";
 import { MultiSelectDropdown } from "@/components/MultiSelectDropdown";
 import {
   type GovFilters,
   countActiveFilters,
   DEFAULT_FILTERS,
-  summarizeGovFilters,
   type SortKey,
 } from "@/lib/filters";
 import { CATEGORIES, OPEN_STATUS_PIPELINE, type Category, type ReportStatus } from "@/lib/types";
+import type { ResolvedOutcome } from "@/lib/resolved-filters";
 import { STATUS_META } from "@/lib/meta";
 import { SeverityRangeSlider } from "@/components/gov/SeverityRangeSlider";
 import { cx } from "@/lib/utils";
@@ -35,6 +34,8 @@ export function FilterPanel({
   sort,
   onSortChange,
   showSort = false,
+  resolvedOutcome,
+  onResolvedOutcomeChange,
 }: {
   filters: GovFilters;
   onChange: (f: GovFilters) => void;
@@ -43,8 +44,11 @@ export function FilterPanel({
   sort?: SortKey;
   onSortChange?: (s: SortKey) => void;
   showSort?: boolean;
+  resolvedOutcome?: "all" | ResolvedOutcome;
+  onResolvedOutcomeChange?: (o: "all" | ResolvedOutcome) => void;
 }) {
   const active = countActiveFilters(filters);
+  const outcomeActive = resolvedOutcome != null && resolvedOutcome !== "all";
 
   const toggleStatus = (s: ReportStatus) =>
     onChange({
@@ -63,28 +67,21 @@ export function FilterPanel({
     });
 
   return (
-    <CollapsibleFilterBar
-      variant="gov"
-      activeCount={active}
-      summary={summarizeGovFilters(filters)}
-      onClear={() => onChange({ ...DEFAULT_FILTERS })}
-      startExpanded={active > 0}
-      trailing={trailing}
-    >
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:gap-5">
-        <div className="w-full shrink-0 lg:max-w-xs">
+    <div className="gov-filter-bar w-full">
+      <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-end sm:gap-3">
+        <div className="w-full shrink-0 sm:max-w-[11rem]">
           <label htmlFor="gov-search" className={GOV_FILTER_LABEL}>
             Search
           </label>
           <div className="relative">
             <Search
-              className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-navy-400"
+              className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-navy-400"
               aria-hidden="true"
             />
             <input
               id="gov-search"
-              className="field-input pl-9"
-              placeholder="ID, keyword, street…"
+              className="field-input pl-8"
+              placeholder="ID, keyword…"
               value={filters.search}
               onChange={(e) => onChange({ ...filters, search: e.target.value })}
             />
@@ -100,7 +97,14 @@ export function FilterPanel({
             selected={filters.statuses.filter((s) => s !== "resolved")}
             onToggle={toggleStatus}
             getLabel={(s) => STATUS_META[s].label}
-            className="w-full lg:w-44"
+            className="w-full sm:w-36"
+          />
+        )}
+
+        {resolvedOutcome != null && onResolvedOutcomeChange && (
+          <ResolvedOutcomeToggle
+            value={resolvedOutcome}
+            onChange={onResolvedOutcomeChange}
           />
         )}
 
@@ -112,12 +116,13 @@ export function FilterPanel({
           selected={filters.categories}
           onToggle={toggleCategory}
           getLabel={(c) => c}
-          className="w-full lg:w-52"
+          className="w-full sm:w-40"
         />
 
-        <fieldset className="w-full shrink-0 lg:w-52">
+        <fieldset className="w-full shrink-0 sm:w-44">
           <legend className={GOV_FILTER_LABEL}>Severity</legend>
           <SeverityRangeSlider
+            className="gov-severity-slider"
             min={filters.severityMin}
             max={filters.severityMax}
             onChange={({ min, max }) =>
@@ -137,8 +142,26 @@ export function FilterPanel({
             showStatus={showStatusFilter}
           />
         )}
+
+        {(active > 0 || outcomeActive) && (
+          <div className="flex items-end pb-0.5 sm:ml-auto">
+            <button
+              type="button"
+              onClick={() => {
+                onChange({ ...DEFAULT_FILTERS });
+                onResolvedOutcomeChange?.("all");
+              }}
+              className="inline-flex items-center gap-1 text-[11px] font-semibold text-ink-muted hover:text-navy-900"
+            >
+              <X className="h-3 w-3" aria-hidden="true" />
+              Clear
+            </button>
+          </div>
+        )}
+
+        {trailing}
       </div>
-    </CollapsibleFilterBar>
+    </div>
   );
 }
 
@@ -216,6 +239,56 @@ export function MapFilterContent({
   );
 }
 
+const OUTCOME_OPTIONS: { value: "all" | ResolvedOutcome; label: string }[] = [
+  { value: "all", label: "All" },
+  { value: "fixed", label: "Solved" },
+  { value: "declined", label: "Cancelled" },
+];
+
+function ResolvedOutcomeToggle({
+  value,
+  onChange,
+}: {
+  value: "all" | ResolvedOutcome;
+  onChange: (o: "all" | ResolvedOutcome) => void;
+}) {
+  return (
+    <fieldset className="w-full shrink-0 lg:w-auto">
+      <legend className={GOV_FILTER_LABEL}>Outcome</legend>
+      <div
+        className="inline-flex gap-0.5 rounded-md border border-navy-200 bg-navy-50/50 p-0.5"
+        role="radiogroup"
+        aria-label="Filter by closure outcome"
+      >
+        {OUTCOME_OPTIONS.map((opt) => {
+          const selected = value === opt.value;
+          return (
+            <button
+              key={opt.value}
+              type="button"
+              role="radio"
+              aria-checked={selected}
+              onClick={() => onChange(opt.value)}
+              className={cx(
+                "rounded px-2 py-1 text-xs font-semibold transition-colors",
+                selected
+                  ? opt.value === "declined"
+                    ? "bg-red-600 text-white shadow-sm"
+                    : opt.value === "fixed"
+                      ? "bg-emerald-600 text-white shadow-sm"
+                      : "bg-navy-900 text-white shadow-sm"
+                  : "text-navy-700 hover:bg-white hover:text-navy-900"
+              )}
+            >
+              {opt.label}
+            </button>
+          );
+        })}
+      </div>
+    </fieldset>
+  );
+}
+
 function SortDropdown({
   value,
   onChange,
@@ -241,21 +314,21 @@ function SortDropdown({
   const current = options.find((o) => o.value === value)?.label ?? value;
 
   return (
-    <div ref={ref} className="relative w-full shrink-0 lg:w-auto">
+    <div ref={ref} className="relative w-full shrink-0 sm:w-36">
       <span className={GOV_FILTER_LABEL}>Sort</span>
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
         aria-haspopup="listbox"
-        className="field-input flex w-full items-center justify-between gap-2 text-left text-sm"
+        className="field-input flex w-full items-center justify-between gap-1.5 text-left"
       >
-        <span className="flex items-center gap-2">
-          <ArrowUpDown className="h-4 w-4 shrink-0 text-navy-500" aria-hidden="true" />
-          <span>{current}</span>
+        <span className="flex min-w-0 items-center gap-1.5">
+          <ArrowUpDown className="h-3.5 w-3.5 shrink-0 text-navy-500" aria-hidden="true" />
+          <span className="truncate">{current}</span>
         </span>
         <ChevronDown
-          className={cx("h-4 w-4 shrink-0 text-ink-muted transition-transform", open && "rotate-180")}
+          className={cx("h-3.5 w-3.5 shrink-0 text-ink-muted transition-transform", open && "rotate-180")}
           aria-hidden="true"
         />
       </button>

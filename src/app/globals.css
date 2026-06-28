@@ -110,6 +110,26 @@
     @apply mb-1.5 block text-xs font-extrabold uppercase tracking-widest text-navy-600;
   }
 
+  .gov-filter-bar .gov-filter-label {
+    @apply mb-0.5 text-[10px] tracking-wide;
+  }
+
+  .gov-filter-bar .field-input {
+    @apply rounded-md py-1.5 pr-2.5 pl-2.5 text-xs;
+  }
+
+  .gov-filter-bar input.field-input {
+    @apply pl-8;
+  }
+
+  .gov-filter-bar .gov-severity-slider {
+    @apply h-8 pt-0;
+  }
+
+  .gov-filter-bar .gov-severity-slider .gov-severity-range {
+    @apply h-8;
+  }
+
   .gov-severity-range {
     @apply pointer-events-none absolute inset-x-0 top-0 h-10 w-full appearance-none bg-transparent;
   }

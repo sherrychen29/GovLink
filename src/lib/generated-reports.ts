@@ -1,8 +1,9 @@
+import { simulateGovLifecycleBatch } from "./simulate-gov-lifecycle";
 import { CATEGORIES, STATUS_PIPELINE, type Report } from "./types";
 
 const DATA_URL = "/data/govlink-reports-150.json";
 
-let cached: Report[] | null = null;
+let rawCached: Report[] | null = null;
 
 function isReport(value: unknown): value is Report {
   if (!value || typeof value !== "object") return false;
@@ -26,30 +27,31 @@ function isReport(value: unknown): value is Report {
   );
 }
 
-/** Fetch the curated 150-report dataset generated via the live Beacon API. */
+/** Fetch the curated 150-report dataset and apply simulated gov workflow. */
 export async function fetchGenerated150Reports(): Promise<Report[]> {
-  if (cached) return cached;
+  if (!rawCached) {
+    const res = await fetch(DATA_URL);
+    if (!res.ok) {
+      throw new Error(`Could not load sample data (${res.status})`);
+    }
 
-  const res = await fetch(DATA_URL);
-  if (!res.ok) {
-    throw new Error(`Could not load sample data (${res.status})`);
+    const data: unknown = await res.json();
+    if (!data || typeof data !== "object" || !("reports" in data)) {
+      throw new Error("Sample file must be a JSON object with a reports array");
+    }
+
+    const reports = (data as { reports: unknown }).reports;
+    if (!Array.isArray(reports)) {
+      throw new Error("Sample file reports field must be an array");
+    }
+
+    const invalid = reports.find((r) => !isReport(r));
+    if (invalid) {
+      throw new Error("Sample file contains reports with invalid shape");
+    }
+
+    rawCached = reports as Report[];
   }
 
-  const data: unknown = await res.json();
-  if (!data || typeof data !== "object" || !("reports" in data)) {
-    throw new Error("Sample file must be a JSON object with a reports array");
-  }
-
-  const reports = (data as { reports: unknown }).reports;
-  if (!Array.isArray(reports)) {
-    throw new Error("Sample file reports field must be an array");
-  }
-
-  const invalid = reports.find((r) => !isReport(r));
-  if (invalid) {
-    throw new Error("Sample file contains reports with invalid shape");
-  }
-
-  cached = reports as Report[];
-  return cached;
+  return simulateGovLifecycleBatch(rawCached);
 }

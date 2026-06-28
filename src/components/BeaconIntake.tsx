@@ -14,14 +14,13 @@ import {
   MapPin,
   Camera,
   Mail,
-  ImagePlus,
   MessageSquare,
 } from "lucide-react";
 import { BeaconMark } from "./Logo";
 import { MediaUpload } from "./MediaUpload";
 import { CategoryChip } from "./Chips";
 import { LocationPicker } from "./map/LocationPickerDynamic";
-import { cx, uid } from "@/lib/utils";
+import { cx } from "@/lib/utils";
 import { extractLocationHint, type BeaconIntent } from "@/lib/beacon-logic";
 import type { Category, ContactInfo, ChatLogEntry, MediaItem, ReportLocation, ServicePriority } from "@/lib/types";
 import { formalizeReport, locationLabel } from "@/lib/formalize-report";
@@ -40,8 +39,6 @@ interface BeaconDraftReady {
 type IntakePhase = "intake" | "review" | "blocked" | "filed";
 type WidgetKind = "map" | "photos" | "final" | "contact" | "review";
 
-const MAX_MEDIA = 5;
-const MAX_MEDIA_BYTES = 4 * 1024 * 1024; // 4MB; keep localStorage healthy
 
 type ChatItem =
   | { id: string; kind: "beacon"; text: string; intent?: BeaconIntent; missing?: string[] }
@@ -110,7 +107,6 @@ export function BeaconIntake({
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
-  const inlineFileRef = useRef<HTMLInputElement>(null);
   const widgetsAdded = useRef({ map: false, photos: false, final: false, contact: false, review: false });
 
   useEffect(() => {
@@ -353,10 +349,11 @@ export function BeaconIntake({
   }
 
   function showFinalStep() {
+    // Optional free-text step: a chance to add anything else, or skip.
     append({
       id: `b_final_${Date.now()}`,
       kind: "beacon",
-      text: "Almost done; anything else you'd like to add before I wrap up? For example how long it's been going on, how severe it is, or any safety concerns. Add a note below, or skip to finish.",
+      text: "Anything else you'd like to add before I wrap up? Add any extra details below, or skip to finish.",
     });
     if (!widgetsAdded.current.final) {
       widgetsAdded.current.final = true;
@@ -515,42 +512,6 @@ export function BeaconIntake({
     } finally {
       setFiling(false);
     }
-  }
-
-  function handleInlineFiles(files: FileList | null) {
-    if (!files) return;
-    const remaining = MAX_MEDIA - media.length;
-    if (remaining <= 0) return;
-    const selected = Array.from(files).slice(0, remaining);
-    const accepted: MediaItem[] = [];
-    let pending = selected.length;
-    if (pending === 0) return;
-
-    selected.forEach((file) => {
-      const isImage = file.type.startsWith("image/");
-      const isVideo = file.type.startsWith("video/");
-      if ((!isImage && !isVideo) || file.size > MAX_MEDIA_BYTES) {
-        pending--;
-        if (pending === 0 && accepted.length) setMedia([...media, ...accepted]);
-        return;
-      }
-      const reader = new FileReader();
-      reader.onload = () => {
-        accepted.push({
-          id: uid("media"),
-          dataUrl: String(reader.result),
-          kind: isVideo ? "video" : "image",
-          name: file.name,
-        });
-        pending--;
-        if (pending === 0) setMedia([...media, ...accepted]);
-      };
-      reader.onerror = () => {
-        pending--;
-        if (pending === 0 && accepted.length) setMedia([...media, ...accepted]);
-      };
-      reader.readAsDataURL(file);
-    });
   }
 
   function onKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
@@ -884,37 +845,6 @@ export function BeaconIntake({
           <label htmlFor="beacon-input" className="sr-only">
             Message Beacon
           </label>
-          <input
-            ref={inlineFileRef}
-            type="file"
-            accept="image/*,video/*"
-            multiple
-            className="sr-only"
-            onChange={(e) => {
-              handleInlineFiles(e.target.files);
-              e.target.value = "";
-            }}
-            aria-label="Attach photos or videos"
-          />
-          <button
-            type="button"
-            onClick={() => inlineFileRef.current?.click()}
-            className="relative grid h-11 w-11 shrink-0 place-items-center rounded-lg border border-navy-200 bg-white text-navy-600 transition-colors hover:bg-navy-50 disabled:cursor-not-allowed disabled:opacity-40"
-            disabled={busy || chatDisabled || media.length >= MAX_MEDIA}
-            aria-label="Attach photos or videos"
-            title={
-              media.length >= MAX_MEDIA
-                ? `You can attach up to ${MAX_MEDIA} files`
-                : "Attach photos or videos"
-            }
-          >
-            <ImagePlus className="h-5 w-5" aria-hidden="true" />
-            {media.length > 0 && (
-              <span className="absolute -right-1 -top-1 grid h-4 min-w-4 place-items-center rounded-full bg-accent-500 px-1 text-[10px] font-bold text-white">
-                {media.length}
-              </span>
-            )}
-          </button>
           <textarea
             id="beacon-input"
             ref={inputRef}

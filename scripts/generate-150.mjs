@@ -8,7 +8,8 @@
 //   2. node scripts/generate-150.mjs [limit]
 //
 // Output: public/data/govlink-reports-150.json  (written incrementally).
-// All reports are left on status "sent" (no government response yet).
+// Reports are stored as "sent"; gov workflow is simulated when loaded via
+// simulate-gov-lifecycle.ts (status, resolution times, declines).
 // ---------------------------------------------------------------------------
 
 import { writeFileSync, mkdirSync } from "node:fs";

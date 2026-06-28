@@ -30,6 +30,7 @@ export function IssueTable({
   sort,
   onSortChange,
   showStatus = true,
+  showOutcome = false,
 }: {
   reports: Report[];
   selectedId: string | null;
@@ -37,10 +38,20 @@ export function IssueTable({
   sort: SortKey;
   onSortChange: (k: SortKey) => void;
   showStatus?: boolean;
+  showOutcome?: boolean;
 }) {
-  const columns = showStatus
-    ? COLUMNS
-    : COLUMNS.filter((col) => col.key !== "status");
+  const columns = COLUMNS.filter((col) => {
+    if (col.key === "status") return showStatus;
+    if (col.label === "OUTCOME") return showOutcome;
+    return col.label !== "OUTCOME";
+  });
+  if (showOutcome && !columns.some((c) => c.label === "OUTCOME")) {
+    const statusIdx = COLUMNS.findIndex((c) => c.key === "status");
+    columns.splice(statusIdx >= 0 ? statusIdx : columns.length, 0, {
+      key: null,
+      label: "OUTCOME",
+    });
+  }
   return (
     <div className="overflow-x-auto rounded-2xl border border-navy-100 bg-white shadow-card">
       <table className="w-full min-w-[640px] border-collapse text-left text-sm">
@@ -155,6 +166,19 @@ export function IssueTable({
                       rejected={!!r.resolution?.rejected}
                       size="sm"
                     />
+                  </td>
+                )}
+                {showOutcome && (
+                  <td className="px-4 py-3">
+                    {r.resolution?.rejected ? (
+                      <span className="chip bg-red-50 px-2 py-0.5 text-[11px] font-semibold text-red-700 ring-1 ring-red-200">
+                        Cancelled
+                      </span>
+                    ) : (
+                      <span className="chip bg-emerald-50 px-2 py-0.5 text-[11px] font-semibold text-emerald-700 ring-1 ring-emerald-200">
+                        Solved
+                      </span>
+                    )}
                   </td>
                 )}
 

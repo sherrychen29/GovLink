@@ -30,6 +30,7 @@ import {
   type GovFilters,
   type SortKey,
 } from "@/lib/filters";
+import type { ResolvedOutcome } from "@/lib/resolved-filters";
 import { useCurrentUser, useReports } from "@/lib/store";
 import { SEVERITY_LEGEND } from "@/lib/meta";
 import { cx } from "@/lib/utils";
@@ -80,11 +81,13 @@ function GovDashboard() {
 
   function setView(v: ViewKey) {
     setViewState(v);
+    if (v !== "resolved") setResolvedOutcome("all");
     const params = new URLSearchParams(window.location.search);
     params.set("view", v);
     router.replace(`/gov?${params.toString()}`, { scroll: false });
   }
   const [filters, setFilters] = useState<GovFilters>({ ...DEFAULT_FILTERS });
+  const [resolvedOutcome, setResolvedOutcome] = useState<"all" | ResolvedOutcome>("all");
   const [sort, setSort] = useState<SortKey>("reports");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [modalId, setModalId] = useState<string | null>(null);
@@ -108,17 +111,24 @@ function GovDashboard() {
     [reports, view, openPool]
   );
 
-  const visible = useMemo(
-    () => sortReports(filterReports(pool, filters), sort),
-    [pool, filters, sort]
-  );
+  const visible = useMemo(() => {
+    let list = sortReports(filterReports(pool, filters), sort);
+    if (view === "resolved" && resolvedOutcome !== "all") {
+      list = list.filter((r) =>
+        resolvedOutcome === "declined"
+          ? !!r.resolution?.rejected
+          : !r.resolution?.rejected
+      );
+    }
+    return list;
+  }, [pool, filters, sort, view, resolvedOutcome]);
 
   const totalPages = Math.max(1, Math.ceil(visible.length / PAGE_SIZE));
 
   // Reset to the first page whenever the result set changes.
   useEffect(() => {
     setPage(1);
-  }, [view, filters, sort]);
+  }, [view, filters, sort, resolvedOutcome]);
 
   const safePage = Math.min(page, totalPages);
   const pageReports = useMemo(
@@ -176,7 +186,7 @@ function GovDashboard() {
           {(
             [
               { key: "map", label: "Map View" },
-              { key: "list", label: "Issues" },
+              { key: "list", label: "Open Issues" },
               { key: "analytics", label: "Analytics" },
               { key: "resolved", label: "Resolved" },
             ] as const
@@ -223,14 +233,16 @@ function GovDashboard() {
       {/* Controls bar: filters (left) + sort + view toggle (right) */}
       {view !== "analytics" && view !== "map" && (
         <div className="z-20 shrink-0 border-b border-navy-100 bg-white">
-          <div className="gl-container py-3">
+          <div className="gl-container py-2">
             <FilterPanel
               filters={filters}
               onChange={setFilters}
-              showStatusFilter={view !== "resolved"}
+              showStatusFilter={view === "list"}
               showSort={view === "list" || view === "resolved"}
               sort={sort}
               onSortChange={setSort}
+              resolvedOutcome={view === "resolved" ? resolvedOutcome : undefined}
+              onResolvedOutcomeChange={view === "resolved" ? setResolvedOutcome : undefined}
             />
           </div>
         </div>
@@ -246,14 +258,25 @@ function GovDashboard() {
               icon={view === "resolved" ? <CircleCheck className="h-6 w-6" /> : <Inbox className="h-6 w-6" />}
               title={
                 view === "resolved"
-                  ? "No resolved reports match your filters"
-                  : "No reports match your filters"
+                  ? resolvedOutcome === "declined"
+                    ? "No cancelled cases match your filters"
+                    : resolvedOutcome === "fixed"
+                      ? "No solved cases match your filters"
+                      : "No closed cases match your filters"
+                  : "No open issues match your filters"
               }
-              description="Try widening the severity range or clearing a filter."
+              description={
+                view === "resolved"
+                  ? "Try another outcome or clear your filters."
+                  : "Try widening the severity range or clearing a filter."
+              }
               action={
                 <button
                   type="button"
-                  onClick={() => setFilters({ ...DEFAULT_FILTERS })}
+                  onClick={() => {
+                    setFilters({ ...DEFAULT_FILTERS });
+                    setResolvedOutcome("all");
+                  }}
                   className="btn-primary"
                 >
                   Clear filters
@@ -315,9 +338,39 @@ function GovDashboard() {
         ) : view === "resolved" || view === "list" ? (
           <div className="h-full overflow-y-auto">
           <div className="gl-container py-4 sm:py-6">
-            <p className="mb-3 text-sm text-ink-muted">
-              {visible.length} report{visible.length === 1 ? "" : "s"} displayed
-            </p>
+            {view === "list" ? (
+              <p className="mb-4 border-b border-navy-100 pb-4 text-sm leading-relaxed text-ink-muted">
+                <span className="font-semibold text-navy-900">
+                  {visible.length} open report{visible.length === 1 ? "" : "s"}
+                  {openPool.length !== visible.length && (
+                    <span className="font-normal text-ink-muted">
+                      {" "}
+                      (of {openPool.length})
+                    </span>
+                  )}
+                </span>
+                {" | "}
+                Active service requests only. Closed cases are listed under{" "}
+                <button
+                  type="button"
+                  onClick={() => setView("resolved")}
+                  className="font-semibold text-navy-800 underline decoration-navy-300 underline-offset-2 hover:text-navy-950"
+                >
+                  Resolved
+                </button>
+                .
+              </p>
+            ) : (
+              <p className="mb-4 border-b border-navy-100 pb-4 text-sm leading-relaxed text-ink-muted">
+                <span className="font-semibold text-navy-900">
+                  {visible.length} closed report{visible.length === 1 ? "" : "s"}
+                </span>
+                {" | "}
+                Repaired on site or cancelled after city review.
+                {resolvedOutcome === "fixed" && " Showing solved cases only."}
+                {resolvedOutcome === "declined" && " Showing cancelled cases only."}
+              </p>
+            )}
             <IssueTable
               reports={pageReports}
               selectedId={selectedId}
@@ -325,6 +378,7 @@ function GovDashboard() {
               sort={sort}
               onSortChange={setSort}
               showStatus={view === "list"}
+              showOutcome={view === "resolved"}
             />
             {totalPages > 1 && (
               <Pagination

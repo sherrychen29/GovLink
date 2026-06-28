@@ -1,15 +1,18 @@
 "use client";
 
 import { severityMeta } from "@/lib/meta";
+import { cx } from "@/lib/utils";
 
 export function SeverityRangeSlider({
   min,
   max,
   onChange,
+  className,
 }: {
   min: number;
   max: number;
   onChange: (next: { min: number; max: number }) => void;
+  className?: string;
 }) {
   const minPercent = ((min - 1) / 9) * 100;
   const maxPercent = ((max - 1) / 9) * 100;
@@ -17,7 +20,7 @@ export function SeverityRangeSlider({
   const maxColor = severityMeta(max).hex;
 
   return (
-    <div className="relative mx-0.5 h-10 pt-1">
+    <div className={cx("relative mx-0.5 h-10 pt-1", className)}>
       {/* dimmed full-range track */}
       <div
         aria-hidden="true"
