@@ -67,6 +67,21 @@ export function AnalyticsPanel({ reports }: { reports: Report[] }) {
   const data = useMemo(() => computeGovAnalytics(reports, year), [reports, year]);
   const { summary } = data;
 
+  const MONTH_LABELS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const monthlySeverity = useMemo(() =>
+    MONTH_LABELS.map((month, idx) => {
+      const monthReports = reports.filter((r) => {
+        const d = new Date(r.createdAt);
+        return d.getFullYear() === year && d.getMonth() === idx && r.severity != null;
+      });
+      const avg = monthReports.length
+        ? Math.round((monthReports.reduce((s, r) => s + r.severity, 0) / monthReports.length) * 10) / 10
+        : null;
+      return { month, avgSeverity: avg ?? 0, count: monthReports.length };
+    }),
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  [reports, year]);
+
   const [ai, setAi] = useState<{ performanceSummary: string; closedCasesSummary: string } | null>(null);
   const [aiLoading, setAiLoading] = useState(true);
   const [pdfLoading, setPdfLoading] = useState(false);
@@ -236,9 +251,7 @@ export function AnalyticsPanel({ reports }: { reports: Report[] }) {
             Department of Public Works · Operations Division
           </p>
           <p className="mt-3 text-xs text-ink-muted">
-            Report generated {generatedAt} · {summary.total.toLocaleString()} records
-            in dataset · fiscal years {data.availableYears[0]}–
-            {data.availableYears[data.availableYears.length - 1]}
+            Report generated {generatedAt} · {summary.total.toLocaleString()} records in {year}
           </p>
           <div className="mt-4">
             <button
@@ -274,7 +287,7 @@ export function AnalyticsPanel({ reports }: { reports: Report[] }) {
             <div className="mt-4">
               <AiSummaryBlock
                 icon={<FileCheck2 className="h-4 w-4" />}
-                title="Closed Issues"
+                title="Declined Issues (Invalid Reports)"
                 text={ai?.closedCasesSummary}
                 loading={aiLoading}
               />
@@ -321,10 +334,22 @@ export function AnalyticsPanel({ reports }: { reports: Report[] }) {
                   <Line
                     dataKey="solved"
                     name="Solved"
-                    stroke="#06b6d4"
-                    strokeWidth={2}
-                    dot={{ r: 3, fill: "#06b6d4", strokeWidth: 0 }}
-                    activeDot={{ r: 4 }}
+                    stroke="transparent"
+                    strokeWidth={0}
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    dot={(props: any) => (
+                      <rect
+                        key={props.index}
+                        x={(props.cx ?? 0) - 2}
+                        y={(props.cy ?? 0) - 7}
+                        width={4}
+                        height={14}
+                        fill="#06b6d4"
+                        rx={1}
+                      />
+                    )}
+                    activeDot={false}
+                    isAnimationActive={false}
                   />
                 </ComposedChart>
               </ResponsiveContainer>
@@ -355,7 +380,7 @@ export function AnalyticsPanel({ reports }: { reports: Report[] }) {
           </div>
         </section>
 
-        {/* Monthly Activity + Annual Volume + Severity Distribution */}
+        {/* Monthly Activity + Severity by Month + Annual Volume */}
         <div className="mt-6 grid gap-6 lg:grid-cols-3">
           <section>
             <SectionHeading
@@ -389,6 +414,41 @@ export function AnalyticsPanel({ reports }: { reports: Report[] }) {
 
           <section>
             <SectionHeading
+              title="Severity Distribution"
+              note="Average severity of reports filed each month (scale 1–10)."
+            />
+            <ChartFrame>
+              <ResponsiveContainer width="100%" height={240}>
+                <BarChart data={monthlySeverity} margin={{ top: 12, right: 8, left: 4, bottom: 4 }}>
+                  <CartesianGrid stroke={CHART.grid} vertical={false} />
+                  <XAxis
+                    dataKey="month"
+                    tick={{ fontSize: 10, fill: CHART.slate, fontFamily: "system-ui" }}
+                    axisLine={{ stroke: CHART.border }}
+                    tickLine={false}
+                  />
+                  <YAxis
+                    domain={[0, 10]}
+                    tick={{ fontSize: 10, fill: CHART.slate, fontFamily: "system-ui" }}
+                    axisLine={false}
+                    tickLine={false}
+                    allowDecimals={false}
+                  />
+                  <Tooltip
+                    {...TOOLTIP_STYLE}
+                    formatter={(value, _name, props) => [
+                      props.payload.count > 0 ? `${value}/10` : "No data",
+                      "Avg severity",
+                    ]}
+                  />
+                  <Bar dataKey="avgSeverity" name="Avg severity" fill={CHART.navyMid} barSize={12} />
+                </BarChart>
+              </ResponsiveContainer>
+            </ChartFrame>
+          </section>
+
+          <section>
+            <SectionHeading
               title="Annual Volume"
               note="Filed, closed, and open by calendar year."
             />
@@ -413,37 +473,6 @@ export function AnalyticsPanel({ reports }: { reports: Report[] }) {
                   <Bar dataKey="filed" name="Filed" fill={CHART.filed} barSize={14} />
                   <Bar dataKey="resolved" name="Closed" fill={CHART.resolved} barSize={14} />
                   <Bar dataKey="open" name="Open (cohort)" fill={CHART.open} barSize={14} />
-                </BarChart>
-              </ResponsiveContainer>
-            </ChartFrame>
-          </section>
-
-          <section>
-            <SectionHeading
-              title="Severity Distribution"
-              note="Final assigned severity (scale 1–10) across all records."
-            />
-            <ChartFrame>
-              <ResponsiveContainer width="100%" height={240}>
-                <BarChart
-                  data={data.severityDistribution}
-                  margin={{ top: 12, right: 8, left: 4, bottom: 4 }}
-                >
-                  <CartesianGrid stroke={CHART.grid} vertical={false} />
-                  <XAxis
-                    dataKey="severity"
-                    tick={{ fontSize: 10, fill: CHART.slate, fontFamily: "system-ui" }}
-                    axisLine={{ stroke: CHART.border }}
-                    tickLine={false}
-                  />
-                  <YAxis
-                    tick={{ fontSize: 10, fill: CHART.slate, fontFamily: "system-ui" }}
-                    axisLine={false}
-                    tickLine={false}
-                    allowDecimals={false}
-                  />
-                  <Tooltip {...TOOLTIP_STYLE} />
-                  <Bar dataKey="count" name="Cases" fill={CHART.navyMid} barSize={20} />
                 </BarChart>
               </ResponsiveContainer>
             </ChartFrame>

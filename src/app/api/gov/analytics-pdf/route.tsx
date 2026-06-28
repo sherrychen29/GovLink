@@ -461,7 +461,7 @@ const sevData = d.severityDistribution.map((s) => ({ label: String(s.severity), 
 
         <Text style={styles.title}>Service Request Analytics</Text>
         <Text style={styles.subtitle}>
-          Generated {d.generatedAt} · {d.totalRecords.toLocaleString()} records · fiscal years {d.availableYearsRange}
+          Generated {d.generatedAt} · {d.totalRecords.toLocaleString()} records in {d.year}
         </Text>
 
         {/* AI Performance Summary */}
@@ -652,10 +652,10 @@ const sevData = d.severityDistribution.map((s) => ({ label: String(s.severity), 
           </View>
         </View>
 
-        {/* AI Closed Issues Summary */}
+        {/* AI Declined Issues Summary */}
         {d.closedCasesSummary ? (
           <>
-            <Text style={styles.sectionHead}>Closed Issues Analysis</Text>
+            <Text style={styles.sectionHead}>Declined Issues (Invalid Reports)</Text>
             <View style={styles.aiBlock}>
               <Text style={styles.aiLabel}>AI-Generated Summary</Text>
               <Text style={styles.aiText}>{d.closedCasesSummary}</Text>

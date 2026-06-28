@@ -11,12 +11,14 @@ import {
   ChevronLeft,
   ChevronRight,
   ExternalLink,
-  Filter,
+  SlidersHorizontal,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { SiteFooter } from "@/components/SiteShell";
 import { GovAccountMenu } from "@/components/GovAccountMenu";
-import { FilterPanel } from "@/components/gov/FilterPanel";
+import { FilterPanel, MapFilterContent } from "@/components/gov/FilterPanel";
 import { IssueTable } from "@/components/gov/IssueTable";
 import { FormalReportModal } from "@/components/gov/FormalReportModal";
 import { EmptyState } from "@/components/EmptyState";
@@ -274,19 +276,19 @@ function GovDashboard() {
                 <button
                   type="button"
                   onClick={() => setMapFiltersOpen((o) => !o)}
-                  className="flex items-center gap-2 rounded border border-navy-300 bg-white px-3 py-2 text-sm font-semibold text-navy-800 shadow-card transition-colors hover:bg-navy-50"
+                  aria-expanded={mapFiltersOpen}
+                  className="flex items-center gap-2.5 rounded border border-navy-200 bg-white px-4 py-2.5 shadow-card transition-colors hover:border-navy-400"
                 >
-                  <Filter className="h-4 w-4" aria-hidden="true" />
-                  Filters
+                  <SlidersHorizontal className="h-5 w-5 shrink-0 text-navy-500" aria-hidden="true" />
+                  <span className="text-base font-bold text-navy-900">Filters</span>
+                  {mapFiltersOpen
+                    ? <ChevronUp className="h-5 w-5 text-ink-muted" aria-hidden="true" />
+                    : <ChevronDown className="h-5 w-5 text-ink-muted" aria-hidden="true" />
+                  }
                 </button>
                 {mapFiltersOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-80 rounded border border-navy-200 bg-white p-3 shadow-card">
-                    <FilterPanel
-                      filters={filters}
-                      onChange={setFilters}
-                      showStatusFilter={false}
-                      showSort={false}
-                    />
+                  <div className="absolute right-0 top-full mt-2 w-80 rounded border border-navy-200 bg-white p-4 shadow-card">
+                    <MapFilterContent filters={filters} onChange={setFilters} />
                   </div>
                 )}
               </div>

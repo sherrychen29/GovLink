@@ -93,7 +93,7 @@ export function IssueTable({
                 onClick={() => onSelect(r.id)}
                 className={cx(
                   "cursor-pointer border-b border-navy-50 transition-colors last:border-0",
-                  selected ? "bg-accent-50/60" : "hover:bg-navy-50/50"
+                  selected ? "bg-sky-100/70" : "hover:bg-navy-50/50"
                 )}
               >
                 <td className="px-4 py-3">
@@ -106,7 +106,7 @@ export function IssueTable({
                           <img
                             src={img.dataUrl}
                             alt=""
-                            className="h-full w-full object-cover"
+                            className={`h-full w-full object-cover${img.flagged ? " blur-md" : ""}`}
                           />
                         ) : (
                           <div className="flex h-full w-full items-center justify-center">

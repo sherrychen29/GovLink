@@ -32,20 +32,20 @@ const RequestSchema = z.object({
     .max(80),
 });
 
-const SYSTEM_PROMPT = `You are a municipal operations analyst writing for San Jose city staff. You are given aggregated service-request statistics and a sample of recently closed cases. Produce two short, factual, plain-English summaries for an internal operations dashboard.
+const SYSTEM_PROMPT = `You are a municipal operations analyst writing for San Jose city staff. You are given aggregated service-request statistics and a sample of recently declined (invalid/rejected) cases. Produce two short, factual, plain-English summaries for an internal operations dashboard.
 
 Return JSON only (no markdown):
 {
-  "performanceSummary": string,   // 2-3 plain sentences. State the figures: volume, resolution/fix rate, average severity, and average days to close. Report the facts directly.
-  "closedCasesSummary": string    // 2-3 sentences. Characterize the closed cases: how many were genuinely fixed vs declined/rejected, and the COMMON REASONS cases were closed or rejected (infer themes from the resolution notes). Be specific about why.
+  "performanceSummary": string,   // 2-3 plain sentences. Lead with a qualitative overall assessment word or phrase (e.g. "Improving", "Stable", "Declining", "Strong performance", "Below expectations") based on the resolution rate and severity trends, then state the key figures: volume, resolution/fix rate, average severity, and average days to close. Pair every qualitative judgment with the specific number that supports it.
+  "closedCasesSummary": string    // 2-3 sentences. Characterize the declined (invalid) cases: how many were declined vs genuinely fixed, and the COMMON REASONS cases were declined/rejected (infer themes from the resolution notes). If there are no declined cases, write exactly: "There have been no declined issues this year."
 }
 
 Rules:
 - Use the numbers given; do not invent figures.
 - Write in plain, formal government English, as in an official municipal report. Short declarative sentences.
-- Do not use em dashes, semicolons, marketing language, or words like "leverage", "robust", "streamline", or "notably". Avoid adjectives that praise or editorialize.
+- Do not use em dashes, semicolons, marketing language, or words like "leverage", "robust", "streamline", or "notably".
 - No emojis, no exclamation marks.
-- "closedCasesSummary" must address WHY cases closed (fixed vs declined) and the recurring reasons, drawn from the notes.`;
+- "closedCasesSummary" covers DECLINED/INVALID cases only (rejected=true), not resolved ones. If declined count is 0, output the exact no-declined sentence above.`;
 
 function heuristicSummaries(body: z.infer<typeof RequestSchema>) {
   const { stats } = body;
@@ -60,9 +60,10 @@ function heuristicSummaries(body: z.infer<typeof RequestSchema>) {
       ? `. The average time to close a case was ${stats.avgResolutionDays} days.`
       : ".");
   const closedCasesSummary =
-    `Of ${stats.resolved} closed cases, ${stats.fixed} were resolved through action and ${stats.declined} ` +
-    `were declined (${declinedShare}%). Declines typically reflect duplicate reports, items outside city ` +
-    `jurisdiction, or insufficient detail to act; resolved cases were closed after the reported condition was addressed.`;
+    stats.declined === 0
+      ? "There have been no declined issues this year."
+      : `Of ${stats.resolved} closed cases, ${stats.declined} were declined as invalid (${declinedShare}%). ` +
+        `Declines typically reflect duplicate reports, items outside city jurisdiction, or insufficient detail to act.`;
   return { performanceSummary, closedCasesSummary };
 }
 

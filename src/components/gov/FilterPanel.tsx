@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Search, ArrowUpDown, ChevronDown } from "lucide-react";
+import { Search, ArrowUpDown, ChevronDown, X } from "lucide-react";
 import type { ReactNode } from "react";
 import { CollapsibleFilterBar } from "@/components/CollapsibleFilterBar";
 import { MultiSelectDropdown } from "@/components/MultiSelectDropdown";
@@ -139,6 +139,80 @@ export function FilterPanel({
         )}
       </div>
     </CollapsibleFilterBar>
+  );
+}
+
+/** Bare filter controls — no collapsible wrapper. Used by the map overlay. */
+export function MapFilterContent({
+  filters,
+  onChange,
+}: {
+  filters: GovFilters;
+  onChange: (f: GovFilters) => void;
+}) {
+  const active = countActiveFilters(filters);
+
+  const toggleCategory = (c: Category) =>
+    onChange({
+      ...filters,
+      categories: filters.categories.includes(c)
+        ? filters.categories.filter((x) => x !== c)
+        : [...filters.categories, c],
+    });
+
+  return (
+    <div className="flex flex-col gap-4">
+      {active > 0 && (
+        <div className="flex justify-end">
+          <button
+            type="button"
+            onClick={() => onChange({ ...DEFAULT_FILTERS })}
+            className="inline-flex items-center gap-1 text-xs font-semibold text-ink-muted hover:text-navy-900"
+          >
+            <X className="h-3.5 w-3.5" aria-hidden="true" />
+            Clear filters
+          </button>
+        </div>
+      )}
+      <div>
+        <label htmlFor="map-gov-search" className={GOV_FILTER_LABEL}>
+          Search
+        </label>
+        <div className="relative">
+          <Search
+            className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-navy-400"
+            aria-hidden="true"
+          />
+          <input
+            id="map-gov-search"
+            className="field-input pl-9"
+            placeholder="ID, keyword, street…"
+            value={filters.search}
+            onChange={(e) => onChange({ ...filters, search: e.target.value })}
+          />
+        </div>
+      </div>
+      <MultiSelectDropdown
+        label="Category"
+        labelClassName={GOV_FILTER_LABEL}
+        summaryAll="All"
+        options={CATEGORIES}
+        selected={filters.categories}
+        onToggle={toggleCategory}
+        getLabel={(c) => c}
+        className="w-full"
+      />
+      <fieldset>
+        <legend className={GOV_FILTER_LABEL}>Severity</legend>
+        <SeverityRangeSlider
+          min={filters.severityMin}
+          max={filters.severityMax}
+          onChange={({ min, max }) =>
+            onChange({ ...filters, severityMin: min, severityMax: max })
+          }
+        />
+      </fieldset>
+    </div>
   );
 }
 

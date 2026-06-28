@@ -67,6 +67,10 @@ export function FormalReportModal({
   const [pdfBusy, setPdfBusy] = useState(false);
   const [pdfError, setPdfError] = useState<string | null>(null);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [revealedImages, setRevealedImages] = useState<Set<number>>(new Set());
+  function revealImage(idx: number) {
+    setRevealedImages((s) => new Set(s).add(idx));
+  }
 
   const rejected = !!report.resolution?.rejected;
   const count = corroborations(report);
@@ -341,24 +345,44 @@ export function FormalReportModal({
                       <p className="mb-2 text-[10px] font-bold uppercase tracking-wider text-navy-500">
                         Attachments
                       </p>
-                      <button
-                        type="button"
-                        onClick={() => setLightboxIndex(0)}
-                        className="relative w-full overflow-hidden rounded border border-navy-100 focus:outline-none focus:ring-2 focus:ring-accent-400"
-                        aria-label={`View ${images[0].name || "attachment"}`}
-                      >
+                      <div className="relative w-full overflow-hidden rounded border border-navy-100">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={images[0].dataUrl}
                           alt={images[0].name || "Attachment"}
-                          className="aspect-square w-full object-cover"
+                          className={cx(
+                            "aspect-square w-full object-cover transition-all",
+                            images[0].flagged && !revealedImages.has(0) ? "blur-xl" : ""
+                          )}
                         />
+                        {images[0].flagged && !revealedImages.has(0) ? (
+                          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-black/30">
+                            <div className="flex items-center gap-1 rounded bg-black/70 px-2 py-1 text-xs font-bold text-amber-300">
+                              <TriangleAlert className="h-3 w-3" aria-hidden="true" />
+                              Flagged Image
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => revealImage(0)}
+                              className="rounded bg-white/90 px-2 py-1 text-[11px] font-semibold text-navy-900 hover:bg-white"
+                            >
+                              View image anyway
+                            </button>
+                          </div>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => setLightboxIndex(0)}
+                            className="absolute inset-0 focus:outline-none focus:ring-2 focus:ring-accent-400"
+                            aria-label={`View ${images[0].name || "attachment"}`}
+                          />
+                        )}
                         {images.length > 1 && (
                           <span className="absolute bottom-2 right-2 rounded bg-black/60 px-2 py-0.5 text-xs font-bold text-white">
                             +{images.length - 1}
                           </span>
                         )}
-                      </button>
+                      </div>
                       {images.length > 1 && (
                         <p className="mt-1 text-center text-[11px] text-ink-muted">
                           {images.length} photos · click to view all
@@ -567,13 +591,32 @@ export function FormalReportModal({
               <ChevronLeft className="h-5 w-5" />
             </button>
           )}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={images[lightboxIndex].dataUrl}
-            alt={images[lightboxIndex].caption || images[lightboxIndex].name || "Attachment"}
-            className="max-h-[85vh] max-w-[90vw] rounded-lg object-contain shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
-          />
+          <div className="relative" onClick={(e) => e.stopPropagation()}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={images[lightboxIndex].dataUrl}
+              alt={images[lightboxIndex].caption || images[lightboxIndex].name || "Attachment"}
+              className={cx(
+                "max-h-[85vh] max-w-[90vw] rounded-lg object-contain shadow-2xl transition-all",
+                images[lightboxIndex].flagged && !revealedImages.has(lightboxIndex) ? "blur-xl" : ""
+              )}
+            />
+            {images[lightboxIndex].flagged && !revealedImages.has(lightboxIndex) && (
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+                <div className="flex items-center gap-1.5 rounded bg-black/70 px-3 py-1.5 text-sm font-bold text-amber-300">
+                  <TriangleAlert className="h-4 w-4" aria-hidden="true" />
+                  Flagged Image
+                </div>
+                <button
+                  type="button"
+                  onClick={() => revealImage(lightboxIndex)}
+                  className="rounded bg-white/90 px-3 py-1.5 text-sm font-semibold text-navy-900 hover:bg-white"
+                >
+                  View image anyway
+                </button>
+              </div>
+            )}
+          </div>
           {images[lightboxIndex].caption && (
             <p
               className="absolute bottom-6 left-1/2 max-w-[80vw] -translate-x-1/2 rounded-lg bg-black/60 px-4 py-2 text-center text-sm text-white"
